@@ -3,6 +3,7 @@
     become: yes
     remote_user: root
     vars:
+        num_ues: '100'
         docker_custom_subnet_network: '192.188.2.0/24'
         docker_custom_network_name: 'free5gc'
         web_interface_port_access: '8080'
@@ -14,11 +15,15 @@
         ip_address_UPF: '192.188.2.6'
         ip_address_MONGO_DB: '192.188.2.100'
         ip_address_WEB_UI: '192.188.2.101'
+        ip_address_OAISIM_ENB: '192.188.2.253'
+        ip_address_OAISIM_UE: '192.188.2.254'
         free5gc_st1_image_name: 'laboraufg/free5gc-st1'
         free5gc_webui_image_name: 'laboraufg/webui-free5gc'
         free5gc_mongodb_image_name: 'laboraufg/mongodb-free5gc'
         oaisim_enb_image_name: 'laboraufg/enb-openairsim'
         oaisim_ue_image_name: 'laboraufg/ue-openairsim'
+        UE_container_name: 'ue'
+        ENB_container_name: 'enb'
         AMF_container_name: 'amf'
         SMF_container_name: 'smf'
         HSS_container_name: 'hss'
@@ -28,7 +33,112 @@
         WEB_UI_container_name: 'webui'
         start_webapp: 'true'
         clear_file_instalation: 'true'
+        user_equiments:
+            - { ue_id: UE0 ,   msin: '0000000001' }
+            - { ue_id: UE1 ,   msin: '0000000002' }
+            - { ue_id: UE2 ,   msin: '0000000003' }
+            - { ue_id: UE3 ,   msin: '0000000004' }
+            - { ue_id: UE4 ,   msin: '0000000005' }
+            - { ue_id: UE5 ,   msin: '0000000006' }
+            - { ue_id: UE6 ,   msin: '0000000007' }
+            - { ue_id: UE7 ,   msin: '0000000008' }
+            - { ue_id: UE8 ,   msin: '0000000009' }
+            - { ue_id: UE9 ,   msin: '0000000010' }
+            - { ue_id: UE10 ,  msin: '0000000011' }
+            - { ue_id: UE11 ,  msin: '0000000012' }
+            - { ue_id: UE12 ,  msin: '0000000013' }
+            - { ue_id: UE13 ,  msin: '0000000014' }
+            - { ue_id: UE14 ,  msin: '0000000015' }
+            - { ue_id: UE15 ,  msin: '0000000016' }
+            - { ue_id: UE16 ,  msin: '0000000017' }
+            - { ue_id: UE17 ,  msin: '0000000018' }
+            - { ue_id: UE18 ,  msin: '0000000019' }
+            - { ue_id: UE19 ,  msin: '0000000020' }
+            - { ue_id: UE20 ,  msin: '0000000021' }
+            - { ue_id: UE21 ,  msin: '0000000022' }
+            - { ue_id: UE22 ,  msin: '0000000023' }
+            - { ue_id: UE23 ,  msin: '0000000024' }
+            - { ue_id: UE24 ,  msin: '0000000025' }
+            - { ue_id: UE25 ,  msin: '0000000026' }
+            - { ue_id: UE26 ,  msin: '0000000027' }
+            - { ue_id: UE27 ,  msin: '0000000028' }
+            - { ue_id: UE28 ,  msin: '0000000029' }
+            - { ue_id: UE29 ,  msin: '0000000030' }
+            - { ue_id: UE30 ,  msin: '0000000031' }
+            - { ue_id: UE31 ,  msin: '0000000032' }
+            - { ue_id: UE32 ,  msin: '0000000033' }
+            - { ue_id: UE33 ,  msin: '0000000034' }
+            - { ue_id: UE34 ,  msin: '0000000035' }
+            - { ue_id: UE35 ,  msin: '0000000036' }
+            - { ue_id: UE36 ,  msin: '0000000037' }
+            - { ue_id: UE37 ,  msin: '0000000038' }
+            - { ue_id: UE38 ,  msin: '0000000039' }
+            - { ue_id: UE39 ,  msin: '0000000040' }
+            - { ue_id: UE40 ,  msin: '0000000041' }
+            - { ue_id: UE41 ,  msin: '0000000042' }
+            - { ue_id: UE42 ,  msin: '0000000043' }
+            - { ue_id: UE43 ,  msin: '0000000044' }
+            - { ue_id: UE44 ,  msin: '0000000045' }
+            - { ue_id: UE45 ,  msin: '0000000046' }
+            - { ue_id: UE46 ,  msin: '0000000047' }
+            - { ue_id: UE47 ,  msin: '0000000048' }
+            - { ue_id: UE48 ,  msin: '0000000049' }
+            - { ue_id: UE49 ,  msin: '0000000050' }
+            - { ue_id: UE50 ,  msin: '0000000051' }
+            - { ue_id: UE51 ,  msin: '0000000052' }
+            - { ue_id: UE52 ,  msin: '0000000053' }
+            - { ue_id: UE53 ,  msin: '0000000054' }
+            - { ue_id: UE54 ,  msin: '0000000055' }
+            - { ue_id: UE55 ,  msin: '0000000056' }
+            - { ue_id: UE56 ,  msin: '0000000057' }
+            - { ue_id: UE57 ,  msin: '0000000058' }
+            - { ue_id: UE58 ,  msin: '0000000059' }
+            - { ue_id: UE59 ,  msin: '0000000060' }
+            - { ue_id: UE60 ,  msin: '0000000061' }
+            - { ue_id: UE61 ,  msin: '0000000062' }
+            - { ue_id: UE62 ,  msin: '0000000063' }
+            - { ue_id: UE63 ,  msin: '0000000064' }
+            - { ue_id: UE64 ,  msin: '0000000065' }
+            - { ue_id: UE65 ,  msin: '0000000066' }
+            - { ue_id: UE66 ,  msin: '0000000067' }
+            - { ue_id: UE67 ,  msin: '0000000068' }
+            - { ue_id: UE68 ,  msin: '0000000069' }
+            - { ue_id: UE69 ,  msin: '0000000070' }
+            - { ue_id: UE70 ,  msin: '0000000071' }
+            - { ue_id: UE71 ,  msin: '0000000072' }
+            - { ue_id: UE72 ,  msin: '0000000073' }
+            - { ue_id: UE73 ,  msin: '0000000074' }
+            - { ue_id: UE74 ,  msin: '0000000075' }
+            - { ue_id: UE75 ,  msin: '0000000076' }
+            - { ue_id: UE76 ,  msin: '0000000077' }
+            - { ue_id: UE77 ,  msin: '0000000078' }
+            - { ue_id: UE78 ,  msin: '0000000079' }
+            - { ue_id: UE79 ,  msin: '0000000080' }
+            - { ue_id: UE80 ,  msin: '0000000081' }
+            - { ue_id: UE81 ,  msin: '0000000082' }
+            - { ue_id: UE82 ,  msin: '0000000083' }
+            - { ue_id: UE83 ,  msin: '0000000084' }
+            - { ue_id: UE84 ,  msin: '0000000085' }
+            - { ue_id: UE85 ,  msin: '0000000086' }
+            - { ue_id: UE86 ,  msin: '0000000087' }
+            - { ue_id: UE87 ,  msin: '0000000088' }
+            - { ue_id: UE88 ,  msin: '0000000089' }
+            - { ue_id: UE89 ,  msin: '0000000090' }
+            - { ue_id: UE90 ,  msin: '0000000091' }
+            - { ue_id: UE91 ,  msin: '0000000092' }
+            - { ue_id: UE92 ,  msin: '0000000093' }
+            - { ue_id: UE93 ,  msin: '0000000094' }
+            - { ue_id: UE94 ,  msin: '0000000095' }
+            - { ue_id: UE95 ,  msin: '0000000096' }
+            - { ue_id: UE96 ,  msin: '0000000097' }
+            - { ue_id: UE97 ,  msin: '0000000098' }
+            - { ue_id: UE98 ,  msin: '0000000099' }
+            - { ue_id: UE99 ,  msin: '0000000100' }
     tasks:
+        - fail: 
+            msg: "'physical_network_interface' not found, this parameter is required!"
+          when: physical_network_interface == ''
+
         - name  : Remove old instalation
           shell:  |
                 rm -rf {{ BASE_DIR_INSTALL }}
@@ -625,11 +735,419 @@
                 docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
 
         - name  : Run free5gc WEBUI container
-          shell:  |
+          shell :  |
                 docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} {{ free5gc_webui_image_name }} bash
-                   
+
+        - name  : Run OpenAirSIM-enB container
+          shell :  |
+                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_OAISIM_ENB }} --name {{ ENB_container_name }} {{ oaisim_enb_image_name }} bash 
+
+        - name  : Run OpenAirSIM-UE container
+          shell :  |
+                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_OAISIM_UE }} --name {{ UE_container_name }} {{ oaisim_ue_image_name }} bash 
+                
+        - name  : Build enB rcc.band7.tm1.nfapi.conf file 1/3 
+          shell : |
+                docker exec {{ ENB_container_name }} /bin/sh -c "rm enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf"
+
+        - name  : Build enB rcc.band7.tm1.nfapi.conf file 2/3
+          copy  :
+            dest: "{{ BASE_DIR_INSTALL }}/rcc.band7.tm1.nfapi.conf"
+            content: |
+                Active_eNBs = ( "eNB-Eurecom-LTEBox");
+                # Asn1_verbosity, choice in: none, info, annoying
+                Asn1_verbosity = "none";
+
+                eNBs =
+                (
+                {
+                    ////////// Identification parameters:
+                    eNB_ID    =  0xe00;
+
+                    cell_type =  "CELL_MACRO_ENB";
+
+                    eNB_name  =  "eNB-Eurecom-LTEBox";
+
+                    // Tracking area code, 0x0000 and 0xfffe are reserved values
+                    tracking_area_code = 1;
+
+                    plmn_list = ( { mcc = 208; mnc = 93; mnc_length = 2; } );
+
+                    tr_s_preference     = "local_mac"
+
+                    ////////// Physical parameters:
+
+                    component_carriers = (
+                    {
+                    node_function                       = "3GPP_eNODEB";
+                    node_timing                         = "synch_to_ext_device";
+                    node_synch_ref                      = 0;
+                    frame_type					                = "FDD";
+                    tdd_config 					                = 3;
+                    tdd_config_s            			      = 0;
+                    prefix_type             			      = "NORMAL";
+                    eutra_band              			      = 7;
+                    downlink_frequency      			      = 2685000000L;
+                    uplink_frequency_offset 			      = -120000000;
+                    Nid_cell					                  = 0;
+                    N_RB_DL                 			      = 50;
+                    Nid_cell_mbsfn          			      = 0;
+                    nb_antenna_ports                    = 1;
+                    nb_antennas_tx          			      = 1;
+                    nb_antennas_rx          			      = 1;
+                    tx_gain                             = 90;
+                    rx_gain                             = 125;
+                    pbch_repetition                     = "FALSE";
+                    prach_root              			      = 0;
+                    prach_config_index      			      = 0;
+                    prach_high_speed        			      = "DISABLE";
+                    prach_zero_correlation  			      = 1;
+                    prach_freq_offset       			      = 2;
+                    pucch_delta_shift       			      = 1;
+                    pucch_nRB_CQI           			      = 0;
+                    pucch_nCS_AN            			      = 0;
+                    pucch_n1_AN             			      = 0;
+                    pdsch_referenceSignalPower 			    = -27;
+                    pdsch_p_b                  			    = 0;
+                    pusch_n_SB                 			    = 1;
+                    pusch_enable64QAM          			    = "DISABLE";
+                    pusch_hoppingMode                   = "interSubFrame";
+                    pusch_hoppingOffset                 = 0;
+                    pusch_groupHoppingEnabled  			    = "ENABLE";
+                    pusch_groupAssignment      			    = 0;
+                    pusch_sequenceHoppingEnabled		   	= "DISABLE";
+                    pusch_nDMRS1                        = 1;
+                    phich_duration                      = "NORMAL";
+                    phich_resource                      = "ONESIXTH";
+                    srs_enable                          = "DISABLE";
+                    /*  srs_BandwidthConfig             =;
+                    srs_SubframeConfig                  =;
+                    srs_ackNackST                       =;
+                    srs_MaxUpPts                        =;*/
+
+                    pusch_p0_Nominal                    = -96;
+                    pusch_alpha                         = "AL1";
+                    pucch_p0_Nominal                    = -104;
+                    msg3_delta_Preamble                 = 6;
+                    pucch_deltaF_Format1                = "deltaF2";
+                    pucch_deltaF_Format1b               = "deltaF3";
+                    pucch_deltaF_Format2                = "deltaF0";
+                    pucch_deltaF_Format2a               = "deltaF0";
+                    pucch_deltaF_Format2b		    	      = "deltaF0";
+
+                    rach_numberOfRA_Preambles           = 64;
+                    rach_preamblesGroupAConfig          = "DISABLE";
+                    /*
+                    rach_sizeOfRA_PreamblesGroupA       = ;
+                    rach_messageSizeGroupA              = ;
+                    rach_messagePowerOffsetGroupB       = ;
+                    */
+                    rach_powerRampingStep                       = 4;
+                    rach_preambleInitialReceivedTargetPower     = -108;
+                    rach_preambleTransMax                       = 10;
+                    rach_raResponseWindowSize                   = 10;
+                    rach_macContentionResolutionTimer           = 48;
+                    rach_maxHARQ_Msg3Tx                         = 4;
+
+                    pcch_default_PagingCycle                    = 128;
+                    pcch_nB                                     = "oneT";
+                    bcch_modificationPeriodCoeff			          = 2;
+                    ue_TimersAndConstants_t300			            = 1000;
+                    ue_TimersAndConstants_t301			            = 1000;
+                    ue_TimersAndConstants_t310			            = 1000;
+                    ue_TimersAndConstants_t311			            = 10000;
+                    ue_TimersAndConstants_n310			            = 20;
+                    ue_TimersAndConstants_n311			            = 1;
+                    ue_TransmissionMode                         = 1;
+
+                    //Parameters for SIB18
+                    rxPool_sc_CP_Len                            = "normal";
+                    rxPool_sc_Period                            = "sf40";
+                    rxPool_data_CP_Len                          = "normal";
+                    rxPool_ResourceConfig_prb_Num               = 20;
+                    rxPool_ResourceConfig_prb_Start             = 5;
+                    rxPool_ResourceConfig_prb_End               = 44;
+                    rxPool_ResourceConfig_offsetIndicator_present = "prSmall";
+                    rxPool_ResourceConfig_offsetIndicator_choice  = 0;
+                    rxPool_ResourceConfig_subframeBitmap_present  = "prBs40";
+                    rxPool_ResourceConfig_subframeBitmap_choice_bs_buf  = "00000000000000000000";
+                    rxPool_ResourceConfig_subframeBitmap_choice_bs_size = 5;
+                    rxPool_ResourceConfig_subframeBitmap_choice_bs_bits_unused  = 0;
+                /*    rxPool_dataHoppingConfig_hoppingParameter                 = 0;
+                    rxPool_dataHoppingConfig_numSubbands                        = "ns1";
+                    rxPool_dataHoppingConfig_rbOffset                           = 0;
+                    rxPool_commTxResourceUC-ReqAllowed                          = "TRUE";
+                */
+                    // Parameters for SIB19
+                    discRxPool_cp_Len                                           = "normal"
+                    discRxPool_discPeriod                                       = "rf32"
+                    discRxPool_numRetx                                          = 1;
+                    discRxPool_numRepetition                                    = 2;
+                    discRxPool_ResourceConfig_prb_Num                           = 5;
+                    discRxPool_ResourceConfig_prb_Start                         = 3;
+                    discRxPool_ResourceConfig_prb_End                           = 21;
+                    discRxPool_ResourceConfig_offsetIndicator_present           = "prSmall";
+                    discRxPool_ResourceConfig_offsetIndicator_choice            = 0;
+                    discRxPool_ResourceConfig_subframeBitmap_present            = "prBs40";
+                    discRxPool_ResourceConfig_subframeBitmap_choice_bs_buf      = "f0ffffffff";
+                    discRxPool_ResourceConfig_subframeBitmap_choice_bs_size     = 5;
+                    discRxPool_ResourceConfig_subframeBitmap_choice_bs_bits_unused  = 0;
+
+                    }
+                    );
+
+
+                    srb1_parameters :
+                    {
+                        # timer_poll_retransmit = (ms) [5, 10, 15, 20,... 250, 300, 350, ... 500]
+                        timer_poll_retransmit    = 80;
+
+                        # timer_reordering = (ms) [0,5, ... 100, 110, 120, ... ,200]
+                        timer_reordering         = 35;
+
+                        # timer_reordering = (ms) [0,5, ... 250, 300, 350, ... ,500]
+                        timer_status_prohibit    = 0;
+
+                        # poll_pdu = [4, 8, 16, 32 , 64, 128, 256, infinity(>10000)]
+                        poll_pdu                 =  4;
+
+                        # poll_byte = (kB) [25,50,75,100,125,250,375,500,750,1000,1250,1500,2000,3000,infinity(>10000)]
+                        poll_byte                =  99999;
+
+                        # max_retx_threshold = [1, 2, 3, 4 , 6, 8, 16, 32]
+                        max_retx_threshold       =  4;
+                    }
+
+                    # ------- SCTP definitions
+                    SCTP :
+                    {
+                        # Number of streams to use in input/output
+                        SCTP_INSTREAMS  = 2;
+                        SCTP_OUTSTREAMS = 2;
+                    };
+
+
+                    ////////// MME parameters:
+                    mme_ip_address      = ( {   ipv4       = "{{ ip_address_AMF }}";
+                                                ipv6       = "192:168:30::17";
+                                                active     = "yes";
+                                                preference = "ipv4";
+                                            }
+                                        );
+
+                    NETWORK_INTERFACES :
+                    {
+                        ENB_INTERFACE_NAME_FOR_S1_MME            = "{{ physical_network_interface }}";
+                        ENB_IPV4_ADDRESS_FOR_S1_MME              = "{{ ip_address_OAISIM_ENB }}";
+                        ENB_INTERFACE_NAME_FOR_S1U               = "{{ physical_network_interface }}";
+                        ENB_IPV4_ADDRESS_FOR_S1U                 = "{{ ip_address_OAISIM_ENB }}";
+                        ENB_PORT_FOR_S1U                         = 2152; # Spec 2152
+                        ENB_IPV4_ADDRESS_FOR_X2C                 = "{{ ip_address_OAISIM_ENB }}";
+                        ENB_PORT_FOR_X2C                         = 36422; # Spec 36422
+                        
+                    };
+                }
+                );
+
+                MACRLCs = (
+                    {
+                    num_cc = 1;
+                        local_s_if_name  = "lo:";			  
+                        remote_s_address = "{{ ip_address_OAISIM_UE }}";
+                        local_s_address  = "{{ ip_address_OAISIM_ENB }}"; 
+                        local_s_portc    = 50001;	
+                        remote_s_portc   = 50000;
+                        local_s_portd    = 50011;	
+                        remote_s_portd   = 50010;
+                        tr_s_preference = "nfapi";
+                        tr_n_preference = "local_RRC";
+                        }  
+                );
+
+                RUs = (
+                    {
+                        local_rf       = "yes"
+                        nb_tx          = 1
+                        nb_rx          = 1
+                        att_tx         = 20
+                        att_rx         = 0;
+                        bands          = [38];
+                        max_pdschReferenceSignalPower = -23;
+                        max_rxgain                    = 116;
+                        eNB_instances  = [0];
+                    }
+                );
+
+
+                THREAD_STRUCT = (
+                {
+                    #three config for level of parallelism "PARALLEL_SINGLE_THREAD", "PARALLEL_RU_L1_SPLIT", or "PARALLEL_RU_L1_TRX_SPLIT"
+                    parallel_config    = "PARALLEL_RU_L1_TRX_SPLIT";
+                    #two option for worker "WORKER_DISABLE" or "WORKER_ENABLE"
+                    worker_config      = "WORKER_ENABLE";
+                }
+                );
+
+                log_config =
+                    {
+                    global_log_level                      ="info";
+                    global_log_verbosity                  ="medium";
+                    hw_log_level                          ="info";
+                    hw_log_verbosity                      ="medium";
+                    phy_log_level                         ="info";
+                    phy_log_verbosity                     ="medium";
+                    mac_log_level                         ="info";
+                    mac_log_verbosity                     ="high";
+                    rlc_log_level                         ="info";
+                    rlc_log_verbosity                     ="medium";
+                    pdcp_log_level                        ="info";
+                    pdcp_log_verbosity                    ="medium";
+                    rrc_log_level                         ="info";
+                    rrc_log_verbosity                     ="medium";
+                };
+
+                - name  : Copy config file's to free5gc container's 
+                shell : |
+                      docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                      docker cp ./free5gc.conf {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                      docker cp ./free5gc.conf {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                      docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                      docker cp ./free5gc.conf {{ UPF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                      docker cp ./amf.conf     {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf
+                args:
+                  chdir: "{{ BASE_DIR_INSTALL }}"
+      
+        - name  : Build enB rcc.band7.tm1.nfapi.conf file 3/3 
+          shell : |
+                docker cp ./rcc.band7.tm1.nfapi.conf {{ ENB_container_name }}:/root/enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
+          args:
+            chdir: "{{ BASE_DIR_INSTALL }}"
+
+        - name  : Build UE ue_eurecom_test_sfr.conf file 1/4 
+          shell : |
+                  docker exec {{ UE_container_name }} /bin/sh -c "rm ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf"
+  
+        - name  : Build UE ue_eurecom_test_sfr.conf file 2/4 
+          copy:
+            dest: "{{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf"
+            content: |
+                # List of known PLMNS
+                PLMN: {
+                    PLMN0: {
+                        FULLNAME="Test network";
+                        SHORTNAME="OAI4G";
+                        MNC="01";
+                        MCC="001";
+
+                    };
+                    PLMN1: {
+                        FULLNAME="SFR France";
+                        SHORTNAME="SFR";
+                        MNC="10";
+                        MCC="208";
+
+                    };
+                    PLMN2: {
+                        FULLNAME="SFR France";
+                        SHORTNAME="SFR";
+                        MNC="11";
+                        MCC="208";
+                    };
+                    PLMN3: {
+                        FULLNAME="SFR France";
+                        SHORTNAME="SFR";
+                        MNC="13";
+                        MCC="208";
+                    };
+                    PLMN4: {
+                        FULLNAME="OAI LTEBOX";
+                        SHORTNAME="OAIALU";
+                        MNC="93";
+                        MCC="208";
+                    };
+                    PLMN5: {
+                        FULLNAME="T-Mobile USA";
+                        SHORTNAME="T-Mobile";
+                        MNC="280";
+                        MCC="310";
+                    };
+                    PLMN6: {
+                        FULLNAME="FICTITIOUS USA";
+                        SHORTNAME="FICTITIO";
+                        MNC="028";
+                        MCC="310";
+                    };
+                    PLMN7: {
+                        FULLNAME="Vodafone Italia";
+                        SHORTNAME="VODAFONE";
+                        MNC="10";
+                        MCC="222";
+                    };
+                    PLMN8: {
+                        FULLNAME="Vodafone Spain";
+                        SHORTNAME="VODAFONE";
+                        MNC="01";
+                        MCC="214";
+                    };
+                    PLMN9: {
+                        FULLNAME="Vodafone Spain";
+                        SHORTNAME="VODAFONE";
+                        MNC="06";
+                        MCC="214";
+                    };
+                    PLMN10: {
+                        FULLNAME="Vodafone Germ";
+                        SHORTNAME="VODAFONE";
+                        MNC="02";
+                        MCC="262";
+                    };
+                    PLMN11: {
+                        FULLNAME="Vodafone Germ";
+                        SHORTNAME="VODAFONE";
+                        MNC="04";
+                        MCC="262";
+                    };
+                };
+
+        - name  : Build UE ue_eurecom_test_sfr.conf file 3/4
+          blockinfile:
+            path: {{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf
+            block: |
+                    {{ item.ue_id }}:
+                    {
+                        USER: {
+                            IMEI="356113022094149";
+                            MANUFACTURER="EURECOM";
+                            MODEL="LTE Android PC";
+                            PIN="0000";
+                        };
+                        SIM: {
+                            MSIN="{{ item.msin }}";
+                            USIM_API_K="{{ USIM_API_K }}";
+                            OPC="{{ OPC }}";
+                            MSISDN="33638020004";
+                        };
+                        HPLMN= "20893";
+                        UCPLMN_LIST = ();
+                        OPLMN_LIST = ("00101", "20810", "20811", "20813", "20893", "310280", "310028");
+                        OCPLMN_LIST = ("22210", "21401", "21406", "26202", "26204");
+                        FPLMN_LIST = ();
+                        EHPLMN_LIST= ();
+                    };
+            marker: "# {mark} User Equipment {{ item.ue_id }}"
+          loop: "{{ user_equiments }}"
+          loop_control:
+            index_var: ue_idx
+          when: "ue_idx|int < {{ num_ues }}"
+        
+        - name  : Build UE ue_eurecom_test_sfr.conf file 4/4 
+          shell : |
+                docker cp ./ue_eurecom_test_sfr.conf {{ UE_container_name }}:/root/ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf
+          args:
+            chdir: "{{ BASE_DIR_INSTALL }}"
+
         - name  : Copy config file's to free5gc container's 
-          shell: |
+          shell : |
                 docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
                 docker cp ./free5gc.conf {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
                 docker cp ./free5gc.conf {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
