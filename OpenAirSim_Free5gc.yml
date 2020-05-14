@@ -559,22 +559,22 @@
           shell:  |
                 docker container prune -f
        
-       - name  : Remove free5gc-st1 image
+       -  name  : Remove free5gc-st1 image
           ignore_errors: true
           shell:  |
                 docker image rm ciromacedo/free5gc-st1
 
-       - name  : Remove free5gc-mongodb image
+       -  name  : Remove free5gc-mongodb image
           ignore_errors: true
           shell:  |
                 docker image rm ciromacedo/free5gc-mongodb
 
-       - name  : Remove free5gc-webui image
+       -  name  : Remove free5gc-webui image
           ignore_errors: true
           shell:  |
                 docker image rm ciromacedo/free5gc-webui
 
-       - name  : Remove docker {{ docker_custom_network_name }} custom network
+       -  name  : Remove docker {{ docker_custom_network_name }} custom network
           ignore_errors: true
           shell:  |
                 docker network rm {{ docker_custom_network_name }}
