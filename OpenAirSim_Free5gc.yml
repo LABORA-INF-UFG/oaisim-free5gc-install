@@ -1111,7 +1111,7 @@
 
         - name  : Build UE ue_eurecom_test_sfr.conf file 3/4
           blockinfile:
-            path: root/{{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf
+            path: /root/{{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf
             block: |
                 {{ item.ue_id }}:
                   {
