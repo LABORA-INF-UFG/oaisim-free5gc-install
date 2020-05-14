@@ -574,7 +574,7 @@
           shell:  |
                 docker image rm ciromacedo/free5gc-webui
 
-       -  name  : Remove free5g docker custom network
+        - name  : Remove free5g docker custom network
           ignore_errors: true
           shell:  |
                 docker network rm {{ docker_custom_network_name }}
