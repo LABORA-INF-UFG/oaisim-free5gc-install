@@ -26,6 +26,7 @@
         UPF_container_name: 'upf'
         MONGO_DB_container_name: 'mongodb-svc'
         WEB_UI_container_name: 'webui'
+        start_webapp: 'true'
     tasks:
         - name  : Remove old instalation
           shell:  |
@@ -598,31 +599,31 @@
           shell:  | 
                 docker network create --subnet={{ docker_custom_subnet_network }} --driver bridge {{ docker_custom_network_name }}            
  
-        - name  : Run free5gc AMF conteiner
+        - name  : Run free5gc AMF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} {{ free5gc_st1_image_name }} bash 
 
-        - name  : Run free5gc SMF conteiner
+        - name  : Run free5gc SMF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_SMF }} --name {{ SMF_container_name }} {{ free5gc_st1_image_name }} bash 
 
-        - name  : Run free5gc HSS conteiner
+        - name  : Run free5gc HSS container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_HSS }} --name {{ HSS_container_name }} {{ free5gc_st1_image_name }} bash 
 
-        - name  : Run free5gc PCRF conteiner
+        - name  : Run free5gc PCRF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_PCRF }} --name {{ PCRF_container_name }} {{ free5gc_st1_image_name }} bash 
 
-        - name  : Run free5gc UPF conteiner
+        - name  : Run free5gc UPF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} {{ free5gc_st1_image_name }} bash 
 
-        - name  : Run free5gc MONGO-DB conteiner
+        - name  : Run free5gc MONGO-DB container
           shell:  |
                 docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
 
-        - name  : Run free5gc WEBUI conteiner
+        - name  : Run free5gc WEBUI container
           shell:  |
                 docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} {{ free5gc_webui_image_name }} bash
                    
@@ -637,27 +638,42 @@
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
 
-        - name  : Start conteiners
+        - name  : Running MONGO-DB container
           shell:  |
                   docker exec {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
+
+        - name  : Running AMF container
+          shell:  |
                   docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ AMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+
+        - name  : Running SMF container
+          shell :  |
                   docker exec {{ SMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ SMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+
+        - name  : Running HSS container
+          shell :  |
                   docker exec {{ HSS_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ HSS_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+
+        - name  : Running PCRF container
+          shell :  |
                   docker exec {{ PCRF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ PCRF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+
+        - name  : Running UPF container
+          shell :  |
                   docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"                  
                   docker exec {{ UPF_container_name }} /bin/sh -c "chmod +x /root/free5gc-stage-1/setup-uptun.sh"
                   docker exec {{ UPF_container_name }} /bin/sh -c "sh -c /root/free5gc-stage-1/setup-uptun.sh"
 
-
-        - name  : Start Web App
-          shell:  |
+        - name  : Running WEBUI container
+          shell :  |
                   docker exec {{ WEB_UI_container_name }} /bin/sh -c "cd /root/free5gc-stage-1/webui && npm run dev"
-   
+          when  : start_webapp == 'true'
+
         - name  : Clear file instalation
           shell : rm -rf {{ BASE_DIR_INSTALL }}
 
