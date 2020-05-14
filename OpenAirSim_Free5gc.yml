@@ -598,14 +598,32 @@
           shell:  | 
                 docker network create --subnet={{ docker_custom_subnet_network }} --driver bridge {{ docker_custom_network_name }}            
  
-        - name  : Run free5gc conteiners
+        - name  : Run free5gc AMF conteiner
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} {{ free5gc_st1_image_name }} bash 
+
+        - name  : Run free5gc SMF conteiner
+          shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_SMF }} --name {{ SMF_container_name }} {{ free5gc_st1_image_name }} bash 
+
+        - name  : Run free5gc HSS conteiner
+          shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_HSS }} --name {{ HSS_container_name }} {{ free5gc_st1_image_name }} bash 
+
+        - name  : Run free5gc PCRF conteiner
+          shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_PCRF }} --name {{ PCRF_container_name }} {{ free5gc_st1_image_name }} bash 
+
+        - name  : Run free5gc UPF conteiner
+          shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} {{ free5gc_st1_image_name }} bash 
+
+        - name  : Run free5gc MONGO-DB conteiner
+          shell:  |
                 docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
+
+        - name  : Run free5gc WEBUI conteiner
+          shell:  |
                 docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} {{ free5gc_webui_image_name }} bash
                    
         - name  : Copy config file's to free5gc container's 
