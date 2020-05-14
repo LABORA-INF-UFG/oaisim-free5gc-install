@@ -3,8 +3,8 @@
     become: yes
     remote_user: root
     vars:
-        docker_custon_subnet_network: '192.188.2.0/24'
-        docker_custon_network_name: 'free5gc'
+        docker_custom_subnet_network: '192.188.2.0/24'
+        docker_custom_network_name: 'free5gc'
         web_interface_port_access: '8080'
         BASE_DIR_INSTALL: 'OAISim-free5gc-conf'
         ip_address_AMF: '192.188.2.2'
@@ -554,27 +554,44 @@
                 apt-get update
                 apt-get install docker-ce -y
 
-        - name  : Remove docker old images
+        - name  : Remove docker old docker containers
+          ignore_errors: true
           shell:  |
                 docker container prune -f
+       
+       - name  : Remove free5gc-st1 image
+          ignore_errors: true
+          shell:  |
                 docker image rm ciromacedo/free5gc-st1
+
+       - name  : Remove free5gc-mongodb image
+          ignore_errors: true
+          shell:  |
                 docker image rm ciromacedo/free5gc-mongodb
+
+       - name  : Remove free5gc-webui image
+          ignore_errors: true
+          shell:  |
                 docker image rm ciromacedo/free5gc-webui
-                docker network rm {{ docker_custon_network_name }}
+
+       - name  : Remove docker {{ docker_custom_network_name }} custom network
+          ignore_errors: true
+          shell:  |
+                docker network rm {{ docker_custom_network_name }}
 
         - name  : Create Docker custom network
           shell:  | 
-                docker network create --subnet={{ docker_custon_subnet_network }} --driver bridge {{ docker_custon_network_name }}            
+                docker network create --subnet={{ docker_custom_subnet_network }} --driver bridge {{ docker_custom_network_name }}            
  
         - name  : Run free5gc conteiners
           shell:  |
-                docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} ciromacedo/free5gc-st1 bash 
-                docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_SMF }} --name {{ SMF_container_name }} ciromacedo/free5gc-st1 bash 
-                docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_HSS }} --name {{ HSS_container_name }} ciromacedo/free5gc-st1 bash 
-                docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_PCRF }} --name {{ PCRF_container_name }} ciromacedo/free5gc-st1 bash 
-                docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} ciromacedo/free5gc-st1 bash 
-                docker run -ti -d --net {{ docker_custon_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} ciromacedo/free5gc-mongodb bash
-                docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custon_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} ciromacedo/free5gc-webui bash
+                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} ciromacedo/free5gc-st1 bash 
+                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_SMF }} --name {{ SMF_container_name }} ciromacedo/free5gc-st1 bash 
+                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_HSS }} --name {{ HSS_container_name }} ciromacedo/free5gc-st1 bash 
+                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_PCRF }} --name {{ PCRF_container_name }} ciromacedo/free5gc-st1 bash 
+                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} ciromacedo/free5gc-st1 bash 
+                docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} ciromacedo/free5gc-mongodb bash
+                docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} ciromacedo/free5gc-webui bash
                    
         - name  : Copy config file's to free5gc container's 
           shell: |
