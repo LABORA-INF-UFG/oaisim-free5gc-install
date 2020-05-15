@@ -1258,6 +1258,11 @@
           shell :  |
                   docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd /root/free5gc-stage-1/webui && npm run dev"
           when  : start_webapp == 'true'
+
+ #       - name  : Running UE container
+ #         shell :  |
+ #                 docker exec -d {{ UE_container_name }} /bin/sh -c "cd ue/cmake_targets/ran_build/build/ && ./lte-uesoftmodem -O /ue/ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 1 --nums_ue_thread 1 --nokrnmod 1 > ue.log 2>&1"
+ #         when  : start_webapp == 'true'
           
         - name  : Clear file instalation
           shell : rm -rf {{ BASE_DIR_INSTALL }}
