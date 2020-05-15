@@ -1824,12 +1824,12 @@
                     rrc_log_verbosity                     ="medium";
                 };
 
-        - name  : Copy config file's to free5gc container's 
-          shell : |
-                docker exec {{ AMF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf"
-                docker exec {{ SMF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.conf"
-                docker exec {{ HSS_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.conf"
-                docker exec {{ PCRF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.conf"
+ #       - name  : Copy config file's to free5gc container's 
+ #         shell : |
+ #               docker exec {{ AMF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf"
+ #               docker exec {{ SMF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.conf"
+ #               docker exec {{ HSS_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.conf"
+ #               docker exec {{ PCRF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.conf"
 
         - name  : Copy config file's to free5gc container's 
           shell : |
