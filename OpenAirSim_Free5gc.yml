@@ -157,7 +157,7 @@
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/free5gc.conf"
             content: |
-                db_uri: mongodb://{{ MONGO_DB_container_name }}/free5gc
+                db_uri: mongodb://mongodb-svc/free5gc
                 logger:
                     file: /root/free5gc-stage-1/install/var/log/free5gc/free5gc.log
                     trace: 
@@ -218,7 +218,7 @@
                 #      dev: eth0
                 #
                     s1ap:
-                    addr: {{ ip_address_AMF }}
+                        addr: {{ ip_address_AMF }}
                 #
                 #  <GUMMEI>
                 #
@@ -240,11 +240,11 @@
                 #          - 3
                 #
                     gummei: 
-                    plmn_id:
+                        plmn_id:
                         mcc: 460
                         mnc: 99
-                    mme_gid: 1
-                    mme_code: 1
+                        mme_gid: 1
+                        mme_code: 1
                 #
                 #  <TAI>
                 #
@@ -300,12 +300,12 @@
                 smf:
                     freeDiameter: smf.conf
                     pfcp:
-                    - addr: {{ ip_address_SMF }}
+                      - addr: {{ ip_address_SMF }}
                     upf:
-                    - addr: {{ ip_address_UPF }}
+                      - addr: {{ ip_address_UPF }}
                     http:
-                    addr: {{ ip_address_SMF }}
-                    port: 8080
+                      addr: {{ ip_address_SMF }}
+                      port: 8080
                 #
                 #  <UE Pool>
                 #
@@ -368,7 +368,7 @@
                     - 8.8.4.4
                 upf:
                     pfcp:
-                    addr:
+                      addr:
                         - {{ ip_address_UPF }}
                 #
                 #  <GTP-U Server>>
@@ -383,12 +383,12 @@
                 #      name: localhost
                 #
                     gtpu:
-                    - addr: {{ ip_address_UPF }}
+                      - addr: {{ ip_address_UPF }}
                     ue_pool:
-                    - addr: 45.45.0.1/16
+                      - addr: 45.45.0.1/16
                     dns:
-                    - 8.8.8.8
-                    - 8.8.4.4
+                      - 8.8.8.8
+                      - 8.8.4.4
       
         - name  : Core Network Configuration - Build amf.conf
           copy:
@@ -429,7 +429,7 @@
                 # See TLS_old_method for more information about TLS flavours.
                 # Note: we use TLS/SCTP instead of DTLS/SCTP at the moment. This will change in future version of freeDiameter.
                 # Default: 5868. Use 0 to disable.
-                #SecPort = 5868;
+                # SecPort = 5868;
                 
                 # Use RFC3588 method for TLS protection, where TLS is negociated after CER/CEA exchange is completed 
                 # on the unsecure connection. The alternative is RFC6733 mechanism, where TLS protects also the 
@@ -437,11 +437,11 @@
                 # This parameter only affects outgoing connections. 
                 # The setting can be also defined per-peer (see Peers configuration section).
                 # Default: use RFC6733 method with separate port for TLS.
-                #TLS_old_method;
+                # TLS_old_method;
                 
                 # Disable use of TCP protocol (only listen and connect over SCTP)
                 # Default : TCP enabled
-                #No_TCP;
+                # No_TCP;
                 
                 # Disable use of SCTP protocol (only listen and connect over TCP)
                 # Default : SCTP enabled
