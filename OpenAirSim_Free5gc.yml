@@ -1824,15 +1824,23 @@
                     rrc_log_verbosity                     ="medium";
                 };
 
+        - name  : Remove amf.conf default file from AMF container 
+          ignore_errors: true
+          shell : |
+                docker exec {{ AMF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf"
+
         - name  : Remove smf.conf default file from SMF container 
+          ignore_errors: true
           shell : |
                 docker exec {{ SMF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.conf"
 
         - name  : Remove hss.conf default file from HSS container 
+          ignore_errors: true
           shell : |
                docker exec {{ HSS_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.conf"
 
         - name  : Remove pcrf.conf default file from PCRF container 
+          ignore_errors: true
           shell : |
                 docker exec {{ PCRF_container_name }} /bin/sh -c "rm /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.conf"
 
