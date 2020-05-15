@@ -1210,7 +1210,7 @@
 
         - name  : Build UE ue_eurecom_test_sfr.conf file 5/5 
           shell : |
-                    docker exec {{ UE_container_name }} /bin/sh -c "cd ue/targets/bin && sudo ./conf2uedata -c /ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /ue/cmake_targets/ran_build/build/"
+                    docker exec {{ UE_container_name }} /bin/sh -c "cd /root/ue/targets/bin && sudo ./conf2uedata -c /root/ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /root/ue/cmake_targets/ran_build/build/"
         
         - name  : Copy config file's to free5gc container's 
           shell : |
