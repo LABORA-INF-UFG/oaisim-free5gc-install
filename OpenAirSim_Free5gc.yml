@@ -1085,11 +1085,11 @@
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
 
-        - name  : Build UE ue_eurecom_test_sfr.conf file 1/4 
+        - name  : Build UE ue_eurecom_test_sfr.conf file 1/5 
           shell : |
                   docker exec {{ UE_container_name }} /bin/sh -c "rm ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf"
   
-        - name  : Build UE ue_eurecom_test_sfr.conf file 2/4 
+        - name  : Build UE ue_eurecom_test_sfr.conf file 2/5 
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf"
             content: |
@@ -1171,7 +1171,7 @@
                     };
                 };
 
-        - name  : Build UE ue_eurecom_test_sfr.conf file 3/4
+        - name  : Build UE ue_eurecom_test_sfr.conf file 3/5
           blockinfile:
             path: /root/{{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf
             block: |
@@ -1202,12 +1202,16 @@
             index_var: ue_idx
           when: "ue_idx|int < {{ num_ues }}"
         
-        - name  : Build UE ue_eurecom_test_sfr.conf file 4/4 
+        - name  : Build UE ue_eurecom_test_sfr.conf file 4/5 
           shell : |
                 docker cp ./ue_eurecom_test_sfr.conf {{ UE_container_name }}:/root/ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
 
+        - name  : Build UE ue_eurecom_test_sfr.conf file 5/5 
+          shell : |
+                    docker exec {{ UE_container_name }} /bin/sh -c "cd ue/targets/bin && sudo ./conf2uedata -c /ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /ue/cmake_targets/ran_build/build/"
+        
         - name  : Copy config file's to free5gc container's 
           shell : |
                 docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
