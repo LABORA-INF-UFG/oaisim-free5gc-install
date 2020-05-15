@@ -1225,7 +1225,7 @@
 
         - name  : Running MONGO-DB container
           shell:  |
-                  docker exec {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
+                  docker exec -d {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
 
         - name  : Running AMF container
           shell:  |
