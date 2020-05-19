@@ -228,7 +228,6 @@
                     - 8.8.8.8
                     - 8.8.4.4
         
-            
       
         - name  : Core Network Configuration - Build amf.conf
           copy:
@@ -1664,44 +1663,6 @@
                     rrc_log_verbosity                     ="medium";
                 };
 
-        - name  : Remove amf.conf default file from AMF container 
-          ignore_errors: true
-          shell : |
-            docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-            docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
-
-        - name  : Remove smf.conf default file from SMF container 
-          ignore_errors: true
-          shell : |
-            docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-            docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
-
-        - name  : Remove hss.conf default file from HSS container 
-          ignore_errors: true
-          shell : |
-            docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-            docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
-
-        - name  : Remove pcrf.conf default file from PCRF container 
-          ignore_errors: true
-          shell : |
-            docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-            docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
-
-        - name  : Copy config file's to free5gc container's 
-          shell : |
-                docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ UPF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./amf.conf     {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf
-                docker cp ./smf.conf     {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.conf
-                docker cp ./hss.conf     {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.conf
-                docker cp ./pcrf.conf    {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.conf
-          args:
-            chdir: "{{ BASE_DIR_INSTALL }}"
-
         - name  : Build enB rcc.band7.tm1.nfapi.conf file 3/3 
           shell : |
                 docker cp ./rcc.band7.tm1.nfapi.conf {{ ENB_container_name }}:/root/enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
@@ -1902,17 +1863,6 @@
                     docker exec {{ UE_container_name }} /bin/sh -c "cd /root/ue/targets/bin && sudo ./conf2uedata -c /root/ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /root/ue/cmake_targets/ran_build/build/"
           when  : deploy_oaisim == 'true'
 
-        - name  : Copy config file's to free5gc container's 
-          shell : |
-                docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ UPF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./amf.conf     {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf
-          args:
-            chdir: "{{ BASE_DIR_INSTALL }}"
-
         - name  : Exec MONGO-DB container
           shell:  |
                   docker exec -d {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
@@ -1944,6 +1894,44 @@
                   docker exec {{ UPF_container_name }} /bin/sh -c "chmod +x /root/free5gc-stage-1/setup-uptun.sh"
                   docker exec {{ UPF_container_name }} /bin/sh -c "sh -c /root/free5gc-stage-1/setup-uptun.sh"
 
+        - name  : Remove amf.conf default file from AMF container 
+          ignore_errors: true
+          shell : |
+              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
+              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+
+        - name  : Remove smf.conf default file from SMF container 
+          ignore_errors: true
+          shell : |
+              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
+              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+
+        - name  : Remove hss.conf default file from HSS container 
+          ignore_errors: true
+          shell : |
+              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
+              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+
+        - name  : Remove pcrf.conf default file from PCRF container 
+          ignore_errors: true
+          shell : |
+              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
+              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+
+        - name  : Copy config file's to free5gc container's 
+          shell : |
+                docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ UPF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                docker cp ./amf.conf     {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf
+                docker cp ./smf.conf     {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.conf
+                docker cp ./hss.conf     {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.conf
+                docker cp ./pcrf.conf    {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.conf
+          args:
+            chdir: "{{ BASE_DIR_INSTALL }}"
+        
         - name  : Running WEBUI container
           shell :  |
                   docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd /root/free5gc-stage-1/webui && npm run dev"
