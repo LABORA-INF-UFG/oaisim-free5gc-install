@@ -1525,6 +1525,10 @@
           shell:  | 
                 docker network create --subnet={{ docker_custom_subnet_network }} --driver bridge {{ docker_custom_network_name }}            
  
+        - name  : Run free5gc MONGO-DB container
+          shell:  |
+                docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
+
         - name  : Run free5gc AMF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} {{ free5gc_st1_image_name }} bash 
@@ -1544,10 +1548,6 @@
         - name  : Run free5gc UPF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} {{ free5gc_st1_image_name }} bash 
-
-        - name  : Run free5gc MONGO-DB container
-          shell:  |
-                docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
 
         - name  : Run free5gc WEBUI container
           shell :  |
