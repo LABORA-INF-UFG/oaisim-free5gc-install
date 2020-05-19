@@ -176,7 +176,7 @@
 
             - name: Copy amf.conf file
               copy:
-                src:  /conf/amf.conf
+                src:  ./conf/amf.conf
                 dest: /root/{{ BASE_DIR_INSTALL }}/amf.conf
                 owner: root
                 group: root
