@@ -153,6 +153,41 @@
               shell:  |
                     mkdir {{ BASE_DIR_INSTALL }}
     
+            - name  : Remove docker old docker containers
+              ignore_errors: true
+              shell:  |
+                    docker container prune -f
+            
+            - name  : Remove free5gc-st1 image
+              ignore_errors: true
+              shell:  |
+                    docker image rm {{ free5gc_st1_image_name }}
+
+            - name  : Remove free5gc-mongodb image
+              ignore_errors: true
+              shell:  |
+                    docker image rm {{ free5gc_mongodb_image_name }}
+
+            - name  : Remove enb-openairsim image
+              ignore_errors: true
+              shell:  |
+                    docker image rm {{ oaisim_ue_image_name }}
+
+            - name  : Remove ue-openairsim image
+              ignore_errors: true
+              shell:  |
+                    docker image rm {{ oaisim_enb_image_name }}
+
+            - name  : Remove free5gc-webui image
+              ignore_errors: true
+              shell:  |
+                    docker image rm {{ free5gc_webui_image_name }}
+
+            - name  : Remove free5g docker custom network
+              ignore_errors: true
+              shell:  |
+                    docker network rm {{ docker_custom_network_name }}
+          
     
     
     
