@@ -13,7 +13,7 @@
             ip_address_HSS: '192.188.2.4'
             ip_address_PCRF: '192.188.2.5'
             ip_address_UPF: '192.188.2.6'
-            ip_address_MONGO_DB: '192.188.2.100'
+            ip_address_MONGO_DB: '192.188.2.10'
             ip_address_WEB_UI: '192.188.2.101'
             ip_address_OAISIM_ENB: '192.188.2.253'
             ip_address_OAISIM_UE: '192.188.2.254'
