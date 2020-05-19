@@ -7,7 +7,7 @@
             docker_custom_subnet_network: '192.188.2.0/24'
             docker_custom_network_name: 'free5gc'
             web_interface_port_access: '3000'
-            BASE_DIR_INSTALL: 'OAISim-free5gc-conf'
+            BASE_DIR_INSTALL: 'OAISimFree5gc-conf'
             ip_address_AMF: '192.188.2.2'
             ip_address_SMF: '192.188.2.3'
             ip_address_HSS: '192.188.2.4'
@@ -164,6 +164,7 @@
             - name  : Create dir instalation
               shell:  |
                     mkdir {{ BASE_DIR_INSTALL }}
+                    mkdir {{ BASE_DIR_INSTALL }}/database
     
             - name  : Remove docker old docker containers
               ignore_errors: true
@@ -206,7 +207,7 @@
  
             - name  : Run free5gc MONGO-DB container
               shell:  |
-                    docker run -ti -d -v ./database:/data/db --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
+                    docker run -ti -d -v {{ BASE_DIR_INSTALL }}/database:/data/db --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
 
     
     
