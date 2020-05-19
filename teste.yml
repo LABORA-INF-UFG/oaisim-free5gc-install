@@ -168,6 +168,7 @@
     
             - name: Copy free5g.conf file
               copy:
+                remote_src : true
                 src:  /home/vagrant/oaisim-free5gc-install/conf/free5g.conf
                 dest: /root/{{ BASE_DIR_INSTALL }}/free5g.conf
                 owner: root
