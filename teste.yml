@@ -166,6 +166,22 @@
                     mkdir {{ BASE_DIR_INSTALL }}
                     mkdir {{ BASE_DIR_INSTALL }}/database
     
+            - name: Copy free5g.conf file
+              copy:
+                src: ./conf/free5g.conf
+                dest: /root/{{ BASE_DIR_INSTALL }}/free5g.conf
+                owner: root
+                group: root
+                mode: '0644'
+
+            - name: Copy amf.conf file
+              copy:
+                src: ./conf/amf.conf
+                dest: /root/{{ BASE_DIR_INSTALL }}/amf.conf
+                owner: root
+                group: root
+                mode: '0644'
+
             - name  : Remove docker old docker containers
               ignore_errors: true
               shell:  |
