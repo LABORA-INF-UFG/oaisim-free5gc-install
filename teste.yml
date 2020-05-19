@@ -166,7 +166,7 @@
                     mkdir {{ BASE_DIR_INSTALL }}
                     mkdir {{ BASE_DIR_INSTALL }}/database
     
-            - name: Copy free5g.conf file
+            - name  : Copy free5g.conf file
               copy:
                 src:  ./conf/free5gc.conf
                 dest: /root/{{ BASE_DIR_INSTALL }}/free5gc.conf
@@ -174,7 +174,7 @@
                 group: root
                 mode: '0644'
 
-            - name: Copy amf.conf file
+            - name  : Copy amf.conf file
               copy:
                 src:  ./conf/amf.conf
                 dest: /root/{{ BASE_DIR_INSTALL }}/amf.conf
@@ -229,6 +229,11 @@
               shell:  |
                     docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} {{ free5gc_st1_image_name }} bash 
 
-    
+            - name  : Copy config file's to AMF container 
+              shell : |
+                    docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
+                    docker cp ./amf.conf     {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf
+              args:
+                chdir: "{{ BASE_DIR_INSTALL }}"
     
     
