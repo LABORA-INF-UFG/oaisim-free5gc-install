@@ -207,7 +207,7 @@
  
             - name  : Run free5gc MONGO-DB container
               shell:  |
-                    docker run -ti -d -v {{ BASE_DIR_INSTALL }}/database:/data/db --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
+                    docker run -ti -d -v /root/{{ BASE_DIR_INSTALL }}/database:/data/db --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
 
             - name  : Run free5gc AMF container
               shell:  |
