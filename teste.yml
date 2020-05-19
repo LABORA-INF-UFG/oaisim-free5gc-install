@@ -168,16 +168,15 @@
     
             - name: Copy free5g.conf file
               copy:
-                remote_src : true
-                src:  /home/vagrant/oaisim-free5gc-install/conf/free5g.conf
-                dest: /root/{{ BASE_DIR_INSTALL }}/free5g.conf
+                src:  ./conf/free5gc.conf
+                dest: /root/{{ BASE_DIR_INSTALL }}/free5gc.conf
                 owner: root
                 group: root
                 mode: '0644'
 
             - name: Copy amf.conf file
               copy:
-                src:  /home/vagrant/oaisim-free5gc-install/conf/amf.conf
+                src:  /conf/amf.conf
                 dest: /root/{{ BASE_DIR_INSTALL }}/amf.conf
                 owner: root
                 group: root
