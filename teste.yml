@@ -19,7 +19,7 @@
             ip_address_OAISIM_UE: '192.188.2.254'
             free5gc_st1_image_name: 'laboraufg/free5gc-st1'
             free5gc_webui_image_name: 'laboraufg/webui-free5gc'
-            free5gc_mongodb_image_name: 'laboraufg/mongodb-free5gc'
+            free5gc_mongodb_image_name: 'mongo'
             oaisim_enb_image_name: 'laboraufg/enb-openairsim'
             oaisim_ue_image_name: 'laboraufg/ue-openairsim'
             UE_container_name: 'ue'
