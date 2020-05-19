@@ -168,7 +168,7 @@
     
             - name: Copy free5g.conf file
               copy:
-                src: ./conf/free5g.conf
+                src:  /conf/free5g.conf
                 dest: /root/{{ BASE_DIR_INSTALL }}/free5g.conf
                 owner: root
                 group: root
@@ -176,7 +176,7 @@
 
             - name: Copy amf.conf file
               copy:
-                src: ./conf/amf.conf
+                src:  /conf/amf.conf
                 dest: /root/{{ BASE_DIR_INSTALL }}/amf.conf
                 owner: root
                 group: root
