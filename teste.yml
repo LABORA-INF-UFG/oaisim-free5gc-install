@@ -3,9 +3,10 @@
         become: yes
         remote_user: root
         vars:
-            docker_custon_subnet_network: '192.188.2.0/24'
-            docker_custon_network_name: 'free5gc'
-            web_interface_port_access: '8080'
+            num_ues: '100'
+            docker_custom_subnet_network: '192.188.2.0/24'
+            docker_custom_network_name: 'free5gc'
+            web_interface_port_access: '3000'
             BASE_DIR_INSTALL: 'OAISim-free5gc-conf'
             ip_address_AMF: '192.188.2.2'
             ip_address_SMF: '192.188.2.3'
@@ -14,6 +15,15 @@
             ip_address_UPF: '192.188.2.6'
             ip_address_MONGO_DB: '192.188.2.100'
             ip_address_WEB_UI: '192.188.2.101'
+            ip_address_OAISIM_ENB: '192.188.2.253'
+            ip_address_OAISIM_UE: '192.188.2.254'
+            free5gc_st1_image_name: 'laboraufg/free5gc-st1'
+            free5gc_webui_image_name: 'laboraufg/webui-free5gc'
+            free5gc_mongodb_image_name: 'laboraufg/mongodb-free5gc'
+            oaisim_enb_image_name: 'laboraufg/enb-openairsim'
+            oaisim_ue_image_name: 'laboraufg/ue-openairsim'
+            UE_container_name: 'ue'
+            ENB_container_name: 'enb'
             AMF_container_name: 'amf'
             SMF_container_name: 'smf'
             HSS_container_name: 'hss'
@@ -21,7 +31,118 @@
             UPF_container_name: 'upf'
             MONGO_DB_container_name: 'mongodb-svc'
             WEB_UI_container_name: 'webui'
+            start_webapp: 'true'
+            deploy_oaisim: 'true'
+            clear_file_instalation: 'true'
+            HPLMN : "20893"
+            USIM_API_K : "8baf473f2f8fd09487cccbd7097c6862"
+            OPC : "e734f8734007d6c5ce7a0508809e7e9c"
+            user_equiments:
+                - { ue_id: UE0 ,   msin: '0000000001' }
+                - { ue_id: UE1 ,   msin: '0000000002' }
+                - { ue_id: UE2 ,   msin: '0000000003' }
+                - { ue_id: UE3 ,   msin: '0000000004' }
+                - { ue_id: UE4 ,   msin: '0000000005' }
+                - { ue_id: UE5 ,   msin: '0000000006' }
+                - { ue_id: UE6 ,   msin: '0000000007' }
+                - { ue_id: UE7 ,   msin: '0000000008' }
+                - { ue_id: UE8 ,   msin: '0000000009' }
+                - { ue_id: UE9 ,   msin: '0000000010' }
+                - { ue_id: UE10 ,  msin: '0000000011' }
+                - { ue_id: UE11 ,  msin: '0000000012' }
+                - { ue_id: UE12 ,  msin: '0000000013' }
+                - { ue_id: UE13 ,  msin: '0000000014' }
+                - { ue_id: UE14 ,  msin: '0000000015' }
+                - { ue_id: UE15 ,  msin: '0000000016' }
+                - { ue_id: UE16 ,  msin: '0000000017' }
+                - { ue_id: UE17 ,  msin: '0000000018' }
+                - { ue_id: UE18 ,  msin: '0000000019' }
+                - { ue_id: UE19 ,  msin: '0000000020' }
+                - { ue_id: UE20 ,  msin: '0000000021' }
+                - { ue_id: UE21 ,  msin: '0000000022' }
+                - { ue_id: UE22 ,  msin: '0000000023' }
+                - { ue_id: UE23 ,  msin: '0000000024' }
+                - { ue_id: UE24 ,  msin: '0000000025' }
+                - { ue_id: UE25 ,  msin: '0000000026' }
+                - { ue_id: UE26 ,  msin: '0000000027' }
+                - { ue_id: UE27 ,  msin: '0000000028' }
+                - { ue_id: UE28 ,  msin: '0000000029' }
+                - { ue_id: UE29 ,  msin: '0000000030' }
+                - { ue_id: UE30 ,  msin: '0000000031' }
+                - { ue_id: UE31 ,  msin: '0000000032' }
+                - { ue_id: UE32 ,  msin: '0000000033' }
+                - { ue_id: UE33 ,  msin: '0000000034' }
+                - { ue_id: UE34 ,  msin: '0000000035' }
+                - { ue_id: UE35 ,  msin: '0000000036' }
+                - { ue_id: UE36 ,  msin: '0000000037' }
+                - { ue_id: UE37 ,  msin: '0000000038' }
+                - { ue_id: UE38 ,  msin: '0000000039' }
+                - { ue_id: UE39 ,  msin: '0000000040' }
+                - { ue_id: UE40 ,  msin: '0000000041' }
+                - { ue_id: UE41 ,  msin: '0000000042' }
+                - { ue_id: UE42 ,  msin: '0000000043' }
+                - { ue_id: UE43 ,  msin: '0000000044' }
+                - { ue_id: UE44 ,  msin: '0000000045' }
+                - { ue_id: UE45 ,  msin: '0000000046' }
+                - { ue_id: UE46 ,  msin: '0000000047' }
+                - { ue_id: UE47 ,  msin: '0000000048' }
+                - { ue_id: UE48 ,  msin: '0000000049' }
+                - { ue_id: UE49 ,  msin: '0000000050' }
+                - { ue_id: UE50 ,  msin: '0000000051' }
+                - { ue_id: UE51 ,  msin: '0000000052' }
+                - { ue_id: UE52 ,  msin: '0000000053' }
+                - { ue_id: UE53 ,  msin: '0000000054' }
+                - { ue_id: UE54 ,  msin: '0000000055' }
+                - { ue_id: UE55 ,  msin: '0000000056' }
+                - { ue_id: UE56 ,  msin: '0000000057' }
+                - { ue_id: UE57 ,  msin: '0000000058' }
+                - { ue_id: UE58 ,  msin: '0000000059' }
+                - { ue_id: UE59 ,  msin: '0000000060' }
+                - { ue_id: UE60 ,  msin: '0000000061' }
+                - { ue_id: UE61 ,  msin: '0000000062' }
+                - { ue_id: UE62 ,  msin: '0000000063' }
+                - { ue_id: UE63 ,  msin: '0000000064' }
+                - { ue_id: UE64 ,  msin: '0000000065' }
+                - { ue_id: UE65 ,  msin: '0000000066' }
+                - { ue_id: UE66 ,  msin: '0000000067' }
+                - { ue_id: UE67 ,  msin: '0000000068' }
+                - { ue_id: UE68 ,  msin: '0000000069' }
+                - { ue_id: UE69 ,  msin: '0000000070' }
+                - { ue_id: UE70 ,  msin: '0000000071' }
+                - { ue_id: UE71 ,  msin: '0000000072' }
+                - { ue_id: UE72 ,  msin: '0000000073' }
+                - { ue_id: UE73 ,  msin: '0000000074' }
+                - { ue_id: UE74 ,  msin: '0000000075' }
+                - { ue_id: UE75 ,  msin: '0000000076' }
+                - { ue_id: UE76 ,  msin: '0000000077' }
+                - { ue_id: UE77 ,  msin: '0000000078' }
+                - { ue_id: UE78 ,  msin: '0000000079' }
+                - { ue_id: UE79 ,  msin: '0000000080' }
+                - { ue_id: UE80 ,  msin: '0000000081' }
+                - { ue_id: UE81 ,  msin: '0000000082' }
+                - { ue_id: UE82 ,  msin: '0000000083' }
+                - { ue_id: UE83 ,  msin: '0000000084' }
+                - { ue_id: UE84 ,  msin: '0000000085' }
+                - { ue_id: UE85 ,  msin: '0000000086' }
+                - { ue_id: UE86 ,  msin: '0000000087' }
+                - { ue_id: UE87 ,  msin: '0000000088' }
+                - { ue_id: UE88 ,  msin: '0000000089' }
+                - { ue_id: UE89 ,  msin: '0000000090' }
+                - { ue_id: UE90 ,  msin: '0000000091' }
+                - { ue_id: UE91 ,  msin: '0000000092' }
+                - { ue_id: UE92 ,  msin: '0000000093' }
+                - { ue_id: UE93 ,  msin: '0000000094' }
+                - { ue_id: UE94 ,  msin: '0000000095' }
+                - { ue_id: UE95 ,  msin: '0000000096' }
+                - { ue_id: UE96 ,  msin: '0000000097' }
+                - { ue_id: UE97 ,  msin: '0000000098' }
+                - { ue_id: UE98 ,  msin: '0000000099' }
+                - { ue_id: UE99 ,  msin: '0000000100' }
         tasks:
+            - fail: 
+                msg: "'physical_network_interface' not found, this parameter is required!"
+              when: physical_network_interface == ''
+    
             - name  : Remove old instalation
               shell:  |
                     rm -rf {{ BASE_DIR_INSTALL }}
@@ -31,585 +152,7 @@
             - name  : Create dir instalation
               shell:  |
                     mkdir {{ BASE_DIR_INSTALL }}
-            
-            - name  : Core Network Configuration - Build free5gc.conf
-              copy:
-                dest: "{{ BASE_DIR_INSTALL }}/free5gc.conf"
-                content: |
-                    db_uri: mongodb://{{ MONGO_DB_container_name }}/free5gc
-                    logger:
-                        file: /root/free5gc-stage-1/install/var/log/free5gc/free5gc.log
-                        trace: 
-                            app: 1
-                            s1ap: 1
-                            nas: 1
-                            diameter: 1
-                            gtp: 1
-                            pfcp: 1
-                            sbi: 1
-                    # 
-                    # parameter:
-                    #
-                    #  o Number of output streams per SCTP associations.
-                    #      sctp_streams: 30
-                    #
-                    #  o Disable use of IPv4 addresses (only IPv6)
-                    #      no_ipv4: true
-                    #
-                    #  o Disable use of IPv6 addresses (only IPv4)
-                    #      no_ipv6: true
-                    #
-                    #  o Prefer IPv4 instead of IPv6 for estabishing new GTP connections.
-                    #      prefer_ipv4: true
-                    #
-                    #  o Enable Multicast traffic to the UE
-                    #      multicast: true
-                    #
-                    #  o Disable Stateless Address Autoconfiguration for IPv6
-                    #      no_slaac: true
-                    #
-                    #
-                    parameter:
-                        no_ipv6: true
-                    amf:
-                        freeDiameter: amf.conf
-                    #
-                    #  <S1AP Server>>
-                    #
-                    #  o S1AP Server(all address avaiable)
-                    #    s1ap:
-                    #
-                    #  o S1AP Server(0.0.0.0:36412)
-                    #    s1ap:
-                    #      addr: 0.0.0.0
-                    #
-                    #  o S1AP Server(127.0.0.1:36412, [::1]:36412)
-                    #    s1ap:
-                    #      - addr: 127.0.0.1
-                    #      - addr: ::1
-                    #  o S1AP Server(different port)
-                    #    s1ap:
-                    #      - addr: 127.0.0.1
-                    #        port: 36413
-                    #
-                    #  o S1AP Server(address avaiable in `eth0` interface)
-                    #    s1ap:
-                    #      dev: eth0
-                    #
-                        s1ap:
-                        addr: {{ ip_address_AMF }}
-                    #
-                    #  <GUMMEI>
-                    #
-                    #  o Multiple GUMMEI
-                    #    gummei: 
-                    #      - plmn_id:
-                    #          mcc: 001
-                    #          mnc: 01
-                    #        mme_gid: 2
-                    #        mme_code: 1
-                    #      - plmn_id:
-                    #          - mcc: 002
-                    #            mnc: 02
-                    #          - mcc: 003
-                    #            mnc: 03
-                    #        mme_gid: [3, 4]
-                    #        mme_code:
-                    #          - 2
-                    #          - 3
-                    #
-                        gummei: 
-                        plmn_id:
-                            mcc: 460
-                            mnc: 99
-                        mme_gid: 1
-                        mme_code: 1
-                    #
-                    #  <TAI>
-                    #
-                    #  o Multiple TAI
-                    #    tai:
-                    #      - plmn_id:
-                    #          mcc: 001
-                    #          mnc: 01
-                    #        tac: [1, 2, 3]
-                    #    tai:
-                    #      - plmn_id:
-                    #          mcc: 002
-                    #          mnc: 02
-                    #        tac: 4
-                    #      - plmn_id:
-                    #          mcc: 003
-                    #          mnc: 03
-                    #        tac: 5
-                    #    tai:
-                    #      - plmn_id:
-                    #          mcc: 004
-                    #          mnc: 04
-                    #        tac: [6, 7]
-                    #      - plmn_id:
-                    #          mcc: 005
-                    #          mnc: 05
-                    #        tac: 8
-                    #      - plmn_id:
-                    #          mcc: 006
-                    #          mnc: 06
-                    #        tac: [9, 10]
-                    #
-                        tai:
-                        plmn_id:
-                            mcc: 460
-                            mnc: 99
-                        tac: 1
-                        security:
-                            integrity_order : [ EIA1, EIA2, EIA0 ]
-                            ciphering_order : [ EEA0, EEA1, EEA2 ]
-                    #
-                    #  <Network Name>
-                    #    network_name:
-                    #        full: free5GC
-                    #        short: free
-                    #
-                        network_name:
-                            full: free5GC
-                    hss:
-                        freeDiameter: hss.conf
-                    pcrf:
-                        freeDiameter: pcrf.conf
-                    smf:
-                        freeDiameter: smf.conf
-                        pfcp:
-                        - addr: {{ ip_address_SMF }}
-                        upf:
-                        - addr: {{ ip_address_UPF }}
-                        http:
-                        addr: {{ ip_address_SMF }}
-                        port: 8080
-                    #
-                    #  <UE Pool>
-                    #
-                    #  o IPv4 Pool
-                    #    $ sudo ip addr add 45.45.0.1/16 dev uptun
-                    #
-                    #    ue_pool:
-                    #      addr: 45.45.0.1/16
-                    #
-                    #  o IPv4/IPv6 Pool
-                    #    $ sudo ip addr add 45.45.0.1/16 dev uptun
-                    #    $ sudo ip addr add cafe:1::1/64 dev uptun
-                    #
-                    #    ue_pool:
-                    #      - addr: 45.45.0.1/16
-                    #      - addr: cafe:1::1/64
-                    #
-                    #
-                    #  o Specific APN(e.g 'volte') uses 45.46.0.1/16, cafe:2::1/64
-                    #    All other APNs use 45.45.0.1/16, cafe:1::1/64
-                    #    $ sudo ip addr add 45.45.0.1/16 dev uptun
-                    #    $ sudo ip addr add 45.46.0.1/16 dev uptun
-                    #    $ sudo ip addr add cafe:1::1/64 dev uptun
-                    #    $ sudo ip addr add cafe:2::1/64 dev uptun
-                    #
-                    #    ue_pool:
-                    #      - addr: 45.45.0.1/16
-                    #      - addr: cafe:1::1/64
-                    #      - addr: 45.46.0.1/16
-                    #        apn: volte
-                    #      - addr: cafe:2::1/64
-                    #        apn: volte
-                    #
-                    #  o Multiple Devices (default: uptun)
-                    #    $ sudo ip addr add 45.45.0.1/16 dev uptun
-                    #    $ sudo ip addr add cafe:1::1/64 dev uptun2
-                    #    $ sudo ip addr add 45.46.0.1/16 dev uptun3
-                    #    $ sudo ip addr add cafe:2::1/64 dev uptun3
-                    #
-                    #    ue_pool:
-                    #      - addr: 45.45.0.1/16
-                    #      - addr: cafe:1::1/64
-                    #        dev: uptun2
-                    #      - addr: 45.46.0.1/16
-                    #        apn: volte
-                    #        dev: uptun3
-                    #      - addr: cafe:2::1/64
-                    #        apn: volte
-                    #        dev: uptun3
-                    #
-                        ue_pool:
-                        - addr: 45.45.0.1/16
-                    #
-                    #  <Domain Name Server>
-                    #
-                    #  o Primary/Secondary can be configured. Others are ignored.
-                    #
-                        dns:
-                        - 8.8.8.8
-                        - 8.8.4.4
-                    upf:
-                        pfcp:
-                        addr:
-                            - {{ ip_address_UPF }}
-                    #
-                    #  <GTP-U Server>>
-                    #
-                    #  o GTP-U Server(127.0.0.3:2152, [::1]:2152)
-                    #    gtpu:
-                    #      - addr: 127.0.0.3
-                    #      - addr: ::1
-                    #
-                    #  o Same configuration(127.0.0.3:2152, [::1]:2152) as below.
-                    #    gtpu:
-                    #      name: localhost
-                    #
-                        gtpu:
-                        - addr: {{ ip_address_UPF }}
-                        ue_pool:
-                        - addr: 45.45.0.1/16
-                        dns:
-                        - 8.8.8.8
-                        - 8.8.4.4
-          
-            - name  : Core Network Configuration - Build amf.conf
-              copy:
-                dest: "{{ BASE_DIR_INSTALL }}/amf.conf"
-                content: |
-                    # This is a sample configuration file for freeDiameter daemon.
-                    
-                    # Most of the options can be omitted, as they default to reasonable values.
-                    # Only TLS-related options must be configured properly in usual setups.
-                    
-                    # It is possible to use "include" keyword to import additional files
-                    # e.g.: include "/etc/freeDiameter.d/*.conf"
-                    # This is exactly equivalent as copy & paste the content of the included file(s) 
-                    # where the "include" keyword is found.
-                    
-                    
-                    ##############################################################
-                    ##  Peer identity and realm 
-                    
-                    # The Diameter Identity of this daemon.
-                    # This must be a valid FQDN that resolves to the local host.
-                    # Default: hostname's FQDN
-                    #Identity = "aaa.koganei.freediameter.net";
-                    Identity = "amf.localdomain";
-                    
-                    # The Diameter Realm of this daemon.
-                    # Default: the domain part of Identity (after the first dot).
-                    #Realm = "koganei.freediameter.net";
-                    Realm = "localdomain";
-                    
-                    ##############################################################
-                    ##  Transport protocol configuration
-                    
-                    # The port this peer is listening on for incoming connections (TCP and SCTP).
-                    # Default: 3868. Use 0 to disable.
-                    #Port = 3868;
-                    
-                    # The port this peer is listening on for incoming TLS-protected connections (TCP and SCTP).
-                    # See TLS_old_method for more information about TLS flavours.
-                    # Note: we use TLS/SCTP instead of DTLS/SCTP at the moment. This will change in future version of freeDiameter.
-                    # Default: 5868. Use 0 to disable.
-                    #SecPort = 5868;
-                    
-                    # Use RFC3588 method for TLS protection, where TLS is negociated after CER/CEA exchange is completed 
-                    # on the unsecure connection. The alternative is RFC6733 mechanism, where TLS protects also the 
-                    # CER/CEA exchange on a dedicated secure port.
-                    # This parameter only affects outgoing connections. 
-                    # The setting can be also defined per-peer (see Peers configuration section).
-                    # Default: use RFC6733 method with separate port for TLS.
-                    #TLS_old_method;
-                    
-                    # Disable use of TCP protocol (only listen and connect over SCTP)
-                    # Default : TCP enabled
-                    #No_TCP;
-                    
-                    # Disable use of SCTP protocol (only listen and connect over TCP)
-                    # Default : SCTP enabled
-                    #No_SCTP;
-                    No_SCTP;
-                    # This option is ignored if freeDiameter is compiled with DISABLE_SCTP option.
-                    
-                    # Prefer TCP instead of SCTP for establishing new connections.
-                    # This setting may be overwritten per peer in peer configuration blocs.
-                    # Default : SCTP is attempted first.
-                    #Prefer_TCP;
-                    
-                    # Default number of streams per SCTP associations.
-                    # This setting may be overwritten per peer basis.
-                    # Default : 30 streams
-                    #SCTP_streams = 30;
-                    
-                    ##############################################################
-                    ##  Endpoint configuration
-                    
-                    # Disable use of IP addresses (only IPv6)
-                    # Default : IP enabled
-                    #No_IP;
-                    
-                    # Disable use of IPv6 addresses (only IP)
-                    # Default : IPv6 enabled
-                    #No_IPv6;
-                    
-                    # Specify local addresses the server must bind to
-                    # Default : listen on all addresses available.
-                    #ListenOn = "202.249.37.5";
-                    #ListenOn = "2001:200:903:2::202:1";
-                    #ListenOn = "fe80::21c:5ff:fe98:7d62%eth0";
-                    ListenOn = "{{ ip_address_AMF }}";
-                    
-                    
-                    ##############################################################
-                    ##  Server configuration
-                    
-                    # How many Diameter peers are allowed to be connecting at the same time ?
-                    # This parameter limits the number of incoming connections from the time
-                    # the connection is accepted until the first CER is received.
-                    # Default: 5 unidentified clients in paralel.
-                    #ThreadsPerServer = 5;
-                    
-                    ##############################################################
-                    ##  TLS Configuration
-                    
-                    # TLS is managed by the GNUTLS library in the freeDiameter daemon.
-                    # You may find more information about parameters and special behaviors
-                    # in the relevant documentation.
-                    # http://www.gnu.org/software/gnutls/manual/
-                    
-                    # Credentials of the local peer
-                    # The X509 certificate and private key file to use for the local peer.
-                    # The files must contain PKCS-1 encoded RSA key, in PEM format.
-                    # (These parameters are passed to gnutls_certificate_set_x509_key_file function)
-                    # Default : NO DEFAULT
-                    #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
-                    #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-                    TLS_Cred = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.cert.pem", "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.key.pem";
-                    
-                    # Certificate authority / trust anchors
-                    # The file containing the list of trusted Certificate Authorities (PEM list)
-                    # (This parameter is passed to gnutls_certificate_set_x509_trust_file function)
-                    # The directive can appear several times to specify several files.
-                    # Default : GNUTLS default behavior
-                    #TLS_CA = "<file.PEM>";
-                    TLS_CA = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/cacert.pem";
-                    
-                    # Certificate Revocation List file
-                    # The information about revoked certificates.
-                    # The file contains a list of trusted CRLs in PEM format. They should have been verified before. 
-                    # (This parameter is passed to gnutls_certificate_set_x509_crl_file function)
-                    # Note: openssl CRL format might have interoperability issue with GNUTLS format.
-                    # Default : GNUTLS default behavior
-                    #TLS_CRL = "<file.PEM>";
-                    
-                    # GNU TLS Priority string
-                    # This string allows to configure the behavior of GNUTLS key exchanges 
-                    # algorithms. See gnutls_priority_init function documentation for information.
-                    # You should also refer to the Diameter required TLS support here:
-                    #   http://tools.ietf.org/html/rfc6733#section-13.1
-                    # Default : "NORMAL"
-                    # Example: TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
-                    #TLS_Prio = "NORMAL";
-                    
-                    # Diffie-Hellman parameters size
-                    # Set the number of bits for generated DH parameters
-                    # Valid value should be 768, 1024, 2048, 3072 or 4096.
-                    # (This parameter is passed to gnutls_dh_params_generate2 function, 
-                    # it usually should match RSA key size)
-                    # Default : 1024
-                    #TLS_DH_Bits = 1024;
-                    
-                    # Alternatively, you can specify a file to load the PKCS#3 encoded
-                    # DH parameters directly from. This accelerates the daemon start 
-                    # but is slightly less secure. If this file is provided, the
-                    # TLS_DH_Bits parameters has no effect.
-                    # Default : no default.
-                    #TLS_DH_File = "<file.PEM>";
-                    
-                    
-                    ##############################################################
-                    ##  Timers configuration
-                    
-                    # The Tc timer of this peer.
-                    # It is the delay before a new attempt is made to reconnect a disconnected peer.
-                    # The value is expressed in seconds. The recommended value is 30 seconds.
-                    # Default: 30
-                    #TcTimer = 30;
-                    
-                    # The Tw timer of this peer.
-                    # It is the delay before a watchdog message is sent, as described in RFC 3539.
-                    # The value is expressed in seconds. The default value is 30 seconds. Value must
-                    # be greater or equal to 6 seconds. See details in the RFC.
-                    # Default: 30
-                    #TwTimer = 30;
-                    
-                    ##############################################################
-                    ##  Applications configuration
-                    
-                    # Disable the relaying of Diameter messages?
-                    # For messages not handled locally, the default behavior is to forward the
-                    # message to another peer if any is available, according to the routing 
-                    # algorithms. In addition the "0xffffff" application is advertised in CER/CEA 
-                    # exchanges.
-                    # Default: Relaying is enabled.
-                    #NoRelay;
-                    
-                    # Number of server threads that can handle incoming messages at the same time.
-                    # Default: 4
-                    #AppServThreads = 4;
-                    
-                    # Other applications are configured by loaded extensions.
-                    
-                    ##############################################################
-                    ##  Extensions configuration
-                    
-                    #  The freeDiameter framework merely provides support for
-                    # Diameter Base Protocol. The specific application behaviors,
-                    # as well as advanced functions, are provided
-                    # by loadable extensions (plug-ins).
-                    #  These extensions may in addition receive the name of a 
-                    # configuration file, the format of which is extension-specific.
-                    #
-                    # Format:
-                    #LoadExtension = "/path/to/extension" [ : "/optional/configuration/file" ] ;
-                    #
-                    # Examples:
-                    #LoadExtension = "extensions/sample.fdx";
-                    #LoadExtension = "extensions/sample.fdx":"conf/sample.conf";
-                    
-                    # Extensions are named as follow:
-                    # dict_* for extensions that add content to the dictionary definitions.
-                    # dbg_*  for extensions useful only to retrieve more information on the framework execution.
-                    # acl_*  : Access control list, to control which peers are allowed to connect.
-                    # rt_*   : routing extensions that impact how messages are forwarded to other peers.
-                    # app_*  : applications, these extensions usually register callbacks to handle specific messages.
-                    # test_* : dummy extensions that are useful only in testing environments.
-                    
-                    
-                    # The dbg_msg_dump.fdx extension allows you to tweak the way freeDiameter displays some
-                    # information about some events. This extension does not actually use a configuration file
-                    # but receives directly a parameter in the string passed to the extension. Here are some examples:
-                    ## LoadExtension = "dbg_msg_dumps.fdx" : "0x1111"; # Removes all default hooks, very quiet even in case of errors.
-                    ## LoadExtension = "dbg_msg_dumps.fdx" : "0x2222"; # Display all events with few details.
-                    ## LoadExtension = "dbg_msg_dumps.fdx" : "0x0080"; # Dump complete information about sent and received messages.
-                    # The four digits respectively control: connections, routing decisions, sent/received messages, errors.
-                    # The values for each digit are:
-                    #  0 - default - keep the default behavior
-                    #  1 - quiet   - remove any specific log
-                    #  2 - compact - display only a summary of the information
-                    #  4 - full    - display the complete information on a single long line
-                    #  8 - tree    - display the complete information in an easier to read format spanning several lines.
-                    
-                    LoadExtension = "dbg_msg_dumps.so" : "0x8888";
-                    LoadExtension = "dict_rfc5777.so";
-                    LoadExtension = "dict_mip6i.so";
-                    LoadExtension = "dict_nasreq.so";
-                    LoadExtension = "dict_nas_mipv6.so";
-                    LoadExtension = "dict_dcca.so";
-                    LoadExtension = "dict_dcca_3gpp.so";
-                    LoadExtension = "dict_s6a.so";
-                    
-                    
-                    ##############################################################
-                    ##  Peers configuration
-                    
-                    #  The local server listens for incoming connections. By default,
-                    # all unknown connecting peers are rejected. Extensions can override this behavior (e.g., acl_wl).
-                    # 
-                    #  In addition to incoming connections, the local peer can
-                    # be configured to establish and maintain connections to some 
-                    # Diameter nodes and allow connections from these nodes.
-                    #  This is achieved with the ConnectPeer directive described below.
-                    #
-                    # Note that the configured Diameter Identity MUST match
-                    # the information received inside CEA, or the connection will be aborted.
-                    #
-                    # Format:
-                    #ConnectPeer = "diameterid" [ { parameter1; parameter2; ...} ] ;
-                    # Parameters that can be specified in the peer's parameter list:
-                    #  No_TCP; No_SCTP; No_IP; No_IPv6; Prefer_TCP; TLS_old_method;
-                    #  No_TLS;       # assume transparent security instead of TLS. DTLS is not supported yet (will change in future versions).
-                    #  Port = 5868;  # The port to connect to
-                    #  TcTimer = 30;
-                    #  TwTimer = 30;
-                    #  ConnectTo = "202.249.37.5";
-                    #  ConnectTo = "2001:200:903:2::202:1";
-                    #  TLS_Prio = "NORMAL";
-                    #  Realm = "realm.net"; # Reject the peer if it does not advertise this realm.
-                    # Examples:
-                    #ConnectPeer = "aaa.wide.ad.jp";
-                    #ConnectPeer = "old.diameter.serv" { TcTimer = 60; TLS_old_method; No_SCTP; Port=3868; } ;
-                    ConnectPeer = "hss.localdomain" { ConnectTo = "{{ ip_address_HSS }}"; No_TLS; };
-                    
-                    
-                    ##############################################################
-                    
-            - name  : Install Docker-CE and other requirements
-              shell:  |
-                    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     
-                    add-apt-repository \
-                    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-                    $(lsb_release -cs) \
-                    stable"
-                    
-                    apt-get update
-                    apt-get install docker-ce -y
-    
-            - name  : Remove docker old images
-              shell:  |
-                    docker container prune -f
-                    docker image rm ciromacedo/free5gc-st1
-                    docker image rm ciromacedo/free5gc-mongodb
-                    docker image rm ciromacedo/free5gc-webui
-                    docker network rm {{ docker_custon_network_name }}
-    
-            - name  : Create Docker custom network
-              shell:  | 
-                    docker network create --subnet={{ docker_custon_subnet_network }} --driver bridge {{ docker_custon_network_name }}            
-     
-            - name  : Run free5gc conteiners
-              shell:  |
-                    docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} ciromacedo/free5gc-st1 bash 
-                    docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_SMF }} --name {{ SMF_container_name }} ciromacedo/free5gc-st1 bash 
-                    docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_HSS }} --name {{ HSS_container_name }} ciromacedo/free5gc-st1 bash 
-                    docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_PCRF }} --name {{ PCRF_container_name }} ciromacedo/free5gc-st1 bash 
-                    docker run -ti -d --privileged --net {{ docker_custon_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} ciromacedo/free5gc-st1 bash 
-                    docker run -ti -d --net {{ docker_custon_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} ciromacedo/free5gc-mongodb bash
-                    docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custon_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} ciromacedo/free5gc-webui bash
-                       
-            - name  : Copy config file's to free5gc container's 
-              shell: |
-                    docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                    docker cp ./free5gc.conf {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                    docker cp ./free5gc.conf {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                    docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                    docker cp ./free5gc.conf {{ UPF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                    docker cp ./amf.conf     {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf
-              args:
-                chdir: "{{ BASE_DIR_INSTALL }}"
-    
-            - name  : Start conteiners
-              shell:  |
-                      docker exec {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
-                      docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ AMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ SMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ SMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ HSS_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ HSS_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ PCRF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ PCRF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                      docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"                  
-                      docker exec {{ UPF_container_name }} /bin/sh -c "chmod +x /root/free5gc-stage-1/setup-uptun.sh"
-                      docker exec {{ UPF_container_name }} /bin/sh -c "sh -c /root/free5gc-stage-1/setup-uptun.sh"
-    
-    
-            - name  : Start Web App
-              shell:  |
-                      docker exec {{ WEB_UI_container_name }} /bin/sh -c "cd /root/free5gc-stage-1/webui && npm run dev"
-       
-            - name  : Clear file instalation
-              shell : rm -rf {{ BASE_DIR_INSTALL }}
     
     
     

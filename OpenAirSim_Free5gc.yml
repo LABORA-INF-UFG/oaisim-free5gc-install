@@ -157,7 +157,7 @@
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/free5gc.conf"
             content: |
-                db_uri: mongodb://mongodb-svc/free5gc
+               db_uri: mongodb://mongodb-svc/free5gc
                 logger:
                     file: /root/free5gc-stage-1/install/var/log/free5gc/free5gc.log
                     trace: 
@@ -1861,7 +1861,6 @@
                 docker cp ./pcrf.conf    {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.conf
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
-          
 
         - name  : Build enB rcc.band7.tm1.nfapi.conf file 3/3 
           shell : |
