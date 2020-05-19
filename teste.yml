@@ -148,6 +148,18 @@
                     rm -rf {{ BASE_DIR_INSTALL }}
                     apt-get remove docker docker-engine docker.io docker-ce -y
                     apt-get update
+
+            - name  : Install Docker-CE and other requirements
+              shell:  |
+                    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+                    add-apt-repository \
+                    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+                    $(lsb_release -cs) \
+                    stable"
+                    
+                    apt-get update
+                    apt-get install docker-ce -y
             
             - name  : Create dir instalation
               shell:  |
