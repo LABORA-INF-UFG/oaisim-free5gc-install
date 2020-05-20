@@ -150,9 +150,25 @@
                 apt-get update
         
         - name  : Create dir instalation
-          shell:  |
+          shell :  |
                 mkdir {{ BASE_DIR_INSTALL }}
         
+        - name  : Copy iptables_upf.sh file
+          copy  :
+            src : ./conf/iptables_upf.sh
+            dest: /root/{{ BASE_DIR_INSTALL }}/iptables_upf.sh
+            owner: root
+            group: root
+            mode: '0644'
+
+        - name  : Copy setup_upf.sh file
+          copy  :
+            src : ./conf/setup_upf.sh
+            dest: /root/{{ BASE_DIR_INSTALL }}/setup_upf.sh
+            owner: root
+            group: root
+            mode: '0644'
+
         - name  : Core Network Configuration - Build free5gc.conf
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/free5gc.conf"
@@ -1862,36 +1878,48 @@
                     docker exec {{ UE_container_name }} /bin/sh -c "cd /root/ue/targets/bin && sudo ./conf2uedata -c /root/ue/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /root/ue/cmake_targets/ran_build/build/"
           when  : deploy_oaisim == 'true'
 
-        - name  : Exec MONGO-DB container
+        - name  : Exec/Start MONGO-DB container
           shell:  |
                   docker exec -d {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
-
-        - name  : Exec AMF container
-          shell:  |
+        
+        - name  : Build certificates - AMF container
+          shell :  |
                   docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ AMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
 
-        - name  : Exec SMF container
+        - name  : Copy config file's to UPF container 
+          shell : |
+                docker cp ./iptables_upf.sh {{ AMF_container_name }}:/root/free5gc-stage-1/iptables_upf.sh
+                docker cp ./setup_upf.sh     {{ AMF_container_name }}:/root/free5gc-stage-1/setup_upf.sh
+          args:
+            chdir: "{{ BASE_DIR_INSTALL }}"
+
+        - name  : Build certificates - UPF container
+          shell :  |
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/setup_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/setup_upf.sh"
+
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/iptables_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/iptables_upf.sh"
+
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"                  
+
+                          
+        - name  : Build certificates - SMF container
           shell :  |
                   docker exec {{ SMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ SMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
 
-        - name  : Exec HSS container
+        - name  : Build certificates - HSS container
           shell :  |
                   docker exec {{ HSS_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ HSS_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
 
-        - name  : Exec PCRF container
+        - name  : Build certificates - PCRF container
           shell :  |
                   docker exec {{ PCRF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
                   docker exec {{ PCRF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
-
-        - name  : Exc UPF container
-          shell :  |
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"                  
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod +x /root/free5gc-stage-1/setup-uptun.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "sh -c /root/free5gc-stage-1/setup-uptun.sh"
 
         - name  : Remove amf.conf default file from AMF container 
           ignore_errors: true
