@@ -1889,8 +1889,8 @@
 
         - name  : Copy config file's to UPF container 
           shell : |
-                docker cp ./iptables_upf.sh {{ AMF_container_name }}:/root/free5gc-stage-1/iptables_upf.sh
-                docker cp ./setup_upf.sh     {{ AMF_container_name }}:/root/free5gc-stage-1/setup_upf.sh
+                docker cp ./iptables_upf.sh {{ UPF_container_name }}:/root/free5gc-stage-1/iptables_upf.sh
+                docker cp ./setup_upf.sh     {{ UPF_container_name }}:/root/free5gc-stage-1/setup_upf.sh
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
 
