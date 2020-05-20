@@ -140,11 +140,11 @@
             - { ue_id: UE98 ,  msin: '0000000099' }
             - { ue_id: UE99 ,  msin: '0000000100' }
     tasks:
-      - name: Please use 'msg' when ansible version is smaller than 2.7
-        assert:
-          that:
-            - ansible_memtotal_mb >= 16384
-          msg: "Memory requirements - 4GB"
+        - name: Please use 'msg' when ansible version is smaller than 2.7
+          assert:
+            that:
+              - ansible_memtotal_mb >= 16384
+            msg: "Memory requirements - 4GB"
 
         - fail: 
             msg: "'physical_network_interface' not found, this parameter is required!"
