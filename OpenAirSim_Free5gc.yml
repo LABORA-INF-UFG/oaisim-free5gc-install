@@ -38,6 +38,10 @@
         HPLMN : "20893"
         default_username_WEBUI : "admin"
         default_password_WEBUI : "1423"
+        enb_gumei_mcc_auth_param: '208'
+        enb_gumei_mnc_auth_param: '93'
+        log_level_tracer_free5gc: '5'
+        dir_git_deploy: 'free5gc-stage-1'
         USIM_API_K : "8baf473f2f8fd09487cccbd7097c6862"
         OPC : "e734f8734007d6c5ce7a0508809e7e9c"
         user_equiments:
@@ -200,15 +204,15 @@
             content: |
               db_uri: mongodb://mongodb-svc/free5gc
               logger:
-                  file: /root/free5gc-stage-1/install/var/log/free5gc/free5gc.log
+                  file: /root/{{ dir_git_deploy }}/install/var/log/free5gc/free5gc.log
                   trace: 
-                      app: 1
-                      s1ap: 1
-                      nas: 1
-                      diameter: 1
-                      gtp: 1
-                      pfcp: 1
-                      sbi: 1
+                      app: {{ log_level_tracer_free5gc }}
+                      s1ap: {{ log_level_tracer_free5gc }}
+                      nas: {{ log_level_tracer_free5gc }}
+                      diameter: {{ log_level_tracer_free5gc }}
+                      gtp: {{ log_level_tracer_free5gc }}
+                      pfcp: {{ log_level_tracer_free5gc }}
+                      sbi: {{ log_level_tracer_free5gc }}
               
               parameter:
                   no_ipv6: true
@@ -220,15 +224,15 @@
               
                   gummei: 
                     plmn_id:
-                      mcc: 460
-                      mnc: 99
+                      mcc: {{ enb_gumei_mcc_auth_param }}
+                      mnc: {{ enb_gumei_mnc_auth_param }}
                     mme_gid: 1
                     mme_code: 1
               
                   tai:
                     plmn_id:
-                      mcc: 460
-                      mnc: 99
+                      mcc: {{ enb_gumei_mcc_auth_param }}
+                      mnc: {{ enb_gumei_mnc_auth_param }}
                     tac: 1
                   security:
                       integrity_order : [ EIA1, EIA2, EIA0 ]
@@ -381,7 +385,7 @@
                 # Default : NO DEFAULT
                 #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
                 #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-                TLS_Cred = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.cert.pem", "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.key.pem";
+                TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/amf.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/amf.key.pem";
                 
                 # Certificate authority / trust anchors
                 # The file containing the list of trusted Certificate Authorities (PEM list)
@@ -389,7 +393,7 @@
                 # The directive can appear several times to specify several files.
                 # Default : GNUTLS default behavior
                 #TLS_CA = "<file.PEM>";
-                TLS_CA = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/cacert.pem";
+                TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
                 
                 # Certificate Revocation List file
                 # The information about revoked certificates.
@@ -651,7 +655,7 @@
                 # Default : NO DEFAULT
                 #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
                 #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-                TLS_Cred = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.cert.pem", "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.key.pem";
+                TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/smf.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/smf.key.pem";
                 
                 # Certificate authority / trust anchors
                 # The file containing the list of trusted Certificate Authorities (PEM list)
@@ -659,7 +663,7 @@
                 # The directive can appear several times to specify several files.
                 # Default : GNUTLS default behavior
                 #TLS_CA = "<file.PEM>";
-                TLS_CA = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/cacert.pem";
+                TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
                 
                 # Certificate Revocation List file
                 # The information about revoked certificates.
@@ -923,7 +927,7 @@
                 # Default : NO DEFAULT
                 #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
                 #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-                TLS_Cred = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.cert.pem", "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.key.pem";
+                TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/hss.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/hss.key.pem";
                 
                 # Certificate authority / trust anchors
                 # The file containing the list of trusted Certificate Authorities (PEM list)
@@ -931,7 +935,7 @@
                 # The directive can appear several times to specify several files.
                 # Default : GNUTLS default behavior
                 #TLS_CA = "<file.PEM>";
-                TLS_CA = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/cacert.pem";
+                TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
                 
                 # Certificate Revocation List file
                 # The information about revoked certificates.
@@ -1195,7 +1199,7 @@
                 # Default : NO DEFAULT
                 #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
                 #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-                TLS_Cred = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.cert.pem", "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.key.pem";
+                TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/pcrf.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/pcrf.key.pem";
                 
                 # Certificate authority / trust anchors
                 # The file containing the list of trusted Certificate Authorities (PEM list)
@@ -1203,7 +1207,7 @@
                 # The directive can appear several times to specify several files.
                 # Default : GNUTLS default behavior
                 #TLS_CA = "<file.PEM>";
-                TLS_CA = "/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/cacert.pem";
+                TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
                 
                 # Certificate Revocation List file
                 # The information about revoked certificates.
@@ -1909,83 +1913,83 @@
         
         - name  : Build certificates - AMF container
           shell :  |
-                  docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                  docker exec {{ AMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+                  docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ AMF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
 
         - name  : Copy config file's to UPF container 
           shell : |
-                docker cp ./iptables_upf.sh {{ UPF_container_name }}:/root/free5gc-stage-1/iptables_upf.sh
-                docker cp ./setup_upf.sh     {{ UPF_container_name }}:/root/free5gc-stage-1/setup_upf.sh
+                docker cp ./iptables_upf.sh {{ UPF_container_name }}:/root/{{ dir_git_deploy }}/iptables_upf.sh
+                docker cp ./setup_upf.sh     {{ UPF_container_name }}:/root/{{ dir_git_deploy }}/setup_upf.sh
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
 
         - name  : Build certificates - UPF container
           shell :  |
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/setup_upf.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/setup_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/setup_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/setup_upf.sh"
 
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/iptables_upf.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/iptables_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/iptables_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/iptables_upf.sh"
 
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"                  
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"                  
                           
         - name  : Build certificates - SMF container
           shell :  |
-                  docker exec {{ SMF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                  docker exec {{ SMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+                  docker exec {{ SMF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ SMF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
 
         - name  : Build certificates - HSS container
           shell :  |
-                  docker exec {{ HSS_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                  docker exec {{ HSS_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+                  docker exec {{ HSS_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ HSS_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
 
         - name  : Build certificates - PCRF container
           shell :  |
-                  docker exec {{ PCRF_container_name }} /bin/sh -c "chmod u+x /root/free5gc-stage-1/build_certs.sh"
-                  docker exec {{ PCRF_container_name }} /bin/sh -c "/root/free5gc-stage-1/build_certs.sh"
+                  docker exec {{ PCRF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ PCRF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
 
         - name  : Remove amf.conf default file from AMF container 
           ignore_errors: true
           shell : |
-              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
+              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
 
         - name  : Remove smf.conf default file from SMF container 
           ignore_errors: true
           shell : |
-              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
+              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
 
         - name  : Remove hss.conf default file from HSS container 
           ignore_errors: true
           shell : |
-              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
+              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
 
         - name  : Remove pcrf.conf default file from PCRF container 
           ignore_errors: true
           shell : |
-              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/*.conf"
-              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/free5gc-stage-1/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
+              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
 
         - name  : Copy config file's to free5gc container's 
           shell : |
-                docker cp ./free5gc.conf {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ UPF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/free5gc.conf
-                docker cp ./amf.conf     {{ AMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/amf.conf
-                docker cp ./smf.conf     {{ SMF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/smf.conf
-                docker cp ./hss.conf     {{ HSS_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/hss.conf
-                docker cp ./pcrf.conf    {{ PCRF_container_name }}:/root/free5gc-stage-1/install/etc/free5gc/freeDiameter/pcrf.conf
+                docker cp ./free5gc.conf {{ AMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ SMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ HSS_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ UPF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
+                docker cp ./amf.conf     {{ AMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/amf.conf
+                docker cp ./smf.conf     {{ SMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/smf.conf
+                docker cp ./hss.conf     {{ HSS_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/hss.conf
+                docker cp ./pcrf.conf    {{ PCRF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/pcrf.conf
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
         
         - name  : Running WEBUI container
           shell :  |
-                  docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd /root/free5gc-stage-1/webui && npm run dev"
+                  docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd /root/{{ dir_git_deploy }}/webui && npm run dev"
           when  : start_webapp == 'true'
 
         - name: Wait for port WEB_UI response
