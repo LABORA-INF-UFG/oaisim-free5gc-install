@@ -32,6 +32,7 @@
         MONGO_DB_container_name: 'mongodb-svc'
         WEB_UI_container_name: 'webui'
         start_webapp: 'true'
+        start_ue_simulator: 'false'
         deploy_oaisim: 'true'
         clear_file_instalation: 'true'
         HPLMN : "20893"
@@ -1983,14 +1984,33 @@
                   docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd /root/free5gc-stage-1/webui && npm run dev"
           when  : start_webapp == 'true'
 
-        - name  : Running UE container
+        - name  : Get CSRF Access Token - WEBUI container
+          shell : |
+              curl -s "http://{{ ip_address_WEB_UI }}:{{ web_interface_port_access }}/api/auth/csrf" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'X-CSRF-TOKEN: undefined' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -v --cookie-jar /tmp/free5gc.txt --compressed | sed 's/.*"csrfToken":"\([^"]\+\)".*/\1/'        
+          register: csrf
+       
+        - name: Login - WEBUI container
+          shell: |
+              curl "http://{{ ip_address_WEB_UI }}:{{ web_interface_port_access }}/api/auth/login" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H "Origin: http://{{ ip_address_WEB_UI }}:{{ web_interface_port_access }}" -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt -o /dev/null --data-binary '{"username":"{{ username_core_web_interface }}","password":"{{ pass_core_web_interface }}"}' --compressed  
+
+        - name: Add User equipments - WEBUI container
+          shell: |
+              curl "http://{{ ip_address_WEB_UI }}:{{ web_interface_port_access }}/api/db/Subscriber" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt --data-binary '{"imsi":"{{ HPLMN }}{{ item.msin }}","security":{"k":"{{ USIM_API_K }}","amf":"8000","op_type":0,"op_value":"{{ OPC }}","op":null,"opc":"{{ OPC }}"},"ambr":{"downlink":1024000,"uplink":1024000},"pdn":[{"apn":"internet","qos":{"qci":9,"arp":{"priority_level":8,"pre_emption_capability":1,"pre_emption_vulnerability":1}}}]}' --compressed
+
+          loop: "{{ user_equiments }}"
+          loop_control:
+            index_var: ue_idx
+          when: "ue_idx|int < {{ num_ues }}"
+
+        - name  : Running UE simulator
           shell :  |
                   docker exec -d {{ UE_container_name }} /bin/sh -c "cd ue/cmake_targets/ran_build/build/ && ./lte-uesoftmodem -O /ue/ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 1 --nums_ue_thread 1 --nokrnmod 1 > ue.log 2>&1"
-          when  : start_webapp == 'true'
+          when  : start_ue_simulator == 'true'
           
         - name  : Clear file instalation
           shell : rm -rf {{ BASE_DIR_INSTALL }}
           when  : clear_file_instalation == 'true'
+
 
 
 
