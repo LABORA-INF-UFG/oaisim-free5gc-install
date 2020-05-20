@@ -227,7 +227,6 @@
                   dns:
                     - 8.8.8.8
                     - 8.8.4.4
-        
       
         - name  : Core Network Configuration - Build amf.conf
           copy:
@@ -1369,9 +1368,13 @@
                 docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
 
         - name  : Run free5gc AMF container
-          shell:  |
+          shell :  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} {{ free5gc_st1_image_name }} bash 
 
+        - name  : Run free5gc UPF container
+          shell :  |
+                docker run -ti -d --device=/dev/net/tun:/dev/net/tun --cap-add=NET_ADMIN --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} {{ free5gc_st1_image_name }} bash 
+      
         - name  : Run free5gc SMF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_SMF }} --name {{ SMF_container_name }} {{ free5gc_st1_image_name }} bash 
@@ -1383,11 +1386,7 @@
         - name  : Run free5gc PCRF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_PCRF }} --name {{ PCRF_container_name }} {{ free5gc_st1_image_name }} bash 
-
-        - name  : Run free5gc UPF container
-          shell:  |
-                docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} {{ free5gc_st1_image_name }} bash 
-
+        
         - name  : Run free5gc WEBUI container
           shell :  |
                 docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} {{ free5gc_webui_image_name }} bash
