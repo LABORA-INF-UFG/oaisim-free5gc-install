@@ -158,12 +158,15 @@
           when: physical_network_interface == ''
 
         - name  : Remove old instalation
-          shell:  |
+          state : absent
+          warn  : false
+          shell :  |
                 rm -rf {{ BASE_DIR_INSTALL }}
                 apt-get remove docker docker-engine docker.io docker-ce -y
                 apt-get update
         
         - name  : Create dir instalation
+          warn  : false
           shell :  |
                 mkdir {{ BASE_DIR_INSTALL }}
         
@@ -1359,6 +1362,7 @@
                 ##############################################################
                 
         - name  : Install Docker-CE and other requirements
+          warn  : false
           shell:  |
                 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
