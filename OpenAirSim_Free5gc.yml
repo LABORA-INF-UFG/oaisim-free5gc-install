@@ -3,7 +3,6 @@
     become: yes
     remote_user: root
     vars:
-        command_warnings: False
         num_ues: '100'
         docker_custom_subnet_network: '192.188.2.0/24'
         docker_custom_network_name: 'free5gc'
@@ -158,14 +157,12 @@
           when: physical_network_interface == ''
 
         - name  : Remove old instalation
-          warn  : 'false'
           shell :  |
                 rm -rf {{ BASE_DIR_INSTALL }}
                 apt-get remove docker docker-engine docker.io docker-ce -y
                 apt-get update
         
         - name  : Create dir instalation
-          warn  : false
           shell :  |
                 mkdir {{ BASE_DIR_INSTALL }}
         
@@ -1361,7 +1358,6 @@
                 ##############################################################
                 
         - name  : Install Docker-CE and other requirements
-          warn  : false
           shell:  |
                 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
@@ -1869,7 +1865,6 @@
           when  : deploy_oaisim == 'true'
 
         - name  : Build UE ue_eurecom_test_sfr.conf file 3/5
-          warn  : false
           blockinfile:
             path: /root/{{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf
             block: |
@@ -2012,7 +2007,6 @@
               curl "http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}/api/auth/login" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Origin: http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt -o /dev/null --data-binary '{"username":"{{ default_username_WEBUI }}","password":"{{ default_password_WEBUI }}"}' --compressed  
 
         - name  : Add User equipments - WEBUI container
-          warn  : false
           shell: |
               curl "http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}/api/db/Subscriber" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt --data-binary '{"imsi":"{{ HPLMN }}{{ item.msin }}","security":{"k":"{{ USIM_API_K }}","amf":"8000","op_type":0,"op_value":"{{ OPC }}","op":null,"opc":"{{ OPC }}"},"ambr":{"downlink":1024000,"uplink":1024000},"pdn":[{"apn":"internet","qos":{"qci":9,"arp":{"priority_level":8,"pre_emption_capability":1,"pre_emption_vulnerability":1}}}]}' --compressed
 
