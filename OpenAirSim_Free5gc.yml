@@ -1772,7 +1772,7 @@
         
         - name  : Build UE ue.nfapi.conf file 3/3 
           shell : |
-                docker cp ./ue.nfapi.conf {{ UE_container_name }}:/root/{{ UE_folder_name_container_name }}/ci-scripts/conf_files/ue.nfapi.conf
+                docker cp ./ue.nfapi.conf {{ UE_container_name }}:/{{ UE_folder_name_container_name }}/ci-scripts/conf_files/ue.nfapi.conf
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
           when  : deploy_oaisim == 'true'
@@ -1898,14 +1898,14 @@
         
         - name  : Build UE ue_eurecom_test_sfr.conf file 4/5 
           shell : |
-                docker cp ./ue_eurecom_test_sfr.conf {{ UE_container_name }}:/root/{{ UE_folder_name_container_name }}/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf
+                docker cp ./ue_eurecom_test_sfr.conf {{ UE_container_name }}:/{{ UE_folder_name_container_name }}/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
           when  : deploy_oaisim == 'true'
 
         - name  : Build UE ue_eurecom_test_sfr.conf file 5/5 
           shell : |
-                    docker exec {{ UE_container_name }} /bin/sh -c "cd /root/{{ UE_folder_name_container_name }}/targets/bin && sudo ./conf2uedata -c /root/{{ UE_folder_name_container_name }}/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /root/{{ UE_folder_name_container_name }}/cmake_targets/ran_build/build/"
+                    docker exec {{ UE_container_name }} /bin/sh -c "cd /{{ UE_folder_name_container_name }}/targets/bin && sudo ./conf2uedata -c /{{ UE_folder_name_container_name }}/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /{{ UE_folder_name_container_name }}/cmake_targets/ran_build/build/"
           when  : deploy_oaisim == 'true'
 
         - name  : Exec/Start MONGO-DB container
