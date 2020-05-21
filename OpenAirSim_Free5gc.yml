@@ -158,7 +158,7 @@
           when: physical_network_interface == ''
 
         - name  : Remove old instalation
-          warn  : false
+          warn  : 'false'
           shell :  |
                 rm -rf {{ BASE_DIR_INSTALL }}
                 apt-get remove docker docker-engine docker.io docker-ce -y
