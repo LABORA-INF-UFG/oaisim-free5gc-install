@@ -158,7 +158,6 @@
           when: physical_network_interface == ''
 
         - name  : Remove old instalation
-          state : absent
           warn  : false
           shell :  |
                 rm -rf {{ BASE_DIR_INSTALL }}
