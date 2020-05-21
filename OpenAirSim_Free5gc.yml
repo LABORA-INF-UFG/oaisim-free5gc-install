@@ -3,6 +3,7 @@
     become: yes
     remote_user: root
     vars:
+        command_warnings: False
         num_ues: '100'
         docker_custom_subnet_network: '192.188.2.0/24'
         docker_custom_network_name: 'free5gc'
