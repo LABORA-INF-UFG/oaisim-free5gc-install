@@ -1870,6 +1870,7 @@
           when  : deploy_oaisim == 'true'
 
         - name  : Build UE ue_eurecom_test_sfr.conf file 3/5
+          warn  : false
           blockinfile:
             path: /root/{{ BASE_DIR_INSTALL }}/ue_eurecom_test_sfr.conf
             block: |
