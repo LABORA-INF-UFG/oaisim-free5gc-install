@@ -3,7 +3,7 @@
     become: yes
     remote_user: root
     vars:
-        num_ues: '100'
+        qtd_ues_init_database: '100'
         docker_custom_subnet_network: '192.188.2.0/24'
         docker_custom_network_name: 'free5gc'
         web_interface_port_access: '3000'
@@ -23,7 +23,7 @@
         oaisim_enb_image_name: 'laboraufg/enb-openairsim'
         oaisim_ue_image_name: 'laboraufg/ue-openairsim-teste'
         UE_container_name: 'ue'
-        UE_folder_name_container_name: '/root/ue/'
+        UE_folder_name_container_name: '/ue/'
         ENB_container_name: 'enb'
         AMF_container_name: 'amf'
         SMF_container_name: 'smf'
@@ -145,7 +145,107 @@
             - { ue_id: UE96 ,  msin: '0000000097' }
             - { ue_id: UE97 ,  msin: '0000000098' }
             - { ue_id: UE98 ,  msin: '0000000099' }
-            - { ue_id: UE99 ,  msin: '0000000100' }
+            - { ue_id: UE99 ,   msin: '0000000100' }
+            - { ue_id: UE100 ,  msin: '0000000101' }
+            - { ue_id: UE101 ,  msin: '0000000102' }
+            - { ue_id: UE102 ,  msin: '0000000103' }
+            - { ue_id: UE103 ,  msin: '0000000104' }
+            - { ue_id: UE104 ,  msin: '0000000105' }
+            - { ue_id: UE105 ,  msin: '0000000106' }
+            - { ue_id: UE106 ,  msin: '0000000107' }
+            - { ue_id: UE107 ,  msin: '0000000108' }
+            - { ue_id: UE108 ,  msin: '0000000109' }
+            - { ue_id: UE109 ,  msin: '0000000110' }
+            - { ue_id: UE110 ,  msin: '0000000111' }
+            - { ue_id: UE111 ,  msin: '0000000112' }
+            - { ue_id: UE112 ,  msin: '0000000112' }
+            - { ue_id: UE113 ,  msin: '0000000114' }
+            - { ue_id: UE114 ,  msin: '0000000115' }
+            - { ue_id: UE115 ,  msin: '0000000116' }
+            - { ue_id: UE116 ,  msin: '0000000117' }
+            - { ue_id: UE117 ,  msin: '0000000118' }
+            - { ue_id: UE118 ,  msin: '0000000119' }
+            - { ue_id: UE119 ,  msin: '0000000120' }
+            - { ue_id: UE120 ,  msin: '0000000121' }
+            - { ue_id: UE121 ,  msin: '0000000122' }
+            - { ue_id: UE122 ,  msin: '0000000123' }
+            - { ue_id: UE123 ,  msin: '0000000124' }
+            - { ue_id: UE124 ,  msin: '0000000125' }
+            - { ue_id: UE125 ,  msin: '0000000126' }
+            - { ue_id: UE126 ,  msin: '0000000127' }
+            - { ue_id: UE127 ,  msin: '0000000128' }
+            - { ue_id: UE128 ,  msin: '0000000129' }
+            - { ue_id: UE129 ,  msin: '0000000130' }
+            - { ue_id: UE130 ,  msin: '0000000131' }
+            - { ue_id: UE131 ,  msin: '0000000132' }
+            - { ue_id: UE132 ,  msin: '0000000133' }
+            - { ue_id: UE133 ,  msin: '0000000134' }
+            - { ue_id: UE134 ,  msin: '0000000135' }
+            - { ue_id: UE135 ,  msin: '0000000136' }
+            - { ue_id: UE136 ,  msin: '0000000137' }
+            - { ue_id: UE137 ,  msin: '0000000138' }
+            - { ue_id: UE138 ,  msin: '0000000139' }
+            - { ue_id: UE139 ,  msin: '0000000140' }
+            - { ue_id: UE140 ,  msin: '0000000141' }
+            - { ue_id: UE141 ,  msin: '0000000142' }
+            - { ue_id: UE142 ,  msin: '0000000143' }
+            - { ue_id: UE143 ,  msin: '0000000144' }
+            - { ue_id: UE144 ,  msin: '0000000145' }
+            - { ue_id: UE145 ,  msin: '0000000146' }
+            - { ue_id: UE146 ,  msin: '0000000147' }
+            - { ue_id: UE147 ,  msin: '0000000148' }
+            - { ue_id: UE148 ,  msin: '0000000149' }
+            - { ue_id: UE149 ,  msin: '0000000150' }
+            - { ue_id: UE150 ,  msin: '0000000151' }
+            - { ue_id: UE151 ,  msin: '0000000152' }
+            - { ue_id: UE152 ,  msin: '0000000153' }
+            - { ue_id: UE153 ,  msin: '0000000154' }
+            - { ue_id: UE154 ,  msin: '0000000155' }
+            - { ue_id: UE155 ,  msin: '0000000156' }
+            - { ue_id: UE156 ,  msin: '0000000157' }
+            - { ue_id: UE157 ,  msin: '0000000158' }
+            - { ue_id: UE158 ,  msin: '0000000159' }
+            - { ue_id: UE159 ,  msin: '0000000160' }
+            - { ue_id: UE160 ,  msin: '0000000161' }
+            - { ue_id: UE161 ,  msin: '0000000162' }
+            - { ue_id: UE162 ,  msin: '0000000163' }
+            - { ue_id: UE163 ,  msin: '0000000164' }
+            - { ue_id: UE164 ,  msin: '0000000165' }
+            - { ue_id: UE165 ,  msin: '0000000166' }
+            - { ue_id: UE166 ,  msin: '0000000167' }
+            - { ue_id: UE167 ,  msin: '0000000168' }
+            - { ue_id: UE168 ,  msin: '0000000169' }
+            - { ue_id: UE169 ,  msin: '0000000170' }
+            - { ue_id: UE170 ,  msin: '0000000171' }
+            - { ue_id: UE171 ,  msin: '0000000172' }
+            - { ue_id: UE172 ,  msin: '0000000173' }
+            - { ue_id: UE173 ,  msin: '0000000174' }
+            - { ue_id: UE174 ,  msin: '0000000175' }
+            - { ue_id: UE175 ,  msin: '0000000176' }
+            - { ue_id: UE176 ,  msin: '0000000177' }
+            - { ue_id: UE177 ,  msin: '0000000178' }
+            - { ue_id: UE178 ,  msin: '0000000179' }
+            - { ue_id: UE179 ,  msin: '0000000180' }
+            - { ue_id: UE180 ,  msin: '0000000181' }
+            - { ue_id: UE181 ,  msin: '0000000182' }
+            - { ue_id: UE182 ,  msin: '0000000183' }
+            - { ue_id: UE183 ,  msin: '0000000184' }
+            - { ue_id: UE184 ,  msin: '0000000185' }
+            - { ue_id: UE185 ,  msin: '0000000186' }
+            - { ue_id: UE186 ,  msin: '0000000187' }
+            - { ue_id: UE187 ,  msin: '0000000188' }
+            - { ue_id: UE188 ,  msin: '0000000189' }
+            - { ue_id: UE189 ,  msin: '0000000190' }
+            - { ue_id: UE190 ,  msin: '0000000191' }
+            - { ue_id: UE191 ,  msin: '0000000192' }
+            - { ue_id: UE192 ,  msin: '0000000193' }
+            - { ue_id: UE193 ,  msin: '0000000194' }
+            - { ue_id: UE194 ,  msin: '0000000195' }
+            - { ue_id: UE195 ,  msin: '0000000196' }
+            - { ue_id: UE196 ,  msin: '0000000197' }
+            - { ue_id: UE197 ,  msin: '0000000198' }
+            - { ue_id: UE198 ,  msin: '0000000199' }
+            - { ue_id: UE199 ,  msin: '0000000200' }
     tasks:
         - name: Environment validation!
           assert:
@@ -1725,49 +1825,49 @@
             dest: "{{ BASE_DIR_INSTALL }}/ue.nfapi.conf"
             content: |
                 log_config = {
-                    global_log_level                      ="info";
-                    global_log_verbosity                  ="medium";
-                    hw_log_level                          ="info";
-                    hw_log_verbosity                      ="medium";
-                    phy_log_level                         ="info";
-                    phy_log_verbosity                     ="medium";
-                    mac_log_level                         ="info";
-                    mac_log_verbosity                     ="medium";
-                    rlc_log_level                         ="info";
-                    rlc_log_verbosity                     ="medium";
-                    pdcp_log_level                        ="info";
-                    pdcp_log_verbosity                    ="medium";
-                    rrc_log_level                         ="info";
-                    rrc_log_verbosity                     ="full";
-                    };
+                  global_log_level                      ="info";
+                  global_log_verbosity                  ="medium";
+                  hw_log_level                          ="info";
+                  hw_log_verbosity                      ="medium";
+                  phy_log_level                         ="info";
+                  phy_log_verbosity                     ="medium";
+                  mac_log_level                         ="info";
+                  mac_log_verbosity                     ="medium";
+                  rlc_log_level                         ="info";
+                  rlc_log_verbosity                     ="medium";
+                  pdcp_log_level                        ="info";
+                  pdcp_log_verbosity                    ="medium";
+                  rrc_log_level                         ="info";
+                  rrc_log_verbosity                     ="full";
+                };
 
 
-                    L1s = (
-                            {
+                L1s = (
+                        {
                         num_cc = 1;
                         tr_n_preference = "nfapi";
-                            local_n_if_name  = "{{ physical_network_interface }}";
-                            remote_n_address = "{{ ip_address_OAISIM_ENB }}";
-                            local_n_address  = "{{ ip_address_OAISIM_UE }}";
-                            local_n_portc    = 50000;
-                            remote_n_portc   = 50001;
-                            local_n_portd    = 50010;
-                            remote_n_portd   = 50011;
-                            }  
-                    );
+                        local_n_if_name  = "{{ physical_network_interface }}";
+                        remote_n_address = "{{ ip_address_OAISIM_ENB }}";
+                        local_n_address  = "{{ ip_address_OAISIM_UE }}";
+                        local_n_portc    = 50000;
+                        remote_n_portc   = 50001;
+                        local_n_portd    = 50010;
+                        remote_n_portd   = 50011;
+                        }  
+                );
 
-                    RUs = (
-                        {		  
-                        local_rf       = "yes"
-                        nb_tx          = 1
-                        nb_rx          = 1
-                        att_tx         = 90
-                        att_rx         = 0;
-                        bands          = [7,38,42,43];
-                        max_pdschReferenceSignalPower = -27;
-                        max_rxgain                    = 125;
-                        }		      
-                    );
+                RUs = (
+                    {		  
+                      local_rf       = "yes"
+                      nb_tx          = 1
+                      nb_rx          = 1
+                      att_tx         = 90
+                      att_rx         = 0;
+                      bands          = [7,38,42,43];
+                      max_pdschReferenceSignalPower = -27;
+                      max_rxgain                    = 125;
+                    }		      
+                );
           when  : deploy_oaisim == 'true'
         
         - name  : Build UE ue.nfapi.conf file 3/3 
@@ -1894,7 +1994,7 @@
           loop: "{{ user_equiments }}"
           loop_control:
             index_var: ue_idx
-          when: "ue_idx|int < {{ num_ues }} and deploy_oaisim == 'true'"
+          when: "ue_idx|int < {{ qtd_ues_init_database }} and deploy_oaisim == 'true'"
         
         - name  : Build UE ue_eurecom_test_sfr.conf file 4/5 
           shell : |
@@ -2014,7 +2114,7 @@
           loop: "{{ user_equiments }}"
           loop_control:
             index_var: ue_idx
-          when: "ue_idx|int < {{ num_ues }}"
+          when: "ue_idx|int < {{ qtd_ues_init_database }}"
 
         - name  : Running UE simulator
           shell :  |
