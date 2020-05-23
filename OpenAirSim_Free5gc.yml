@@ -21,7 +21,7 @@
         free5gc_webui_image_name: 'laboraufg/webui-free5gc'
         free5gc_mongodb_image_name: 'laboraufg/mongodb-free5gc'
         oaisim_enb_image_name: 'laboraufg/enb-openairsim'
-        oaisim_ue_image_name: 'laboraufg/ue-openairsim'
+        oaisim_ue_image_name: 'laboraufg/ue-openairsim-v1'
         UE_container_name: 'ue'
         UE_folder_name_container_name: '/root/ue/'
         ENB_container_name: 'enb'
