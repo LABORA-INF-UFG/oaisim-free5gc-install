@@ -45,14 +45,14 @@ ssh-keygen -t ecdsa -b 521
 I recommend that you use  <i>empty passphrase</i>, the result should be equivalent to that shown in the image below:
 ![](images/ssh_keys_gen.PNG)
 
-This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where enB will be deployed, use the following command:
+This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where OAISim+free5gc will be deployed, use the following command:
 ```
 ssh-copy-id -i ~/.ssh/id_ecdsa.pub <user>@<enB-host>
 ```
 the result should be equivalent to that shown in the image below:
 ![](images/ssh_copy_keys.PNG)
 
-after copy ssh key, access the enb machine ``` ssh <user>@<enB-host> ``` and run the following commands:
+after copy ssh key, access the deployment machine ``` ssh <user>@<enB-host> ``` and run the following commands:
 ```
  apt install python-minimal -y
 ```
@@ -100,4 +100,7 @@ this means that everything is fine and that <i>Ansible</i> has full access to th
 ```
 ansible-playbook   -vvvv   Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
 ```
-it will be start the process of deployment the elements of **enB/Ue's + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```).
+it will be start the process of deployment the elements of **enB/Ue's + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted.
+
+### 3 - Running and testing
+After finish installation, access the deployment machine with different terminal's and in each terminal run the follow commands:
