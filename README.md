@@ -136,3 +136,14 @@ the result should be equivalent to that shown in the next figure:
 ![](images/smf_start.png) 
 
 the green mark in the figure, represents the _UPF Association Response_ container reaction when SMF is initialized.
+
+### Running HSS
+Access the _fourth terminal_ and and run the following commands:
+```
+docker exec -ti hss bash
+/root/free5gc-stage-1/install/bin/nextepc-hssd 
+```
+the result should be equivalent to that shown in the next figure:
+![](images/hss_start.png) 
+
+the green mark in the figure, represents the _AMF Connection_ container reaction when HSS is initialized.
