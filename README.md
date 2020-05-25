@@ -34,7 +34,7 @@ ansible --version
 the expected result should be equivalent to that shown in the image below:
 ![](images/ansible_result_installation.PNG)
 
-### Access Settings (Operator Machine / OAISim+free5gc Machine)
+### Access Settings (Operator Machine / Deployment Environment Machine)
 After installing ansible on the operator's machine, the next step is to configure the connection between the operator's machine and the other machines involved in the OpenAir deployment process. For the correct operation, Ansible needs to have full access to the other machines involved, this is done through the exchange of <i>SSHKeys</i> process:
 
 Generate an ssh key from the operator's machine using the following command:
@@ -46,12 +46,12 @@ I recommend that you use  <i>empty passphrase</i>, the result should be equivale
 
 This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where OAISim+free5gc will be deployed, use the following command:
 ```
-ssh-copy-id -i ~/.ssh/id_ecdsa.pub <user>@<enB-host>
+ssh-copy-id -i ~/.ssh/id_ecdsa.pub <user>@<deployment-environment-host>
 ```
 the result should be equivalent to that shown in the image below:
 ![](images/ssh_copy_keys.PNG)
 
-after copy ssh key, access the deployment machine ``` ssh <user>@<enB-host> ``` and run the following commands:
+after copy ssh key, access the deployment machine ``` ssh <user>@<deployment-environment-host> ``` and run the following commands:
 ```
  apt install python-minimal -y
 ```
@@ -61,7 +61,7 @@ After install <i>python minimal</i>, we need get some information about **physic
 ![](images/if_config.PNG)
 this information will be necessary when executing the deployment playbook.
 
-#### Test Ansible Connection (Operator Machine / enB Machine)
+#### Test Ansible Connection (Operator Machine / Deployment Environment Machine)
 
 On the <i>operator's machine</i> it will be necessary to clone this project to test the connection throught <i>Ansible</i>. To be possible, it is necessary to have **GIT** properly installed. You can check this with the following command:
 ```
@@ -99,7 +99,7 @@ this means that everything is fine and that <i>Ansible</i> has full access to th
 ```
 ansible-playbook   -vvvv   Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
 ```
-it will be start the process of deployment the elements of **enB/Ue's + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted.
+it will be start the process of deployment the elements of **OAISim + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted.
 
 ## 3 - Running and testing
 After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
