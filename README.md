@@ -6,7 +6,9 @@ This project aims to build a playbook for implementing the elements that make up
 1. A machine called 'operator's machine', running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). The next sections will present the steps for installing Ansible.
 2. Other's machine's for installing the Free5G and OpenAirSIM elements.
 
-![](images/environment _description.png)
+
+The figure below shows more details about the deployment environment:
+![](images/environment_description.png)
 
 We assume that the <b>all machines are connected to the internet</b> and <i>see each other</i>.
 ## Installation Guide
