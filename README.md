@@ -185,4 +185,4 @@ The alert messages are not relevant.
 
 ## 4 - Testing User Equipments (UE) Internet Connection
 Now we can test the UE internet connection. For this, access the deployment machine and type ``` docker exec -ti ue bash ``` to access de UE Container. Inside the container type ```ifconfig``` to check network interface. The result should be equivalent to that shown in the next figure:
-![](images/ue_network_interface.png) 
+![](images/ue_network_interfce.png) 
