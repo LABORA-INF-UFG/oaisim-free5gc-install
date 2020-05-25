@@ -78,7 +78,7 @@ sudo apt-get install git
  
  Then choose a directory and clone the **oaisim-with-ansible project**:
 ```
-git clone https://github.com/ciromacedo/oaisim-with-ansible.git
+git clone https://github.com/LABORA-INF-UFG/oaisim-free5gc-install.git
 ```
 after clone, access the project folder and open the **hosts** file with a text editor (Nano, Vi). The file content is similar to:
 ```
@@ -99,7 +99,7 @@ this means that everything is fine and that <i>Ansible</i> has full access to th
 ```
 ansible-playbook   -vvvv   Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
 ```
-it will be start the process of deployment the elements of **OAISim + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted.
+it will be start the process of deployment the elements of **OAISim + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted. For
 
 ## 3 - Running and testing
 After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
@@ -188,3 +188,6 @@ Now we can test the UE internet connection. For this, access the deployment mach
 
 Now type ``` ping google.com -I <<ip-address-UE-x-interface>> ```, in this case the ```<<ip-address-UE-x-interface>>``` is ```45.45.0.2```, so the test is: ``` ping google.com -I 45.45.0.2 ```. The result should be equivalent to that shown in the next figure:
 ![](images/ping_result.png) 
+
+## 5 - Configuration parameters
+TO DO.
