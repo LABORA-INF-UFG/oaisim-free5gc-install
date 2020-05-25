@@ -158,3 +158,16 @@ the result should be equivalent to that shown in the next figure:
 ![](images/pcrf_start.png) 
 
 the green mark in the figure, represents the _SMF Connection_ container reaction when PCRF is initialized.
+
+So far all the elements of the _free5gC_ have been initialized, the next will be elements of the _OpenAirSIM_.
+
+### Running enB
+Access the _sixth terminal_ and and run the following commands:
+```
+docker exec -ti enb bash
+cd /root/enb/cmake_targets/ran_build/build
+sudo -E ./lte-softmodem -O /root/enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf 
+```
+the result should be equivalent to that shown in the next figure:
+![](images/enb_start.png) 
+The _enB_ terminal will be in constant loop displaying the next message ``` Waiting fo PHY_config_req```. The green mark in the figure, represents the _AMF enB Registration_ container reaction when enB is initialized.
