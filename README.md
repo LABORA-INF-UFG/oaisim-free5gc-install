@@ -97,9 +97,9 @@ this means that everything is fine and that <i>Ansible</i> has full access to th
 ## 2 - Run Ansible Playbook (Free5G + OpenAirSIM Install)
  After configuration steps, just run the next command.
 ```
-ansible-playbook   -vvvv   Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
+ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
 ```
-it will be start the process of deployment the elements of **OAISim + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted. For
+it will be start the process of deployment the elements of **OAISim + free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level of log**. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). For
 
 ## 3 - Running and testing
 After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
