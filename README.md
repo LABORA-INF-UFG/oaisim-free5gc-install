@@ -4,8 +4,9 @@ OpenAirInterface + Free5GCore deployment environment
 This project aims to build a playbook for implementing the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation). To use the playbook you need the following elements:
 
 1. A machine called 'operator's machine', running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). The next sections will present the steps for installing Ansible.
-2. A machine for installing the eNB (and if applicable, to simulate the UE's) - **Ubuntu 16.04.x**.
-3. One machine for installing the CORE (EPC or Free5G).
+2. Other's machine's for installing the Free5G and OpenAirSIM elements.
+
+![](images/enviroment_description.PNG)
 
 We assume that the <b>all machines are connected to the internet</b> and <i>see each other</i>.
 ## Installation Guide
