@@ -171,3 +171,14 @@ sudo -E ./lte-softmodem -O /root/enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.c
 the result should be equivalent to that shown in the next figure:
 ![](images/enb_start.png) 
 The _enB_ terminal will be in constant loop displaying the next message ``` Waiting fo PHY_config_req```. The green mark in the figure, represents the _AMF enB Registration_ container reaction when enB is initialized.
+
+### Running UE
+Access the _seventh terminal_ and and run the following commands:
+```
+docker exec -ti ue bash
+cd /root/ue/cmake_targets/ran_build/build
+./lte-uesoftmodem -O /root/ue/ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 1 --nums_ue_thread 1 --nokrnmod 1
+```
+the result should be equivalent to that shown in the next figure:
+![](images/ue_start.png) 
+The alert messages are not relevant.
