@@ -11,10 +11,10 @@ The figure below shows more details about the deployment environment:
 ![](images/environment_description.png)
 
 We assume that the <b>all machines are connected to the internet</b> and <i>see each other</i>.
-## Installation Guide
+# Installation Guide
 The first thing to do, is configure the <i>operator machine</i>.
 
-### 1 - Ansible Installation / Configuration (Operator Machine)
+## 1 - Ansible Installation / Configuration (Operator Machine)
 Ansible's installation procedures depend on the inclusion of some repositories on the operator's machine. Depending on the distribution uses the commands for the inclusion of these repositories they can change, for more information see [this page](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-the-control-node) . The next steps works to <b>linux Ubuntu 16.04.x LTS</b>. To add a new repository, run:
 ```
 sudo apt-add-repository -y ppa:ansible/ansible-2.7
@@ -95,14 +95,14 @@ the expected result should be equivalent to that shown in the image below:
 
 this means that everything is fine and that <i>Ansible</i> has full access to the <i>deployment machine</i>.
  
-### 2 - Run Ansible Playbook (Free5G + OpenAirSIM Install)
+## 2 - Run Ansible Playbook (Free5G + OpenAirSIM Install)
  After configuration steps, just run the next command.
 ```
 ansible-playbook   -vvvv   Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
 ```
 it will be start the process of deployment the elements of **enB/Ue's + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted.
 
-### 3 - Running and testing
+## 3 - Running and testing
 After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deploymento machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
 ![](images/docker_ps.png) 
 
