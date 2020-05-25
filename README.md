@@ -101,6 +101,8 @@ ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< p
 ```
 It will be start the process of deployment the elements of **OAISim + free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level** of log. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). 
 
+One of the objectives of this project is to automate steps for setting up the _test environment_ involving OAISIm + free5GC. The configuration steps can be difficult and can lead to several problems, for example, OAISim is composed in two elements, _enB_ as _UE_. For this two elements to work, it's necessary modify  ```rcc.band7.tm1.nfapi.conf``` and ```ue.nfapi.conf```. 
+
 You have the option to customize the deployment process, all customization parameters are presented in [section 5.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process)  
 
 
