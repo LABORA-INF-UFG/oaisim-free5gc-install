@@ -103,7 +103,7 @@ ansible-playbook   -vvvv   Deploy5GC.yml  -i  hosts -e "physical_network_interfa
 it will be start the process of deployment the elements of **enB/Ue's + free5GC**. The ```-vvvv``` parameter controls the **verbosity level of log** and can be adjusted (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```) or omitted.
 
 ## 3 - Running and testing
-After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deploymento machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
+After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
 ![](images/docker_ps.png) 
 
 Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
@@ -182,3 +182,7 @@ cd /root/ue/cmake_targets/ran_build/build
 the result should be equivalent to that shown in the next figure:
 ![](images/ue_start.png) 
 The alert messages are not relevant.
+
+## 4 - Testing User Equipments (UE) Internet Connection
+Now we can test the UE internet connection. For this, access the deployment machine and type ``` docker exec -ti ue bash ``` to access de UE Container. Inside the container type ```ifconfig``` to check network interface. The result should be equivalent to that shown in the next figure:
+![](images/ue_network_interface.png) 
