@@ -125,3 +125,13 @@ docker exec -ti upf bash
 ```
 the result should be equivalent to that shown in the next figure:
 ![](images/upf_start.png) 
+
+### Running SMF
+Access the _third terminal_ and and run the following commands:
+```
+docker exec -ti smf bash
+/root/free5gc-stage-1/install/bin/free5gc-smfd
+```
+the result should be equivalent to that shown in the next figure:
+![](images/smf_start.png) 
+the green mark in the figure, represents the _UPF Association Response_ container reaction when SMF is initialized.
