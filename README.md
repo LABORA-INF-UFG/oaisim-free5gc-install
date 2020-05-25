@@ -34,7 +34,7 @@ ansible --version
 the expected result should be equivalent to that shown in the image below:
 ![](images/ansible_result_installation.PNG)
 
-### Access Settings (Operator Machine / enB Machine)
+### Access Settings (Operator Machine / OAISim+free5gc Machine)
 After installing ansible on the operator's machine, the next step is to configure the connection between the operator's machine and the other machines involved in the OpenAir deployment process. For the correct operation, Ansible needs to have full access to the other machines involved, this is done through the exchange of <i>SSHKeys</i> process:
 
 Generate an ssh key from the operator's machine using the following command:
