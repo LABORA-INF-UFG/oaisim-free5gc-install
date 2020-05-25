@@ -108,7 +108,7 @@ After finish installation for default, **MongoDB** and **Web User Interface** is
 
 Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
 
-# Running AMF
+#### Running AMF
 Access the first terminal and and run the following commands:
 ```
 docker exec -ti amf bash
