@@ -134,4 +134,5 @@ docker exec -ti smf bash
 ```
 the result should be equivalent to that shown in the next figure:
 ![](images/smf_start.png) 
+
 the green mark in the figure, represents the _UPF Association Response_ container reaction when SMF is initialized.
