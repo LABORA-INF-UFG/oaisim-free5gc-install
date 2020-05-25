@@ -24,6 +24,7 @@
         oaisim_ue_image_name: 'laboraufg/ue-openairsim'
         UE_container_name: 'ue'
         UE_folder_name_container_name: '/root/ue/'
+        ENB_folder_name_container_name: '/root/enb/'
         ENB_container_name: 'enb'
         AMF_container_name: 'amf'
         SMF_container_name: 'smf'
@@ -33,8 +34,8 @@
         MONGO_DB_container_name: 'mongodb-svc'
         WEB_UI_container_name: 'webui'
         start_webapp: 'true'
-        start_ue_simulator: 'false'
         deploy_oaisim: 'true'
+        deploy_free5gc: 'true'
         clear_file_instalation: 'true'
         HPLMN : "20893"
         default_username_WEBUI : "admin"
@@ -42,7 +43,7 @@
         enb_gumei_mcc_auth_param: '208'
         enb_gumei_mnc_auth_param: '93'
         log_level_tracer_free5gc: '5'
-        dir_git_deploy: 'free5gc-stage-1'
+        path_workspace_free5gc: '/root/free5gc-stage-1'
         USIM_API_K : "8baf473f2f8fd09487cccbd7097c6862"
         OPC : "e734f8734007d6c5ce7a0508809e7e9c"
         user_equiments:
@@ -283,6 +284,7 @@
                     echo "Uptun..."
                     iptables -A FORWARD -i uptun -o {{ physical_network_interface }} -j ACCEPT
                 fi
+          when  : deploy_free5gc == 'true'
 
         - name  : Build setup_upf.sh file
           copy  :
@@ -298,6 +300,7 @@
                 ip addr del cafe::1/64 dev uptun 2> /dev/null
                 ip addr add cafe::1/64 dev uptun
                 ip link set uptun up
+          when  : deploy_free5gc == 'true'
 
         - name  : Core Network Configuration - Build free5gc.conf
           copy:
@@ -305,7 +308,7 @@
             content: |
               db_uri: mongodb://mongodb-svc/free5gc
               logger:
-                  file: /root/{{ dir_git_deploy }}/install/var/log/free5gc/free5gc.log
+                  file: {{ path_workspace_free5gc }}/install/var/log/free5gc/free5gc.log
                   trace: 
                       app: {{ log_level_tracer_free5gc }}
                       s1ap: {{ log_level_tracer_free5gc }}
@@ -373,234 +376,18 @@
                   dns:
                     - 8.8.8.8
                     - 8.8.4.4
-      
+          when  : deploy_free5gc == 'true'
+
         - name  : Core Network Configuration - Build amf.conf
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/amf.conf"
             content: |
-              # This is a sample configuration file for freeDiameter daemon.
-               
-              # Most of the options can be omitted, as they default to reasonable values.
-              # Only TLS-related options must be configured properly in usual setups.
-                
-              # It is possible to use "include" keyword to import additional files
-              # e.g.: include "/etc/freeDiameter.d/*.conf"
-              # This is exactly equivalent as copy & paste the content of the included file(s) 
-              # where the "include" keyword is found.
-                
-              ##############################################################
-              ##  Peer identity and realm 
-                
-              # The Diameter Identity of this daemon.
-              # This must be a valid FQDN that resolves to the local host.
-              # Default: hostname's FQDN
-              #Identity = "aaa.koganei.freediameter.net";
               Identity = "amf.localdomain";
-                
-              # The Diameter Realm of this daemon.
-              # Default: the domain part of Identity (after the first dot).
-              #Realm = "koganei.freediameter.net";
               Realm = "localdomain";
-                
-              ##############################################################
-              ##  Transport protocol configuration
-                
-              # The port this peer is listening on for incoming connections (TCP and SCTP).
-              # Default: 3868. Use 0 to disable.
-              #Port = 3868;
-                
-              # The port this peer is listening on for incoming TLS-protected connections (TCP and SCTP).
-              # See TLS_old_method for more information about TLS flavours.
-              # Note: we use TLS/SCTP instead of DTLS/SCTP at the moment. This will change in future version of freeDiameter.
-              # Default: 5868. Use 0 to disable.
-              # SecPort = 5868;
-                
-              # Use RFC3588 method for TLS protection, where TLS is negociated after CER/CEA exchange is completed 
-              # on the unsecure connection. The alternative is RFC6733 mechanism, where TLS protects also the 
-              # CER/CEA exchange on a dedicated secure port.
-              # This parameter only affects outgoing connections. 
-              # The setting can be also defined per-peer (see Peers configuration section).
-              # Default: use RFC6733 method with separate port for TLS.
-              # TLS_old_method;
-                
-              # Disable use of TCP protocol (only listen and connect over SCTP)
-              # Default : TCP enabled
-              # No_TCP;
-                
-              # Disable use of SCTP protocol (only listen and connect over TCP)
-              # Default : SCTP enabled
-              #No_SCTP;
               No_SCTP;
-              # This option is ignored if freeDiameter is compiled with DISABLE_SCTP option.
-                
-              # Prefer TCP instead of SCTP for establishing new connections.
-              # This setting may be overwritten per peer in peer configuration blocs.
-              # Default : SCTP is attempted first.
-              #Prefer_TCP;
-                
-              # Default number of streams per SCTP associations.
-              # This setting may be overwritten per peer basis.
-              # Default : 30 streams
-              #SCTP_streams = 30;
-                
-              ##############################################################
-              ##  Endpoint configuration
-                
-              # Disable use of IP addresses (only IPv6)
-              # Default : IP enabled
-              #No_IP;
-                
-              # Disable use of IPv6 addresses (only IP)
-              # Default : IPv6 enabled
-              #No_IPv6;
-                
-              # Specify local addresses the server must bind to
-              # Default : listen on all addresses available.
-              #ListenOn = "202.249.37.5";
-              #ListenOn = "2001:200:903:2::202:1";
-              #ListenOn = "fe80::21c:5ff:fe98:7d62%eth0";
               ListenOn = "{{ ip_address_AMF }}";
-                
-                
-              ##############################################################
-              ##  Server configuration
-                
-              # How many Diameter peers are allowed to be connecting at the same time ?
-              # This parameter limits the number of incoming connections from the time
-              # the connection is accepted until the first CER is received.
-              # Default: 5 unidentified clients in paralel.
-              #ThreadsPerServer = 5;
-                
-              ##############################################################
-              ##  TLS Configuration
-                
-              # TLS is managed by the GNUTLS library in the freeDiameter daemon.
-              # You may find more information about parameters and special behaviors
-              # in the relevant documentation.
-              # http://www.gnu.org/software/gnutls/manual/
-                
-              # Credentials of the local peer
-              # The X509 certificate and private key file to use for the local peer.
-              # The files must contain PKCS-1 encoded RSA key, in PEM format.
-              # (These parameters are passed to gnutls_certificate_set_x509_key_file function)
-              # Default : NO DEFAULT
-              #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
-              #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-              TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/amf.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/amf.key.pem";
-                
-              # Certificate authority / trust anchors
-              # The file containing the list of trusted Certificate Authorities (PEM list)
-              # (This parameter is passed to gnutls_certificate_set_x509_trust_file function)
-              # The directive can appear several times to specify several files.
-              # Default : GNUTLS default behavior
-              #TLS_CA = "<file.PEM>";
-              TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
-                
-              # Certificate Revocation List file
-              # The information about revoked certificates.
-              # The file contains a list of trusted CRLs in PEM format. They should have been verified before. 
-              # (This parameter is passed to gnutls_certificate_set_x509_crl_file function)
-              # Note: openssl CRL format might have interoperability issue with GNUTLS format.
-              # Default : GNUTLS default behavior
-              #TLS_CRL = "<file.PEM>";
-                
-              # GNU TLS Priority string
-              # This string allows to configure the behavior of GNUTLS key exchanges 
-              # algorithms. See gnutls_priority_init function documentation for information.
-              #You should also refer to the Diameter required TLS support here:
-              #   http://tools.ietf.org/html/rfc6733#section-13.1
-              # Default : "NORMAL"
-              # Example: TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
-              #TLS_Prio = "NORMAL";
-                
-              # Diffie-Hellman parameters size
-              # Set the number of bits for generated DH parameters
-              # Valid value should be 768, 1024, 2048, 3072 or 4096.
-              # (This parameter is passed to gnutls_dh_params_generate2 function, 
-              # it usually should match RSA key size)
-              # Default : 1024
-              #TLS_DH_Bits = 1024;
-                
-              # Alternatively, you can specify a file to load the PKCS#3 encoded
-              # DH parameters directly from. This accelerates the daemon start 
-              # but is slightly less secure. If this file is provided, the
-              # TLS_DH_Bits parameters has no effect.
-              # Default : no default.
-              #TLS_DH_File = "<file.PEM>";
-                
-              ##############################################################
-              ##  Timers configuration
-                
-              # The Tc timer of this peer.
-              # It is the delay before a new attempt is made to reconnect a disconnected peer.
-              # The value is expressed in seconds. The recommended value is 30 seconds.
-              # Default: 30
-              #TcTimer = 30;
-                
-              # The Tw timer of this peer.
-              # It is the delay before a watchdog message is sent, as described in RFC 3539.
-              # The value is expressed in seconds. The default value is 30 seconds. Value must
-              # be greater or equal to 6 seconds. See details in the RFC.
-              # Default: 30
-              #TwTimer = 30;
-                
-              ##############################################################
-              ##  Applications configuration
-                
-              # Disable the relaying of Diameter messages?
-              # For messages not handled locally, the default behavior is to forward the
-              # message to another peer if any is available, according to the routing 
-              # algorithms. In addition the "0xffffff" application is advertised in CER/CEA 
-              # exchanges.
-              # Default: Relaying is enabled.
-              #NoRelay;
-                
-              # Number of server threads that can handle incoming messages at the same time.
-              # Default: 4
-              #AppServThreads = 4;
-                
-              # Other applications are configured by loaded extensions.
-                
-              ##############################################################
-              ##  Extensions configuration
-                
-              #  The freeDiameter framework merely provides support for
-              # Diameter Base Protocol. The specific application behaviors,
-              # as well as advanced functions, are provided
-              # by loadable extensions (plug-ins).
-              #  These extensions may in addition receive the name of a 
-              # configuration file, the format of which is extension-specific.
-              #
-              # Format:
-              #LoadExtension = "/path/to/extension" [ : "/optional/configuration/file" ] ;
-              #
-              # Examples:
-              #LoadExtension = "extensions/sample.fdx";
-              #LoadExtension = "extensions/sample.fdx":"conf/sample.conf";
-                
-              # Extensions are named as follow:
-              # dict_* for extensions that add content to the dictionary definitions.
-              # dbg_*  for extensions useful only to retrieve more information on the framework execution.
-              # acl_*  : Access control list, to control which peers are allowed to connect.
-              # rt_*   : routing extensions that impact how messages are forwarded to other peers.
-              # app_*  : applications, these extensions usually register callbacks to handle specific messages.
-              # test_* : dummy extensions that are useful only in testing environments.
-                
-                
-              # The dbg_msg_dump.fdx extension allows you to tweak the way freeDiameter displays some
-              # information about some events. This extension does not actually use a configuration file
-              # but receives directly a parameter in the string passed to the extension. Here are some examples:
-              ## LoadExtension = "dbg_msg_dumps.fdx" : "0x1111"; # Removes all default hooks, very quiet even in case of errors.
-              ## LoadExtension = "dbg_msg_dumps.fdx" : "0x2222"; # Display all events with few details.
-              ## LoadExtension = "dbg_msg_dumps.fdx" : "0x0080"; # Dump complete information about sent and received messages.
-              # The four digits respectively control: connections, routing decisions, sent/received messages, errors.
-              # The values for each digit are:
-              #  0 - default - keep the default behavior
-              #  1 - quiet   - remove any specific log
-              #  2 - compact - display only a summary of the information
-              #  4 - full    - display the complete information on a single long line
-              #  8 - tree    - display the complete information in an easier to read format spanning several lines.
-                
+              TLS_Cred = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/amf.cert.pem", "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/amf.key.pem";
+              TLS_CA = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/cacert.pem";
               LoadExtension = "dbg_msg_dumps.so" : "0x8888";
               LoadExtension = "dict_rfc5777.so";
               LoadExtension = "dict_mip6i.so";
@@ -609,267 +396,19 @@
               LoadExtension = "dict_dcca.so";
               LoadExtension = "dict_dcca_3gpp.so";
               LoadExtension = "dict_s6a.so";
-                
-              ##############################################################
-              ##  Peers configuration
-                
-              #  The local server listens for incoming connections. By default,
-              # all unknown connecting peers are rejected. Extensions can override this behavior (e.g., acl_wl).
-              # 
-              #  In addition to incoming connections, the local peer can
-              # be configured to establish and maintain connections to some 
-              # Diameter nodes and allow connections from these nodes.
-              #  This is achieved with the ConnectPeer directive described below.
-              #
-              # Note that the configured Diameter Identity MUST match
-              # the information received inside CEA, or the connection will be aborted.
-              #
-              # Format:
-              #ConnectPeer = "diameterid" [ { parameter1; parameter2; ...} ] ;
-              # Parameters that can be specified in the peer's parameter list:
-              #  No_TCP; No_SCTP; No_IP; No_IPv6; Prefer_TCP; TLS_old_method;
-              #  No_TLS;       # assume transparent security instead of TLS. DTLS is not supported yet (will change in future versions).
-              #  Port = 5868;  # The port to connect to
-              #  TcTimer = 30;
-              #  TwTimer = 30;
-              #  ConnectTo = "202.249.37.5";
-              #  ConnectTo = "2001:200:903:2::202:1";
-              #  TLS_Prio = "NORMAL";
-              #  Realm = "realm.net"; # Reject the peer if it does not advertise this realm.
-              # Examples:
-              #ConnectPeer = "aaa.wide.ad.jp";
-              #ConnectPeer = "old.diameter.serv" { TcTimer = 60; TLS_old_method; No_SCTP; Port=3868; } ;
               ConnectPeer = "hss.localdomain" { ConnectTo = "{{ ip_address_HSS }}"; No_TLS; };
-                
+          when  : deploy_free5gc == 'true'
+
         - name  : Core Network Configuration - Build smf.conf
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/smf.conf"
             content: |
-              # This is a sample configuration file for freeDiameter daemon.
-        
-              # Most of the options can be omitted, as they default to reasonable values.
-              # Only TLS-related options must be configured properly in usual setups.
-                
-              # It is possible to use "include" keyword to import additional files
-              # e.g.: include "/etc/freeDiameter.d/*.conf"
-              # This is exactly equivalent as copy & paste the content of the included file(s) 
-              # where the "include" keyword is found.
-                
-                
-              ##############################################################
-              ##  Peer identity and realm 
-                
-              # The Diameter Identity of this daemon.
-              # This must be a valid FQDN that resolves to the local host.
-              # Default: hostname's FQDN
-              #Identity = "aaa.koganei.freediameter.net";
               Identity = "smf.localdomain";
-                
-              # The Diameter Realm of this daemon.
-              # Default: the domain part of Identity (after the first dot).
-              #Realm = "koganei.freediameter.net";
               Realm = "localdomain";
-                
-              ##############################################################
-              ##  Transport protocol configuration
-                
-              # The port this peer is listening on for incoming connections (TCP and SCTP).
-              # Default: 3868. Use 0 to disable.
-              #Port = 3868;
-                
-              # The port this peer is listening on for incoming TLS-protected connections (TCP and SCTP).
-              # See TLS_old_method for more information about TLS flavours.
-              # Note: we use TLS/SCTP instead of DTLS/SCTP at the moment. This will change in future version of freeDiameter.
-              # Default: 5868. Use 0 to disable.
-              #SecPort = 5868;
-                
-              # Use RFC3588 method for TLS protection, where TLS is negociated after CER/CEA exchange is completed 
-              # on the unsecure connection. The alternative is RFC6733 mechanism, where TLS protects also the 
-              # CER/CEA exchange on a dedicated secure port.
-              # This parameter only affects outgoing connections. 
-              # The setting can be also defined per-peer (see Peers configuration section).
-              # Default: use RFC6733 method with separate port for TLS.
-              #TLS_old_method;
-                
-              # Disable use of TCP protocol (only listen and connect over SCTP)
-              # Default : TCP enabled
-              #No_TCP;
-                
-              # Disable use of SCTP protocol (only listen and connect over TCP)
-              # Default : SCTP enabled
-              #No_SCTP;
               No_SCTP;
-              # This option is ignored if freeDiameter is compiled with DISABLE_SCTP option.
-                
-              # Prefer TCP instead of SCTP for establishing new connections.
-              # This setting may be overwritten per peer in peer configuration blocs.
-              # Default : SCTP is attempted first.
-              #Prefer_TCP;
-                
-              # Default number of streams per SCTP associations.
-              # This setting may be overwritten per peer basis.
-              # Default : 30 streams
-              #SCTP_streams = 30;
-                
-              ##############################################################
-              ##  Endpoint configuration
-                
-              # Disable use of IP addresses (only IPv6)
-              # Default : IP enabled
-              #No_IP;
-                
-              # Disable use of IPv6 addresses (only IP)
-              # Default : IPv6 enabled
-              #No_IPv6;
-                
-              # Specify local addresses the server must bind to
-              # Default : listen on all addresses available.
-              #ListenOn = "202.249.37.5";
-              #ListenOn = "2001:200:903:2::202:1";
-              #ListenOn = "fe80::21c:5ff:fe98:7d62%eth0";
               ListenOn = "{{ ip_address_SMF }}";
-                
-                
-              ##############################################################
-              ##  Server configuration
-                
-              # How many Diameter peers are allowed to be connecting at the same time ?
-              # This parameter limits the number of incoming connections from the time
-              # the connection is accepted until the first CER is received.
-              # Default: 5 unidentified clients in paralel.
-              #ThreadsPerServer = 5;
-                
-              ##############################################################
-              ##  TLS Configuration
-                
-              # TLS is managed by the GNUTLS library in the freeDiameter daemon.
-              # You may find more information about parameters and special behaviors
-              # in the relevant documentation.
-              # http://www.gnu.org/software/gnutls/manual/
-                
-              # Credentials of the local peer
-              # The X509 certificate and private key file to use for the local peer.
-              # The files must contain PKCS-1 encoded RSA key, in PEM format.
-              # (These parameters are passed to gnutls_certificate_set_x509_key_file function)
-              # Default : NO DEFAULT
-              #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
-              #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-              TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/smf.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/smf.key.pem";
-                
-              # Certificate authority / trust anchors
-              # The file containing the list of trusted Certificate Authorities (PEM list)
-              # (This parameter is passed to gnutls_certificate_set_x509_trust_file function)
-              # The directive can appear several times to specify several files.
-              # Default : GNUTLS default behavior
-              #TLS_CA = "<file.PEM>";
-              TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
-                
-              # Certificate Revocation List file
-              # The information about revoked certificates.
-              # The file contains a list of trusted CRLs in PEM format. They should have been verified before. 
-              # (This parameter is passed to gnutls_certificate_set_x509_crl_file function)
-              # Note: openssl CRL format might have interoperability issue with GNUTLS format.
-              # Default : GNUTLS default behavior
-              #TLS_CRL = "<file.PEM>";
-                
-              # GNU TLS Priority string
-              # This string allows to configure the behavior of GNUTLS key exchanges 
-              # algorithms. See gnutls_priority_init function documentation for information.
-              # You should also refer to the Diameter required TLS support here:
-              #   http://tools.ietf.org/html/rfc6733#section-13.1
-              # Default : "NORMAL"
-              # Example: TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
-              #TLS_Prio = "NORMAL";
-                
-              # Diffie-Hellman parameters size
-              # Set the number of bits for generated DH parameters
-              # Valid value should be 768, 1024, 2048, 3072 or 4096.
-              # (This parameter is passed to gnutls_dh_params_generate2 function, 
-              # it usually should match RSA key size)
-              # Default : 1024
-              #TLS_DH_Bits = 1024;
-                
-              # Alternatively, you can specify a file to load the PKCS#3 encoded
-              # DH parameters directly from. This accelerates the daemon start 
-              # but is slightly less secure. If this file is provided, the
-              # TLS_DH_Bits parameters has no effect.
-              # Default : no default.
-              #TLS_DH_File = "<file.PEM>";
-                
-                
-              ##############################################################
-              ##  Timers configuration
-                
-              # The Tc timer of this peer.
-              # It is the delay before a new attempt is made to reconnect a disconnected peer.
-              # The value is expressed in seconds. The recommended value is 30 seconds.
-              # Default: 30
-              #TcTimer = 30;
-                
-              # The Tw timer of this peer.
-              # It is the delay before a watchdog message is sent, as described in RFC 3539.
-              # The value is expressed in seconds. The default value is 30 seconds. Value must
-              # be greater or equal to 6 seconds. See details in the RFC.
-              # Default: 30
-              #TwTimer = 30;
-                
-              ##############################################################
-              ##  Applications configuration
-                
-              # Disable the relaying of Diameter messages?
-              # For messages not handled locally, the default behavior is to forward the
-              # message to another peer if any is available, according to the routing 
-              # algorithms. In addition the "0xffffff" application is advertised in CER/CEA 
-              # exchanges.
-              # Default: Relaying is enabled.
-              #NoRelay;
-                
-              # Number of server threads that can handle incoming messages at the same time.
-              # Default: 4
-              #AppServThreads = 4;
-                
-              # Other applications are configured by loaded extensions.
-                
-              ##############################################################
-              ##  Extensions configuration
-                
-              #  The freeDiameter framework merely provides support for
-              # Diameter Base Protocol. The specific application behaviors,
-              # as well as advanced functions, are provided
-              # by loadable extensions (plug-ins).
-              #  These extensions may in addition receive the name of a 
-              # configuration file, the format of which is extension-specific.
-              #
-              # Format:
-              #LoadExtension = "/path/to/extension" [ : "/optional/configuration/file" ] ;
-              #
-              # Examples:
-              #LoadExtension = "extensions/sample.fdx";
-              #LoadExtension = "extensions/sample.fdx":"conf/sample.conf";
-                
-              # Extensions are named as follow:
-              # dict_* for extensions that add content to the dictionary definitions.
-              # dbg_*  for extensions useful only to retrieve more information on the framework execution.
-              # acl_*  : Access control list, to control which peers are allowed to connect.
-              # rt_*   : routing extensions that impact how messages are forwarded to other peers.
-              # app_*  : applications, these extensions usually register callbacks to handle specific messages.
-              # test_* : dummy extensions that are useful only in testing environments.
-                
-                
-              # The dbg_msg_dump.fdx extension allows you to tweak the way freeDiameter displays some
-              # information about some events. This extension does not actually use a configuration file
-              # but receives directly a parameter in the string passed to the extension. Here are some examples:
-              ## LoadExtension = "dbg_msg_dumps.fdx" : "0x1111"; # Removes all default hooks, very quiet even in case of errors.
-              ## LoadExtension = "dbg_msg_dumps.fdx" : "0x2222"; # Display all events with few details.
-              ## LoadExtension = "dbg_msg_dumps.fdx" : "0x0080"; # Dump complete information about sent and received messages.
-              # The four digits respectively control: connections, routing decisions, sent/received messages, errors.
-              # The values for each digit are:
-              #  0 - default - keep the default behavior
-              #  1 - quiet   - remove any specific log
-              #  2 - compact - display only a summary of the information
-              #  4 - full    - display the complete information on a single long line
-              #  8 - tree    - display the complete information in an easier to read format spanning several lines.
-                
+              TLS_Cred = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/smf.cert.pem", "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/smf.key.pem";
+              TLS_CA = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/cacert.pem";
               LoadExtension = "dbg_msg_dumps.so" : "0x8888";
               LoadExtension = "dict_rfc5777.so";
               LoadExtension = "dict_mip6i.so";
@@ -877,267 +416,19 @@
               LoadExtension = "dict_nas_mipv6.so";
               LoadExtension = "dict_dcca.so";
               LoadExtension = "dict_dcca_3gpp.so";
-                
-                
-              ##############################################################
-              ##  Peers configuration
-                
-              #  The local server listens for incoming connections. By default,
-              # all unknown connecting peers are rejected. Extensions can override this behavior (e.g., acl_wl).
-              # 
-              #  In addition to incoming connections, the local peer can
-              # be configured to establish and maintain connections to some 
-              # Diameter nodes and allow connections from these nodes.
-              #  This is achieved with the ConnectPeer directive described below.
-              #
-              # Note that the configured Diameter Identity MUST match
-              # the information received inside CEA, or the connection will be aborted.
-              #
-              # Format:
-              #ConnectPeer = "diameterid" [ { parameter1; parameter2; ...} ] ;
-              # Parameters that can be specified in the peer's parameter list:
-              #  No_TCP; No_SCTP; No_IP; No_IPv6; Prefer_TCP; TLS_old_method;
-              #  No_TLS;       # assume transparent security instead of TLS. DTLS is not supported yet (will change in future versions).
-              #  Port = 5868;  # The port to connect to
-              #  TcTimer = 30;
-              #  TwTimer = 30;
-              #  ConnectTo = "202.249.37.5";
-              #  ConnectTo = "2001:200:903:2::202:1";
-              #  TLS_Prio = "NORMAL";
-              #  Realm = "realm.net"; # Reject the peer if it does not advertise this realm.
-              # Examples:
-              #ConnectPeer = "aaa.wide.ad.jp";
-              #ConnectPeer = "old.diameter.serv" { TcTimer = 60; TLS_old_method; No_SCTP; Port=3868; } ;
               ConnectPeer = "pcrf.localdomain" { ConnectTo = "{{ ip_address_PCRF }}"; No_TLS; };
-                
+          when  : deploy_free5gc == 'true'
+
         - name  : Core Network Configuration - Build hss.conf
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/hss.conf"
             content: |
-                # This is a sample configuration file for freeDiameter daemon.
-        
-                # Most of the options can be omitted, as they default to reasonable values.
-                # Only TLS-related options must be configured properly in usual setups.
-                
-                # It is possible to use "include" keyword to import additional files
-                # e.g.: include "/etc/freeDiameter.d/*.conf"
-                # This is exactly equivalent as copy & paste the content of the included file(s) 
-                # where the "include" keyword is found.
-                
-                
-                ##############################################################
-                ##  Peer identity and realm 
-                
-                # The Diameter Identity of this daemon.
-                # This must be a valid FQDN that resolves to the local host.
-                # Default: hostname's FQDN
-                #Identity = "aaa.koganei.freediameter.net";
                 Identity = "hss.localdomain";
-                
-                # The Diameter Realm of this daemon.
-                # Default: the domain part of Identity (after the first dot).
-                #Realm = "koganei.freediameter.net";
                 Realm = "localdomain";
-                
-                ##############################################################
-                ##  Transport protocol configuration
-                
-                # The port this peer is listening on for incoming connections (TCP and SCTP).
-                # Default: 3868. Use 0 to disable.
-                #Port = 3868;
-                
-                # The port this peer is listening on for incoming TLS-protected connections (TCP and SCTP).
-                # See TLS_old_method for more information about TLS flavours.
-                # Note: we use TLS/SCTP instead of DTLS/SCTP at the moment. This will change in future version of freeDiameter.
-                # Default: 5868. Use 0 to disable.
-                #SecPort = 5868;
-                
-                # Use RFC3588 method for TLS protection, where TLS is negociated after CER/CEA exchange is completed 
-                # on the unsecure connection. The alternative is RFC6733 mechanism, where TLS protects also the 
-                # CER/CEA exchange on a dedicated secure port.
-                # This parameter only affects outgoing connections. 
-                # The setting can be also defined per-peer (see Peers configuration section).
-                # Default: use RFC6733 method with separate port for TLS.
-                #TLS_old_method;
-                
-                # Disable use of TCP protocol (only listen and connect over SCTP)
-                # Default : TCP enabled
-                #No_TCP;
-                
-                # Disable use of SCTP protocol (only listen and connect over TCP)
-                # Default : SCTP enabled
-                #No_SCTP;
                 No_SCTP;
-                # This option is ignored if freeDiameter is compiled with DISABLE_SCTP option.
-                
-                # Prefer TCP instead of SCTP for establishing new connections.
-                # This setting may be overwritten per peer in peer configuration blocs.
-                # Default : SCTP is attempted first.
-                #Prefer_TCP;
-                
-                # Default number of streams per SCTP associations.
-                # This setting may be overwritten per peer basis.
-                # Default : 30 streams
-                #SCTP_streams = 30;
-                
-                ##############################################################
-                ##  Endpoint configuration
-                
-                # Disable use of IP addresses (only IPv6)
-                # Default : IP enabled
-                #No_IP;
-                
-                # Disable use of IPv6 addresses (only IP)
-                # Default : IPv6 enabled
-                #No_IPv6;
-                
-                # Specify local addresses the server must bind to
-                # Default : listen on all addresses available.
-                #ListenOn = "202.249.37.5";
-                #ListenOn = "2001:200:903:2::202:1";
-                #ListenOn = "fe80::21c:5ff:fe98:7d62%eth0";
                 ListenOn = "{{ ip_address_HSS }}";
-                
-                
-                ##############################################################
-                ##  Server configuration
-                
-                # How many Diameter peers are allowed to be connecting at the same time ?
-                # This parameter limits the number of incoming connections from the time
-                # the connection is accepted until the first CER is received.
-                # Default: 5 unidentified clients in paralel.
-                #ThreadsPerServer = 5;
-                
-                ##############################################################
-                ##  TLS Configuration
-                
-                # TLS is managed by the GNUTLS library in the freeDiameter daemon.
-                # You may find more information about parameters and special behaviors
-                # in the relevant documentation.
-                # http://www.gnu.org/software/gnutls/manual/
-                
-                # Credentials of the local peer
-                # The X509 certificate and private key file to use for the local peer.
-                # The files must contain PKCS-1 encoded RSA key, in PEM format.
-                # (These parameters are passed to gnutls_certificate_set_x509_key_file function)
-                # Default : NO DEFAULT
-                #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
-                #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-                TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/hss.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/hss.key.pem";
-                
-                # Certificate authority / trust anchors
-                # The file containing the list of trusted Certificate Authorities (PEM list)
-                # (This parameter is passed to gnutls_certificate_set_x509_trust_file function)
-                # The directive can appear several times to specify several files.
-                # Default : GNUTLS default behavior
-                #TLS_CA = "<file.PEM>";
-                TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
-                
-                # Certificate Revocation List file
-                # The information about revoked certificates.
-                # The file contains a list of trusted CRLs in PEM format. They should have been verified before. 
-                # (This parameter is passed to gnutls_certificate_set_x509_crl_file function)
-                # Note: openssl CRL format might have interoperability issue with GNUTLS format.
-                # Default : GNUTLS default behavior
-                #TLS_CRL = "<file.PEM>";
-                
-                # GNU TLS Priority string
-                # This string allows to configure the behavior of GNUTLS key exchanges 
-                # algorithms. See gnutls_priority_init function documentation for information.
-                # You should also refer to the Diameter required TLS support here:
-                #   http://tools.ietf.org/html/rfc6733#section-13.1
-                # Default : "NORMAL"
-                # Example: TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
-                #TLS_Prio = "NORMAL";
-                
-                # Diffie-Hellman parameters size
-                # Set the number of bits for generated DH parameters
-                # Valid value should be 768, 1024, 2048, 3072 or 4096.
-                # (This parameter is passed to gnutls_dh_params_generate2 function, 
-                # it usually should match RSA key size)
-                # Default : 1024
-                #TLS_DH_Bits = 1024;
-                
-                # Alternatively, you can specify a file to load the PKCS#3 encoded
-                # DH parameters directly from. This accelerates the daemon start 
-                # but is slightly less secure. If this file is provided, the
-                # TLS_DH_Bits parameters has no effect.
-                # Default : no default.
-                #TLS_DH_File = "<file.PEM>";
-                
-                
-                ##############################################################
-                ##  Timers configuration
-                
-                # The Tc timer of this peer.
-                # It is the delay before a new attempt is made to reconnect a disconnected peer.
-                # The value is expressed in seconds. The recommended value is 30 seconds.
-                # Default: 30
-                #TcTimer = 30;
-                
-                # The Tw timer of this peer.
-                # It is the delay before a watchdog message is sent, as described in RFC 3539.
-                # The value is expressed in seconds. The default value is 30 seconds. Value must
-                # be greater or equal to 6 seconds. See details in the RFC.
-                # Default: 30
-                #TwTimer = 30;
-                
-                ##############################################################
-                ##  Applications configuration
-                
-                # Disable the relaying of Diameter messages?
-                # For messages not handled locally, the default behavior is to forward the
-                # message to another peer if any is available, according to the routing 
-                # algorithms. In addition the "0xffffff" application is advertised in CER/CEA 
-                # exchanges.
-                # Default: Relaying is enabled.
-                #NoRelay;
-                
-                # Number of server threads that can handle incoming messages at the same time.
-                # Default: 4
-                #AppServThreads = 4;
-                
-                # Other applications are configured by loaded extensions.
-                
-                ##############################################################
-                ##  Extensions configuration
-                
-                #  The freeDiameter framework merely provides support for
-                # Diameter Base Protocol. The specific application behaviors,
-                # as well as advanced functions, are provided
-                # by loadable extensions (plug-ins).
-                #  These extensions may in addition receive the name of a 
-                # configuration file, the format of which is extension-specific.
-                #
-                # Format:
-                #LoadExtension = "/path/to/extension" [ : "/optional/configuration/file" ] ;
-                #
-                # Examples:
-                #LoadExtension = "extensions/sample.fdx";
-                #LoadExtension = "extensions/sample.fdx":"conf/sample.conf";
-                
-                # Extensions are named as follow:
-                # dict_* for extensions that add content to the dictionary definitions.
-                # dbg_*  for extensions useful only to retrieve more information on the framework execution.
-                # acl_*  : Access control list, to control which peers are allowed to connect.
-                # rt_*   : routing extensions that impact how messages are forwarded to other peers.
-                # app_*  : applications, these extensions usually register callbacks to handle specific messages.
-                # test_* : dummy extensions that are useful only in testing environments.
-                
-                
-                # The dbg_msg_dump.fdx extension allows you to tweak the way freeDiameter displays some
-                # information about some events. This extension does not actually use a configuration file
-                # but receives directly a parameter in the string passed to the extension. Here are some examples:
-                ## LoadExtension = "dbg_msg_dumps.fdx" : "0x1111"; # Removes all default hooks, very quiet even in case of errors.
-                ## LoadExtension = "dbg_msg_dumps.fdx" : "0x2222"; # Display all events with few details.
-                ## LoadExtension = "dbg_msg_dumps.fdx" : "0x0080"; # Dump complete information about sent and received messages.
-                # The four digits respectively control: connections, routing decisions, sent/received messages, errors.
-                # The values for each digit are:
-                #  0 - default - keep the default behavior
-                #  1 - quiet   - remove any specific log
-                #  2 - compact - display only a summary of the information
-                #  4 - full    - display the complete information on a single long line
-                #  8 - tree    - display the complete information in an easier to read format spanning several lines.
+                TLS_Cred = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/hss.cert.pem", "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/hss.key.pem";
+                TLS_CA = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/cacert.pem";
                 
                 LoadExtension = "dbg_msg_dumps.so" : "0x8888";
                 LoadExtension = "dict_rfc5777.so";
@@ -1147,270 +438,19 @@
                 LoadExtension = "dict_dcca.so";
                 LoadExtension = "dict_dcca_3gpp.so";
                 LoadExtension = "dict_s6a.so";
-                
-                
-                ##############################################################
-                ##  Peers configuration
-                
-                #  The local server listens for incoming connections. By default,
-                # all unknown connecting peers are rejected. Extensions can override this behavior (e.g., acl_wl).
-                # 
-                #  In addition to incoming connections, the local peer can
-                # be configured to establish and maintain connections to some 
-                # Diameter nodes and allow connections from these nodes.
-                #  This is achieved with the ConnectPeer directive described below.
-                #
-                # Note that the configured Diameter Identity MUST match
-                # the information received inside CEA, or the connection will be aborted.
-                #
-                # Format:
-                #ConnectPeer = "diameterid" [ { parameter1; parameter2; ...} ] ;
-                # Parameters that can be specified in the peer's parameter list:
-                #  No_TCP; No_SCTP; No_IP; No_IPv6; Prefer_TCP; TLS_old_method;
-                #  No_TLS;       # assume transparent security instead of TLS. DTLS is not supported yet (will change in future versions).
-                #  Port = 5868;  # The port to connect to
-                #  TcTimer = 30;
-                #  TwTimer = 30;
-                #  ConnectTo = "202.249.37.5";
-                #  ConnectTo = "2001:200:903:2::202:1";
-                #  TLS_Prio = "NORMAL";
-                #  Realm = "realm.net"; # Reject the peer if it does not advertise this realm.
-                # Examples:
-                #ConnectPeer = "aaa.wide.ad.jp";
-                #ConnectPeer = "old.diameter.serv" { TcTimer = 60; TLS_old_method; No_SCTP; Port=3868; } ;
                 ConnectPeer = "amf.localdomain" { ConnectTo = "{{ ip_address_AMF }}"; No_TLS; };
-                
-                ##############################################################
-                
+          when  : deploy_free5gc == 'true'
+
         - name  : Core Network Configuration - Build pcrf.conf
           copy:
             dest: "{{ BASE_DIR_INSTALL }}/pcrf.conf"
             content: |
-                # This is a sample configuration file for freeDiameter daemon.
-        
-                # Most of the options can be omitted, as they default to reasonable values.
-                # Only TLS-related options must be configured properly in usual setups.
-                
-                # It is possible to use "include" keyword to import additional files
-                # e.g.: include "/etc/freeDiameter.d/*.conf"
-                # This is exactly equivalent as copy & paste the content of the included file(s) 
-                # where the "include" keyword is found.
-                
-                
-                ##############################################################
-                ##  Peer identity and realm 
-                
-                # The Diameter Identity of this daemon.
-                # This must be a valid FQDN that resolves to the local host.
-                # Default: hostname's FQDN
-                #Identity = "aaa.koganei.freediameter.net";
                 Identity = "pcrf.localdomain";
-                
-                # The Diameter Realm of this daemon.
-                # Default: the domain part of Identity (after the first dot).
-                #Realm = "koganei.freediameter.net";
                 Realm = "localdomain";
-                
-                ##############################################################
-                ##  Transport protocol configuration
-                
-                # The port this peer is listening on for incoming connections (TCP and SCTP).
-                # Default: 3868. Use 0 to disable.
-                #Port = 3868;
-                
-                # The port this peer is listening on for incoming TLS-protected connections (TCP and SCTP).
-                # See TLS_old_method for more information about TLS flavours.
-                # Note: we use TLS/SCTP instead of DTLS/SCTP at the moment. This will change in future version of freeDiameter.
-                # Default: 5868. Use 0 to disable.
-                #SecPort = 5868;
-                
-                # Use RFC3588 method for TLS protection, where TLS is negociated after CER/CEA exchange is completed 
-                # on the unsecure connection. The alternative is RFC6733 mechanism, where TLS protects also the 
-                # CER/CEA exchange on a dedicated secure port.
-                # This parameter only affects outgoing connections. 
-                # The setting can be also defined per-peer (see Peers configuration section).
-                # Default: use RFC6733 method with separate port for TLS.
-                #TLS_old_method;
-                
-                # Disable use of TCP protocol (only listen and connect over SCTP)
-                # Default : TCP enabled
-                #No_TCP;
-                
-                # Disable use of SCTP protocol (only listen and connect over TCP)
-                # Default : SCTP enabled
-                #No_SCTP;
                 No_SCTP;
-                # This option is ignored if freeDiameter is compiled with DISABLE_SCTP option.
-                
-                # Prefer TCP instead of SCTP for establishing new connections.
-                # This setting may be overwritten per peer in peer configuration blocs.
-                # Default : SCTP is attempted first.
-                #Prefer_TCP;
-                
-                # Default number of streams per SCTP associations.
-                # This setting may be overwritten per peer basis.
-                # Default : 30 streams
-                #SCTP_streams = 30;
-                
-                ##############################################################
-                ##  Endpoint configuration
-                
-                # Disable use of IP addresses (only IPv6)
-                # Default : IP enabled
-                #No_IP;
-                
-                # Disable use of IPv6 addresses (only IP)
-                # Default : IPv6 enabled
-                #No_IPv6;
-                
-                # Specify local addresses the server must bind to
-                # Default : listen on all addresses available.
-                #ListenOn = "202.249.37.5";
-                #ListenOn = "2001:200:903:2::202:1";
-                #ListenOn = "fe80::21c:5ff:fe98:7d62%eth0";
                 ListenOn = "{{ ip_address_PCRF }}";
-            
-                
-                ##############################################################
-                ##  Server configuration
-                
-                # How many Diameter peers are allowed to be connecting at the same time ?
-                # This parameter limits the number of incoming connections from the time
-                # the connection is accepted until the first CER is received.
-                # Default: 5 unidentified clients in paralel.
-                #ThreadsPerServer = 5;
-                
-                ##############################################################
-                ##  TLS Configuration
-                
-                # TLS is managed by the GNUTLS library in the freeDiameter daemon.
-                # You may find more information about parameters and special behaviors
-                # in the relevant documentation.
-                # http://www.gnu.org/software/gnutls/manual/
-                
-                # Credentials of the local peer
-                # The X509 certificate and private key file to use for the local peer.
-                # The files must contain PKCS-1 encoded RSA key, in PEM format.
-                # (These parameters are passed to gnutls_certificate_set_x509_key_file function)
-                # Default : NO DEFAULT
-                #TLS_Cred = "<x509 certif file.PEM>" , "<x509 private key file.PEM>";
-                #TLS_Cred = "/etc/ssl/certs/freeDiameter.pem", "/etc/ssl/private/freeDiameter.key";
-                TLS_Cred = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/pcrf.cert.pem", "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/pcrf.key.pem";
-                
-                # Certificate authority / trust anchors
-                # The file containing the list of trusted Certificate Authorities (PEM list)
-                # (This parameter is passed to gnutls_certificate_set_x509_trust_file function)
-                # The directive can appear several times to specify several files.
-                # Default : GNUTLS default behavior
-                #TLS_CA = "<file.PEM>";
-                TLS_CA = "/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/cacert.pem";
-                
-                # Certificate Revocation List file
-                # The information about revoked certificates.
-                # The file contains a list of trusted CRLs in PEM format. They should have been verified before. 
-                # (This parameter is passed to gnutls_certificate_set_x509_crl_file function)
-                # Note: openssl CRL format might have interoperability issue with GNUTLS format.
-                # Default : GNUTLS default behavior
-                #TLS_CRL = "<file.PEM>";
-                
-                # GNU TLS Priority string
-                # This string allows to configure the behavior of GNUTLS key exchanges 
-                # algorithms. See gnutls_priority_init function documentation for information.
-                # You should also refer to the Diameter required TLS support here:
-                #   http://tools.ietf.org/html/rfc6733#section-13.1
-                # Default : "NORMAL"
-                # Example: TLS_Prio = "NONE:+VERS-TLS1.1:+AES-128-CBC:+RSA:+SHA1:+COMP-NULL";
-                #TLS_Prio = "NORMAL";
-                
-                # Diffie-Hellman parameters size
-                # Set the number of bits for generated DH parameters
-                # Valid value should be 768, 1024, 2048, 3072 or 4096.
-                # (This parameter is passed to gnutls_dh_params_generate2 function, 
-                # it usually should match RSA key size)
-                # Default : 1024
-                #TLS_DH_Bits = 1024;
-                
-                # Alternatively, you can specify a file to load the PKCS#3 encoded
-                # DH parameters directly from. This accelerates the daemon start 
-                # but is slightly less secure. If this file is provided, the
-                # TLS_DH_Bits parameters has no effect.
-                # Default : no default.
-                #TLS_DH_File = "<file.PEM>";
-                
-                
-                ##############################################################
-                ##  Timers configuration
-                
-                # The Tc timer of this peer.
-                # It is the delay before a new attempt is made to reconnect a disconnected peer.
-                # The value is expressed in seconds. The recommended value is 30 seconds.
-                # Default: 30
-                #TcTimer = 30;
-                
-                # The Tw timer of this peer.
-                # It is the delay before a watchdog message is sent, as described in RFC 3539.
-                # The value is expressed in seconds. The default value is 30 seconds. Value must
-                # be greater or equal to 6 seconds. See details in the RFC.
-                # Default: 30
-                #TwTimer = 30;
-                
-                ##############################################################
-                ##  Applications configuration
-                
-                # Disable the relaying of Diameter messages?
-                # For messages not handled locally, the default behavior is to forward the
-                # message to another peer if any is available, according to the routing 
-                # algorithms. In addition the "0xffffff" application is advertised in CER/CEA 
-                # exchanges.
-                # Default: Relaying is enabled.
-                #NoRelay;
-                
-                # Number of server threads that can handle incoming messages at the same time.
-                # Default: 4
-                #AppServThreads = 4;
-                
-                # Other applications are configured by loaded extensions.
-                
-                ##############################################################
-                ##  Extensions configuration
-                
-                #  The freeDiameter framework merely provides support for
-                # Diameter Base Protocol. The specific application behaviors,
-                # as well as advanced functions, are provided
-                # by loadable extensions (plug-ins).
-                #  These extensions may in addition receive the name of a 
-                # configuration file, the format of which is extension-specific.
-                #
-                # Format:
-                #LoadExtension = "/path/to/extension" [ : "/optional/configuration/file" ] ;
-                #
-                # Examples:
-                #LoadExtension = "extensions/sample.fdx";
-                #LoadExtension = "extensions/sample.fdx":"conf/sample.conf";
-                
-                # Extensions are named as follow:
-                # dict_* for extensions that add content to the dictionary definitions.
-                # dbg_*  for extensions useful only to retrieve more information on the framework execution.
-                # acl_*  : Access control list, to control which peers are allowed to connect.
-                # rt_*   : routing extensions that impact how messages are forwarded to other peers.
-                # app_*  : applications, these extensions usually register callbacks to handle specific messages.
-                # test_* : dummy extensions that are useful only in testing environments.
-                
-                
-                # The dbg_msg_dump.fdx extension allows you to tweak the way freeDiameter displays some
-                # information about some events. This extension does not actually use a configuration file
-                # but receives directly a parameter in the string passed to the extension. Here are some examples:
-                ## LoadExtension = "dbg_msg_dumps.fdx" : "0x1111"; # Removes all default hooks, very quiet even in case of errors.
-                ## LoadExtension = "dbg_msg_dumps.fdx" : "0x2222"; # Display all events with few details.
-                ## LoadExtension = "dbg_msg_dumps.fdx" : "0x0080"; # Dump complete information about sent and received messages.
-                # The four digits respectively control: connections, routing decisions, sent/received messages, errors.
-                # The values for each digit are:
-                #  0 - default - keep the default behavior
-                #  1 - quiet   - remove any specific log
-                #  2 - compact - display only a summary of the information
-                #  4 - full    - display the complete information on a single long line
-                #  8 - tree    - display the complete information in an easier to read format spanning several lines.
-                
+                TLS_Cred = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/pcrf.cert.pem", "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/pcrf.key.pem";
+                TLS_CA = "{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/cacert.pem";
                 LoadExtension = "dbg_msg_dumps.so" : "0x8888";
                 LoadExtension = "dict_rfc5777.so";
                 LoadExtension = "dict_mip6i.so";
@@ -1418,41 +458,9 @@
                 LoadExtension = "dict_nas_mipv6.so";
                 LoadExtension = "dict_dcca.so";
                 LoadExtension = "dict_dcca_3gpp.so";
-                
-                
-                ##############################################################
-                ##  Peers configuration
-                
-                #  The local server listens for incoming connections. By default,
-                # all unknown connecting peers are rejected. Extensions can override this behavior (e.g., acl_wl).
-                # 
-                #  In addition to incoming connections, the local peer can
-                # be configured to establish and maintain connections to some 
-                # Diameter nodes and allow connections from these nodes.
-                #  This is achieved with the ConnectPeer directive described below.
-                #
-                # Note that the configured Diameter Identity MUST match
-                # the information received inside CEA, or the connection will be aborted.
-                #
-                # Format:
-                #ConnectPeer = "diameterid" [ { parameter1; parameter2; ...} ] ;
-                # Parameters that can be specified in the peer's parameter list:
-                #  No_TCP; No_SCTP; No_IP; No_IPv6; Prefer_TCP; TLS_old_method;
-                #  No_TLS;       # assume transparent security instead of TLS. DTLS is not supported yet (will change in future versions).
-                #  Port = 5868;  # The port to connect to
-                #  TcTimer = 30;
-                #  TwTimer = 30;
-                #  ConnectTo = "202.249.37.5";
-                #  ConnectTo = "2001:200:903:2::202:1";
-                #  TLS_Prio = "NORMAL";
-                #  Realm = "realm.net"; # Reject the peer if it does not advertise this realm.
-                # Examples:
-                #ConnectPeer = "aaa.wide.ad.jp";
-                #ConnectPeer = "old.diameter.serv" { TcTimer = 60; TLS_old_method; No_SCTP; Port=3868; } ;
                 ConnectPeer = "smf.localdomain" { ConnectTo = "{{ ip_address_SMF }}"; No_TLS; };
-                
-                ##############################################################
-                
+          when  : deploy_free5gc == 'true'
+
         - name  : Install Docker-CE and other requirements
           shell:  |
                 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -1507,30 +515,37 @@
         - name  : Run free5gc MONGO-DB container
           shell:  |
                 docker run -ti -d --net {{ docker_custom_network_name }} --ip {{ ip_address_MONGO_DB }} --name {{ MONGO_DB_container_name }} {{ free5gc_mongodb_image_name }} bash
+          when  : deploy_free5gc == 'true'
 
         - name  : Run free5gc AMF container
           shell :  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_AMF }} --name {{ AMF_container_name }} {{ free5gc_st1_image_name }} bash 
+          when  : deploy_free5gc == 'true'
 
         - name  : Run free5gc UPF container
           shell :  |
                 docker run -ti -d --device=/dev/net/tun:/dev/net/tun --cap-add=NET_ADMIN --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_UPF }} --name {{ UPF_container_name }} {{ free5gc_st1_image_name }} bash 
-      
+          when  : deploy_free5gc == 'true'
+
         - name  : Run free5gc SMF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_SMF }} --name {{ SMF_container_name }} {{ free5gc_st1_image_name }} bash 
+          when  : deploy_free5gc == 'true'
 
         - name  : Run free5gc HSS container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_HSS }} --name {{ HSS_container_name }} {{ free5gc_st1_image_name }} bash 
+          when  : deploy_free5gc == 'true'
 
         - name  : Run free5gc PCRF container
           shell:  |
                 docker run -ti -d --privileged --net {{ docker_custom_network_name }} --ip {{ ip_address_PCRF }} --name {{ PCRF_container_name }} {{ free5gc_st1_image_name }} bash 
-        
+          when  : deploy_free5gc == 'true'
+
         - name  : Run free5gc WEBUI container
           shell :  |
                 docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} {{ free5gc_webui_image_name }} bash
+          when  : deploy_free5gc == 'true'
 
         - name  : Run OpenAirSIM-enB container
           shell :  |
@@ -1802,10 +817,11 @@
                     rrc_log_level                         ="info";
                     rrc_log_verbosity                     ="medium";
                 };
+          when  : deploy_oaisim == 'true'
 
         - name  : Build enB rcc.band7.tm1.nfapi.conf file 3/3 
           shell : |
-                docker cp ./rcc.band7.tm1.nfapi.conf {{ ENB_container_name }}:/root/enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
+                docker cp ./rcc.band7.tm1.nfapi.conf {{ ENB_container_name }}:{{ ENB_folder_name_container_name }}/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
           when  : deploy_oaisim == 'true'
@@ -2000,107 +1016,122 @@
 
         - name  : Build UE ue_eurecom_test_sfr.conf file 5/5 
           shell : |
-                    docker exec {{ UE_container_name }} /bin/sh -c "cd /{{ UE_folder_name_container_name }}/targets/bin && sudo ./conf2uedata -c /{{ UE_folder_name_container_name }}/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /{{ UE_folder_name_container_name }}/cmake_targets/ran_build/build/"
+                  docker exec {{ UE_container_name }} /bin/sh -c "cd /{{ UE_folder_name_container_name }}/targets/bin && sudo ./conf2uedata -c /{{ UE_folder_name_container_name }}/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o /{{ UE_folder_name_container_name }}/cmake_targets/ran_build/build/"
           when  : deploy_oaisim == 'true'
 
         - name  : Exec/Start MONGO-DB container
           shell:  |
                   docker exec -d {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
-        
+          when  : deploy_free5gc == 'true'
+
         - name  : Build certificates - AMF container
           shell :  |
-                  docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
-                  docker exec {{ AMF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/build_certs.sh"
+                  docker exec {{ AMF_container_name }} /bin/sh -c "{{ path_workspace_free5gc }}/build_certs.sh"
+          when  : deploy_free5gc == 'true'
 
         - name  : Copy config file's to UPF container 
           shell : |
-                docker cp ./iptables_upf.sh {{ UPF_container_name }}:/root/{{ dir_git_deploy }}/iptables_upf.sh
-                docker cp ./setup_upf.sh     {{ UPF_container_name }}:/root/{{ dir_git_deploy }}/setup_upf.sh
+                docker cp ./iptables_upf.sh {{ UPF_container_name }}:{{ path_workspace_free5gc }}/iptables_upf.sh
+                docker cp ./setup_upf.sh     {{ UPF_container_name }}:{{ path_workspace_free5gc }}/setup_upf.sh
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
+          when  : deploy_free5gc == 'true'
 
         - name  : Build certificates - UPF container
           shell :  |
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/setup_upf.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/setup_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/setup_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "{{ path_workspace_free5gc }}/setup_upf.sh"
 
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/iptables_upf.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/iptables_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/iptables_upf.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "{{ path_workspace_free5gc }}/iptables_upf.sh"
 
-                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
-                  docker exec {{ UPF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"                  
-                          
+                  docker exec {{ UPF_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/build_certs.sh"
+                  docker exec {{ UPF_container_name }} /bin/sh -c "{{ path_workspace_free5gc }}/build_certs.sh"                  
+          when  : deploy_free5gc == 'true'
+
         - name  : Build certificates - SMF container
           shell :  |
-                  docker exec {{ SMF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
-                  docker exec {{ SMF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ SMF_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/build_certs.sh"
+                  docker exec {{ SMF_container_name }} /bin/sh -c "{{ path_workspace_free5gc }}/build_certs.sh"
+          when  : deploy_free5gc == 'true'
 
         - name  : Build certificates - HSS container
           shell :  |
-                  docker exec {{ HSS_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
-                  docker exec {{ HSS_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ HSS_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/build_certs.sh"
+                  docker exec {{ HSS_container_name }} /bin/sh -c "{{ path_workspace_free5gc }}/build_certs.sh"
+          when  : deploy_free5gc == 'true'
 
         - name  : Build certificates - PCRF container
           shell :  |
-                  docker exec {{ PCRF_container_name }} /bin/sh -c "chmod u+x /root/{{ dir_git_deploy }}/build_certs.sh"
-                  docker exec {{ PCRF_container_name }} /bin/sh -c "/root/{{ dir_git_deploy }}/build_certs.sh"
+                  docker exec {{ PCRF_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/build_certs.sh"
+                  docker exec {{ PCRF_container_name }} /bin/sh -c "{{ path_workspace_free5gc }}/build_certs.sh"
+          when  : deploy_free5gc == 'true'
 
         - name  : Remove amf.conf default file from AMF container 
           ignore_errors: true
           shell : |
-              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
-              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/*.conf"
+              docker exec {{ AMF_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/*.conf"
+          when  : deploy_free5gc == 'true'
 
         - name  : Remove smf.conf default file from SMF container 
           ignore_errors: true
           shell : |
-              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
-              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/*.conf"
+              docker exec {{ SMF_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/*.conf"
+          when  : deploy_free5gc == 'true'
 
         - name  : Remove hss.conf default file from HSS container 
           ignore_errors: true
           shell : |
-              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
-              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/*.conf"
+              docker exec {{ HSS_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/*.conf"
+          when  : deploy_free5gc == 'true'
 
         - name  : Remove pcrf.conf default file from PCRF container 
           ignore_errors: true
           shell : |
-              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/*.conf"
-              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf /root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/*.conf"
+              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/*.conf"
+              docker exec {{ PCRF_container_name }} /bin/sh -c "rm -rf {{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/*.conf"
+          when  : deploy_free5gc == 'true'
 
         - name  : Copy config file's to free5gc container's 
           shell : |
-                docker cp ./free5gc.conf {{ AMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ SMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ HSS_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ PCRF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
-                docker cp ./free5gc.conf {{ UPF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/free5gc.conf
-                docker cp ./amf.conf     {{ AMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/amf.conf
-                docker cp ./smf.conf     {{ SMF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/smf.conf
-                docker cp ./hss.conf     {{ HSS_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/hss.conf
-                docker cp ./pcrf.conf    {{ PCRF_container_name }}:/root/{{ dir_git_deploy }}/install/etc/free5gc/freeDiameter/pcrf.conf
+                docker cp ./free5gc.conf {{ AMF_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ SMF_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ HSS_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ PCRF_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/free5gc.conf
+                docker cp ./free5gc.conf {{ UPF_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/free5gc.conf
+                docker cp ./amf.conf     {{ AMF_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/amf.conf
+                docker cp ./smf.conf     {{ SMF_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/smf.conf
+                docker cp ./hss.conf     {{ HSS_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/hss.conf
+                docker cp ./pcrf.conf    {{ PCRF_container_name }}:{{ path_workspace_free5gc }}/install/etc/free5gc/freeDiameter/pcrf.conf
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
-        
+          when  : deploy_free5gc == 'true'
+
         - name  : Running WEBUI container
           shell :  |
-                  docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd /root/{{ dir_git_deploy }}/webui && npm run dev"
-          when  : start_webapp == 'true'
+                  docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd {{ path_workspace_free5gc }}/webui && npm run dev"
+          when  : start_webapp == 'true' and  deploy_free5gc == 'true'
 
         - name  : Wait for port WEB_UI response
           wait_for:
             port: "{{ web_interface_port_access }}"
             delay: 3
+          when  : deploy_free5gc == 'true'
 
         - name  : Get CSRF Access Token - WEBUI container
           shell : |
               curl -s "http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}/api/auth/csrf" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'X-CSRF-TOKEN: undefined' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -v --cookie-jar /tmp/free5gc.txt --compressed | sed 's/.*"csrfToken":"\([^"]\+\)".*/\1/'        
           register: csrf
+          when  : deploy_free5gc == 'true'
        
         - name  : Login - WEBUI container
           shell: |
               curl "http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}/api/auth/login" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Origin: http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt -o /dev/null --data-binary '{"username":"{{ default_username_WEBUI }}","password":"{{ default_password_WEBUI }}"}' --compressed  
+          when  : deploy_free5gc == 'true'
 
         - name  : Add User equipments - WEBUI container
           shell: |
@@ -2109,13 +1140,8 @@
           loop: "{{ user_equiments }}"
           loop_control:
             index_var: ue_idx
-          when: "ue_idx|int < {{ qtd_ues_init_database }}"
+          when: "ue_idx|int < {{ qtd_ues_init_database }} and  deploy_free5gc == 'true'"
 
-        - name  : Running UE simulator
-          shell :  |
-                  docker exec -d {{ UE_container_name }} /bin/sh -c "cd {{ UE_folder_name_container_name }}/cmake_targets/ran_build/build/ && ./lte-uesoftmodem -O /{{ UE_folder_name_container_name }}/ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 1 --nums_ue_thread 1 --nokrnmod 1 > ue.log 2>&1"
-          when  : start_ue_simulator == 'true'
-          
         - name  : Clear file instalation
           shell : rm -rf {{ BASE_DIR_INSTALL }}
           when  : clear_file_instalation == 'true'
