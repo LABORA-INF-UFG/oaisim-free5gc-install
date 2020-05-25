@@ -106,4 +106,11 @@ it will be start the process of deployment the elements of **enB/Ue's + free5GC*
 After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deploymento machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to the display in the next figure:
 ![](images/docker_ps.png) 
 
-Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow commands:
+Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
+
+## Running AMF
+Access th first terminal and run the next's command's:
+```
+docker exec -ti amf bash
+/root/free5gc-stage-1/install/bin/free5gc-amfd 
+```
