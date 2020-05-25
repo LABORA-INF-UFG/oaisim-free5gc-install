@@ -101,7 +101,7 @@ ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< p
 ```
 It will be start the process of deployment the elements of **OAISim + free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level** of log. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). 
 
-You have the option to customize the deployment process, that all options is presentated in section 5. 
+You have the option to customize the deployment process, to see the all options visit [section 5](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process). 
 
 
 ## 3 - Running and testing
