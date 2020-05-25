@@ -108,8 +108,8 @@ After finish installation for default, **MongoDB** and **Web User Interface** is
 
 Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
 
-## Running AMF
-Access th first terminal and run the next's command's:
+# Running AMF
+Access the first terminal and and run the following commands:
 ```
 docker exec -ti amf bash
 /root/free5gc-stage-1/install/bin/free5gc-amfd 
