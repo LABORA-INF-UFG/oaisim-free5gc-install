@@ -83,14 +83,14 @@ git clone https://github.com/ciromacedo/oaisim-with-ansible.git
 ```
 after clone, access the project folder and open the **hosts** file with a text editor (Nano, Vi). The file content is similar to:
 ```
-[oaisim-RAM]
-<RAM-IP-address>
+[OAISim-with-free5gc]
+<deployment-environment-IP-address>
 ```
-replace the ```<RAM-IP-address>``` for the IP address of the <i>enB/Ue's Machine</i>. Save and close the file, and inside the project base directory run the next command:
+replace the ```<deployment-environment-IP-address>``` for the IP address of the <i>deployment environment machine</i>. Save and close the file, and inside the project base directory run the next command:
 ```
 ansible -i ./hosts -m ping all -u root
 ```
 the expected result should be equivalent to that shown in the image below
 ![](images/ansible_test_connection.PNG)
- this means that everything is fine and that <i>Ansible</i> has full access to the <i>enB Machine</i>.
+ this means that everything is fine and that <i>Ansible</i> has full access to the <i>deployment machine</i>.
  
