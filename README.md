@@ -90,7 +90,8 @@ replace the ```<deployment-environment-IP-address>``` for the IP address of the 
 ```
 ansible -i ./hosts -m ping all -u root
 ```
-the expected result should be equivalent to that shown in the image below
+the expected result should be equivalent to that shown in the image below:
 ![](images/ansible_test_connection.PNG)
+
 this means that everything is fine and that <i>Ansible</i> has full access to the <i>deployment machine</i>.
  
