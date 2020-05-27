@@ -1024,6 +1024,11 @@
                   docker exec -d {{ MONGO_DB_container_name }} /bin/sh -c "/etc/init.d/mongodb start"
           when  : deploy_free5gc == 'true'
 
+        - name  : Running WEBUI container
+          shell :  |
+                  docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd {{ path_workspace_free5gc }}/webui && npm run dev"
+          when  : start_webapp == 'true' and  deploy_free5gc == 'true'
+
         - name  : Build certificates - AMF container
           shell :  |
                   docker exec {{ AMF_container_name }} /bin/sh -c "chmod u+x {{ path_workspace_free5gc }}/build_certs.sh"
@@ -1110,11 +1115,6 @@
           args:
             chdir: "{{ BASE_DIR_INSTALL }}"
           when  : deploy_free5gc == 'true'
-
-        - name  : Running WEBUI container
-          shell :  |
-                  docker exec -d {{ WEB_UI_container_name }} /bin/sh -c "cd {{ path_workspace_free5gc }}/webui && npm run dev"
-          when  : start_webapp == 'true' and  deploy_free5gc == 'true'
 
         - name  : Wait for port WEB_UI response
           wait_for:

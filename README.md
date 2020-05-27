@@ -109,7 +109,7 @@ You have the option to customize the deployment process, all customization param
 
 
 ## 3 - Running and testing
-After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser ```http://<deployment-environment-IP-address>:3000```. If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
+After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser with the address ```http://<deployment-environment-IP-address>:3000```. If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
 ![](images/docker_ps.png) 
 
 Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
