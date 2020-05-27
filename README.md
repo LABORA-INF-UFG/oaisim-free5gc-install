@@ -117,7 +117,9 @@ The default access credentials are:
 * Pass: **1423**
 
 After accessing WebUI, check in main page the existence of UEs registered,  the result should be equivalent to that shown in the next figure:
-![](images/web_ui_dashboard.png) 
+![](images/web_ui_dashboard.png)
+
+One of the steps that this project automates is the registration of UEs on Web User Interface. By default, _Ansible playbook_ adds 10 Ue's, however, this number can be expanded up to a maximum of 200 Ue's. To do this, just use the parameter ``` qtd_ues_init_database='N' ``` before or after the parameter ``` physical_network_interface=<< physical network interface name>> ```, , replacing ```N``` by the number of UEs to be registered.
 
 If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
 ![](images/docker_ps.png) 
