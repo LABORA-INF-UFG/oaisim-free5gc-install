@@ -106,8 +106,9 @@ ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< p
 It will be start the process of deployment the elements of **OAISim + free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level** of log. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). 
 
 One of the objectives of this project is to automate steps for setting up the _test environment_ involving OAISIm + free5GC. The configuration steps can be difficult and can lead to several problems, or this reason, we have automated the following steps: 
-1. Build ```rcc.band7.tm1.nfapi.conf``` set _MME parameters_ connections.
-2. Build ```ue.nfapi.conf```
+1. Build ```rcc.band7.tm1.nfapi.conf``` that contains information about connection parameters between eNB and AMF, in addition to information about the network environment (_physical network interface_, IP container address).
+2. Build ```ue.nfapi.conf``` that contains connection parameters between eNB and UE.
+3. Build ```ue_eurecom_test_sfr.conf``` that contains all the information about UE's that will be used in the simulation process. This information is the same information that will be inserted in MONGODB trought Web User Interface.
 
 You have the option to customize the deployment process, all customization parameters are presented in [section 5.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process)  
 
