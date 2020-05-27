@@ -1,6 +1,6 @@
 # oaisim-free5gc-install
 
-This project aims to provide a set of tools through which it is possible to deploy the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) with the elements of [Free5GC](https://www.free5gc.org/) in a simple and automated way. For this, we break each of the projects into smaller elements, and place each of these elements in [_Docker Conteiners_.](https://hub.docker.com/u/laboraufg)  as illustrated by the following image.
+This project aims to provide a set of tools through which it is possible to deploy the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) with the elements of [Free5GC](https://www.free5gc.org/) in a simple and automated way. For this, we break OpenAirInterface and Free5GC into smaller elements, and place each of these elements in [_Docker Conteiners_.](https://hub.docker.com/u/laboraufg)  as illustrated by the following image.
 ![](images/docker_containers_ilustration.png)
 
 To use the playbook you need the following elements:
