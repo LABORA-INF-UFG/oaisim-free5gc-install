@@ -3,7 +3,7 @@
 This project aims to provide a set of tools through which it is possible to deploy the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) with the elements of [Free5GC](https://www.free5gc.org/) in a simple and automated way. For this, we break [OpenAirInterface](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) and [Free5GC](https://www.free5gc.org/) into smaller elements, and place each of these elements in a [_Docker Conteiners_.](https://hub.docker.com/u/laboraufg)  , like as illustrated by the following image.
 ![](images/docker_containers_ilustration.png)
 
-Elements of OpenAirInterface can be executed without Free5GC elements, but the internet connection test presented in Section ["_Testing User Equipments (UE) Internet Connection_"](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#4---testing-user-equipments-ue-internet-connection) will only be executed correctly with all elements properly installed.
+Elements of OpenAirInterface (UE and enB) can be executed without Free5GC, but the internet connection test presented in ["this project"](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#4---testing-user-equipments-ue-internet-connection) will only be executed correctly with all elements instaled.
 
 To use the playbook you need the following elements:
 
