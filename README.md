@@ -1,6 +1,9 @@
 # oaisim-free5gc-install
 
-This project aims to build a playbook for implementing the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) with the elements of [Free5GC](https://www.free5gc.org/). To use the playbook you need the following elements:
+This project aims to provide a set of tools through which it is possible to deploy the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) with the elements of [Free5GC](https://www.free5gc.org/) in a simple and automated way. For this, we break each of the projects into smaller elements, and place each of these elements in [_Docker Conteiners_.](https://hub.docker.com/u/laboraufg)  as illustrated by the following image.
+![](images/docker_containers_ilustration.png)
+
+To use the playbook you need the following elements:
 
 1. A machine called _operator's machine_, running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). The [section 1](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#1---ansible-installation--configuration-operator-machine) will present the steps for installing Ansible.
 2. Other's machine's (it's can be VM's or PC Bare Metal) for installing the Free5G elements and OpenAirSIM elements.
