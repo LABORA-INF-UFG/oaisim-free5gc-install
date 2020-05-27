@@ -116,6 +116,9 @@ The default access credentials are:
 * User: **admin**
 * Pass: **1423**
 
+After accessing WebUI, check in main page the existence of UEs registered,  the result should be equivalent to that shown in the next figure:
+![](images/web_ui_dashboard.png) 
+
 If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
 ![](images/docker_ps.png) 
 
