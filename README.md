@@ -7,11 +7,10 @@ Elements of OpenAirInterface (UE and enB) can be executed without Free5GC, but t
 
 To use the playbook you need the following elements:
 
-1. A machine called _operator's machine_, running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). The [section 1](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#1---ansible-installation--configuration-operator-machine) will present the steps for installing Ansible.
-2. Other's machine's (it's can be VM's or PC Bare Metal) for installing the Free5G elements and OpenAirSIM elements.
+1. A machine called _operator's machine_, running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#1---ansible-installation--configuration-operator-machine) we will present the steps for installing Ansible.
+2. Deployment environment machine (it's can be _VM's_ or _PC Bare Metal_) for installing the Free5G and OpenAirSIM elements.
 
-
-The figure below shows more details about the deployment environment:
+The minimum hardware requirements are described in the figure below:
 ![](images/environment_description.png)
 
 We assume that the <b>all machines are connected to the internet</b> and <i>see each other</i>.
