@@ -130,7 +130,7 @@ The default access credentials are:
 After accessing WebUI, check in main page the existence of UEs registered,  the result should be equivalent to that shown in the next figure:
 ![](images/web_ui_dashboard.png)
 
-One of the steps that this project automates is the registration of UEs on Web User Interface. By default, _ansible playbook_ adds 10 Ue's, however, this number can be expanded up to a maximum of 200 Ue's. To do this, just use the parameter ``` qtd_ues_init_database='N' ``` before or after the parameter ``` physical_network_interface=<< physical network interface name>> ```, replacing ```N``` by the number of UEs to be registered as described in [section 2.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#2---run-ansible-playbook-free5g--openairsim-install) In parallel to this, _ansible playbook_ also registers all UE's added in Web User Interface in the respective configuration file ```ue.nfapi.conf``` inside in UE element.
+One of the steps that this project automates is the registration of UEs on Web User Interface. By default, _ansible playbook_ adds 10 Ue's, however, this number can be expanded up to a maximum of 200 Ue's. To do this, just use the parameter ``` num_ues_init_database='N' ``` before or after the parameter ``` physical_network_interface=<< physical network interface name>> ```, replacing ```N``` by the number of UEs to be registered as described in [section 2.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#2---run-ansible-playbook-free5g--openairsim-install) In parallel to this, _ansible playbook_ also registers all UE's added in Web User Interface in the respective configuration file ```ue.nfapi.conf``` inside in UE element.
 
 If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
 ![](images/docker_ps.png) 
@@ -224,8 +224,8 @@ The presented results demonstrate that the _UE_ establish an internet connection
 ## 5 - Configuration parameters
 Below we will present a list containing the available configuration parameters, their importance and the default values.
 
-#### qtd_ues_init_database
-This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of _User Equipments_ that will be added into MONGODB container and append into ```ue_eurecom_test_sfr.conf``` configuration file, located into ```UE_folder_name/openair3/NAS/TOOLS/``` into UE container. If you not inform anything the default value used is **100**, the maximum value accepted is **200**, however, the latest version of OpenAirSIM support a limited number of device per simulation process. For this tutorial we limited this number in 10 devices.
+#### num_ues_init_database
+This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of _User Equipments_ that will be added into MONGODB container and append into ```ue_eurecom_test_sfr.conf``` configuration file, located into ```UE_folder_name/openair3/NAS/TOOLS/``` into UE container. If you not inform anything the default value used is **100**, the maximum value accepted is **200**. For this tutorial we limited this number in 10 devices.
 
 If you want to deploy only the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
 ```
