@@ -476,14 +476,9 @@
 
         - name: Install Basic requirements
           apt:
-              name: ['python-setuptools', 'python3-pip', 'curl','software-properties-common']
+              name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common', 'python-setuptools', 'python3-pip']
+              state: present
               update_cache: yes
-
-        - name: Install Docker by PIP3
-          pip:
-              name:
-                - docker==4.2.0
-              executable: pip3
 
         - name: Add Docker GPG key into apt
           apt_key: url=https://download.docker.com/linux/ubuntu/gpg
@@ -492,9 +487,10 @@
           apt_repository:
             repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} edge
 
-        - name: Install Docker CE
+        - name: Install list of packages
           apt:
             name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+            state: present
             update_cache: yes
 
 #        - name: Install Docker-CE and other requirements
