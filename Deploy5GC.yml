@@ -273,9 +273,9 @@
         - name  : Remove old instalation
           shell :  |
                 sudo rm -rf {{ BASE_DIR_INSTALL }}
-                sudo apt-get purge -y docker-engine docker docker.io docker-ce  
-                sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce 
-                sudo apt-get update
+                sudo apt purge -y docker-engine docker docker.io docker-ce  
+                sudo apt autoremove -y --purge docker-engine docker docker.io docker-ce 
+                sudo apt update
         
         - name  : Create dir instalation
           shell :  |
@@ -483,37 +483,19 @@
         - name: Add Docker GPG key into apt
           apt_key: url=https://download.docker.com/linux/ubuntu/gpg
 
-        - name: Add Docker APT repository
+        - name  : Add Docker APT repository
           apt_repository:
             repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} edge
 
-        - name  : Remove old instalation
+        - name  : Update APT
           shell :  |
                 sudo apt update
 
-        - name: Install Docker - CE
+        - name  : Install Docker - CE
           apt:
             name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
             state: present
             update_cache: yes
-
-#        - name: Install Docker-CE and other requirements
-#          pip:
-#              name:
-#                - docker==4.2.0
-#              executable: pip3
-        
-#        - name  : Install Docker-CE and other requirements
-#          shell:  |
-#                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#
-#                add-apt-repository \
-#                "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-#                $(lsb_release -cs) \
-#                stable"
-#                
-#                apt-get update
-#                apt-get install docker-ce -y
 
         - name  : Remove docker old docker containers
           ignore_errors: true
