@@ -115,9 +115,8 @@ One of the objectives of this project is to automate steps for setting up the _t
 7. ```hss.conf``` - contains _ip address_ information of HSS container and connection parameters information between HSS container and AMF container.
 8. ```pcrf.conf``` - contains _ip address_ information of PCRF container and connection parameters information between HSS container and SMF container.
 
-All this configuration files is built dynamically by _Ansible_ and all of parameters values can be changed through command line
-
-You have the option to customize the deployment process, all customization parameters are presented in [section 5.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process)  
+All this configuration files is built dynamically by _Ansible_ and all of parameters values can be changed through command line. In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process) we presents a complete list of configuration parameters.
+  
 
 
 ## 3 - Running and testing
