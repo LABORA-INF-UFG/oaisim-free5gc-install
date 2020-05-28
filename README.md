@@ -53,7 +53,10 @@ Generate an ssh key from the operator's machine using the following command:
 ssh-keygen -t ecdsa -b 521
 ```
 I recommend that you use  <i>empty passphrase</i>, the result should be equivalent to that shown in the image below:
-![](images/ssh_keys_gen.PNG)
+<p align="center">
+    <img src="images/ssh_keys_gen.png"/> 
+</p>
+
 
 This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where OpenAirSIM+free5gc will be deployed, use the following command:
 ```
