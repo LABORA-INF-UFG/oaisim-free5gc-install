@@ -111,6 +111,9 @@ One of the objectives of this project is to automate steps for setting up the _t
 3. ```ue_eurecom_test_sfr.conf``` - contains all the information about UE's that will be used in the simulation process. This information is the same information that will be inserted in MONGODB and displayed in [Web User Interface.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/raw/master/images/web_ui_dashboard.png)
 4. ```free5gc.conf``` - contains connection parameters information between each free5GC container and _MONGODB_ container, information about log level produced by each free5GC containers and _ip address_ of each containers.
 5. ```amf.conf``` - contains _ip address_ information of AMF container and connection parameters information between AMF container and HSS container.
+6. ```smf.conf``` - contains _ip address_ information of SMF container and connection parameters information between SMF container and PCRF container.
+7. ```hss.conf``` - contains _ip address_ information of HSS container and connection parameters information between HSS container and AMF container.
+8. ```pcrf.conf``` - contains _ip address_ information of PCRF container and connection parameters information between HSS container and SMF container.
 
 You have the option to customize the deployment process, all customization parameters are presented in [section 5.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process)  
 
