@@ -157,7 +157,9 @@ If you access the deployment machine and type ```docker ps```, you can see that 
     <img src="images/docker_ps.png"/> 
 </p>
 
-Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
+Now, we will __run__ all the elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
+
+### 3.1 - Running Free5GC components
 
 ### Running AMF
 Access the _first terminal_ and and run the following commands:
@@ -224,6 +226,8 @@ the green mark in the figure, represents the _SMF Connection_ container reaction
 
 So far all the elements of the _free5gC_ have been initialized, the next will be elements of the _OpenAirSIM_.
 
+### 3.2 - Running OpenAirSIM components
+
 ### Running enB
 Access the _sixth terminal_ and and run the following commands:
 ```
@@ -279,3 +283,4 @@ This is control parameter of deployment OpenAirInterface System Emulation. If yo
 #### deploy_free5gc
 This is control parameter of deployment Free5GC. If you want to deploy only [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) components, you can cheange the parameter value to ```deploy_free5gc='false'```. The default value used is **true**.  It's important you know that if you install only _OpenAirInterface System Emulation_ components and do not install _Free5GC_, the presented test in [before sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#4---testing-user-equipments-ue-internet-connection) do not works, in other words, the UEs can not access the internet.
 
+#### init_free5gc_elements_simulation
