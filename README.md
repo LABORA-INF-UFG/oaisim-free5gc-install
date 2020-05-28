@@ -107,7 +107,9 @@ replace the ```<deployment-environment-IP-address>``` for the IP address of the 
 ansible -i ./hosts -m ping all -u root
 ```
 the expected result should be equivalent to that shown in the image below:
-![](images/ansible_test_connection.PNG)
+<p align="center">
+    <img src="images/ansible_test_connection.PNG"/> 
+</p>
 
 this means that everything is fine and that <i>Ansible</i> has full access to the <i>deployment machine</i>.
  
@@ -131,7 +133,6 @@ One of the objectives of this project is to automate steps for setting up the _t
 All this configuration files is built dynamically by _Ansible_ and all of parameters values can be changed through command line. In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---configuration-parameters) we presents a complete list of configuration parameters.
   
 
-
 ## 3 - Running and testing
 After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser with the address ```http://<deployment-environment-IP-address>:3000```, a login page will appear like as the next image.
 <p align="center">
@@ -143,12 +144,16 @@ The Web Application access port can be changed through the parameter ```web_appl
 * Pass: **1423**
 
 After accessing WebUI, check in main page the existence of UEs registered,  the result should be equivalent to that shown in the next figure:
-![](images/web_ui_dashboard.png)
+<p align="center">
+    <img src="images/web_ui_dashboard.png"/> 
+</p>
 
 One of the steps that this project automates is the registration of UEs on Web User Interface. By default, _ansible playbook_ adds 10 Ue's, however, this number can be expanded up to a maximum of 200 Ue's. To do this, just use the parameter ``` num_ues_init_database='N' ``` before or after the parameter ``` physical_network_interface=<< physical network interface name>> ```, replacing ```N``` by the number of UEs to be registered as described in [section 2.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#2---run-ansible-playbook-free5g--openairsim-install) In parallel to this, _ansible playbook_ also registers all UE's added in Web User Interface in the respective configuration file ```ue.nfapi.conf``` inside in UE element. For more details, check the [check the parameters installation description section.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#num_ues_init_database)
 
 If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
-![](images/docker_ps.png) 
+<p align="center">
+    <img src="images/docker_ps.png"/> 
+</p>
 
 Now, we will __run__ the other 5GC elements, for this, access the deployment machine with 7 different terminal's and in each terminal run the follow steps.
 
@@ -159,7 +164,9 @@ docker exec -ti amf bash
 /root/free5gc-stage-1/install/bin/free5gc-amfd 
 ```
 the result should be equivalent to that shown in the next figure:
-![](images/amf_start.png) 
+<p align="center">
+    <img src="images/amf_start.png"/> 
+</p>
 
 ### Running UPF
 Access the _secound terminal_ and and run the following commands:
