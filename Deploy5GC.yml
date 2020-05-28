@@ -3,10 +3,10 @@
     become: yes
     remote_user: root
     vars:
-        qtd_ues_init_database: '100'
+        num_ues_init_database: '100'
         docker_custom_subnet_network: '192.188.2.0/24'
         docker_custom_network_name: 'free5gc'
-        web_interface_port_access: '3000'
+        web_user_interface_access_port: '3000'
         BASE_DIR_INSTALL: 'OAISim-free5gc-conf'
         ip_address_AMF: '192.188.2.2'
         ip_address_SMF: '192.188.2.3'
@@ -253,6 +253,18 @@
             that:
               - ansible_memtotal_mb >= 3500
             msg: "Minimum memory requirements in the deployment environment is 4GB! Operation failed!"
+
+        - fail: 
+            msg: "'USIM_API_K' value cannot be different of of 8baf473f2f8fd09487cccbd7097c6862"
+          when: USIM_API_K != '8baf473f2f8fd09487cccbd7097c6862'
+
+        - fail: 
+            msg: "'OPC' value cannot be different of of e734f8734007d6c5ce7a0508809e7e9c"
+          when: OPC != 'e734f8734007d6c5ce7a0508809e7e9c'
+
+        - fail: 
+            msg: "'HPLMN' value cannot be different of of 20893"
+          when: HPLMN != '20893'
 
         - fail: 
             msg: "'physical_network_interface' not found, this parameter is required!"
@@ -544,7 +556,7 @@
 
         - name  : Run free5gc WEBUI container
           shell :  |
-                docker run -ti -d -p {{ web_interface_port_access }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} {{ free5gc_webui_image_name }} bash
+                docker run -ti -d -p {{ web_user_interface_access_port }}:3000 --net {{ docker_custom_network_name }} --ip {{ ip_address_WEB_UI }} --name {{ WEB_UI_container_name }} {{ free5gc_webui_image_name }} bash
           when  : deploy_free5gc == 'true'
 
         - name  : Run OpenAirSIM-enB container
@@ -1005,7 +1017,7 @@
           loop: "{{ user_equiments }}"
           loop_control:
             index_var: ue_idx
-          when: "ue_idx|int < {{ qtd_ues_init_database }} and deploy_oaisim == 'true'"
+          when: "ue_idx|int < {{ num_ues_init_database }} and deploy_oaisim == 'true'"
         
         - name  : Build UE ue_eurecom_test_sfr.conf file 4/5 
           shell : |
@@ -1118,29 +1130,29 @@
 
         - name  : Wait for port WEB_UI response
           wait_for:
-            port: "{{ web_interface_port_access }}"
+            port: "{{ web_user_interface_access_port }}"
             delay: 3
           when  : deploy_free5gc == 'true'
 
         - name  : Get CSRF Access Token - WEBUI container
           shell : |
-              curl -s "http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}/api/auth/csrf" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'X-CSRF-TOKEN: undefined' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -v --cookie-jar /tmp/free5gc.txt --compressed | sed 's/.*"csrfToken":"\([^"]\+\)".*/\1/'        
+              curl -s "http://{{ ansible_default_ipv4.address }}:{{ web_user_interface_access_port }}/api/auth/csrf" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'X-CSRF-TOKEN: undefined' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -v --cookie-jar /tmp/free5gc.txt --compressed | sed 's/.*"csrfToken":"\([^"]\+\)".*/\1/'        
           register: csrf
           when  : deploy_free5gc == 'true'
        
         - name  : Login - WEBUI container
           shell: |
-              curl "http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}/api/auth/login" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Origin: http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt -o /dev/null --data-binary '{"username":"{{ default_username_WEBUI }}","password":"{{ default_password_WEBUI }}"}' --compressed  
+              curl "http://{{ ansible_default_ipv4.address }}:{{ web_user_interface_access_port }}/api/auth/login" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Origin: http://{{ ansible_default_ipv4.address }}:{{ web_user_interface_access_port }}' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt -o /dev/null --data-binary '{"username":"{{ default_username_WEBUI }}","password":"{{ default_password_WEBUI }}"}' --compressed  
           when  : deploy_free5gc == 'true'
 
         - name  : Add User equipments - WEBUI container
           shell: |
-              curl "http://{{ ansible_default_ipv4.address }}:{{ web_interface_port_access }}/api/db/Subscriber" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt --data-binary '{"imsi":"{{ HPLMN }}{{ item.msin }}","security":{"k":"{{ USIM_API_K }}","amf":"8000","op_type":0,"op_value":"{{ OPC }}","op":null,"opc":"{{ OPC }}"},"ambr":{"downlink":1024000,"uplink":1024000},"pdn":[{"apn":"internet","qos":{"qci":9,"arp":{"priority_level":8,"pre_emption_capability":1,"pre_emption_vulnerability":1}}}]}' --compressed
+              curl "http://{{ ansible_default_ipv4.address }}:{{ web_user_interface_access_port }}/api/db/Subscriber" -H 'Connection: keep-alive' -H 'Accept: application/json, text/plain, */*' -H "X-CSRF-TOKEN: {{ csrf.stdout }}" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36' -H 'Content-Type: application/json;charset=UTF-8' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Dest: empty' -H 'Accept-Language: en-US,en;q=0.9,pt;q=0.8,pt-BR;q=0.7' -b /tmp/free5gc.txt --data-binary '{"imsi":"{{ HPLMN }}{{ item.msin }}","security":{"k":"{{ USIM_API_K }}","amf":"8000","op_type":0,"op_value":"{{ OPC }}","op":null,"opc":"{{ OPC }}"},"ambr":{"downlink":1024000,"uplink":1024000},"pdn":[{"apn":"internet","qos":{"qci":9,"arp":{"priority_level":8,"pre_emption_capability":1,"pre_emption_vulnerability":1}}}]}' --compressed
 
           loop: "{{ user_equiments }}"
           loop_control:
             index_var: ue_idx
-          when: "ue_idx|int < {{ qtd_ues_init_database }} and  deploy_free5gc == 'true'"
+          when: "ue_idx|int < {{ num_ues_init_database }} and  deploy_free5gc == 'true'"
 
         - name  : Clear file instalation
           shell : rm -rf {{ BASE_DIR_INSTALL }}
