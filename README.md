@@ -115,7 +115,7 @@ One of the objectives of this project is to automate steps for setting up the _t
 7. ```hss.conf``` - contains _ip address_ information of HSS container and connection parameters information between HSS container and AMF container.
 8. ```pcrf.conf``` - contains _ip address_ information of PCRF container and connection parameters information between HSS container and SMF container.
 
-All this configuration files is built dynamically by _Ansible_ and all of parameters values can be changed through command line. In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process) we presents a complete list of configuration parameters.
+All this configuration files is built dynamically by _Ansible_ and all of parameters values can be changed through command line. In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---configuration-parameters) we presents a complete list of configuration parameters.
   
 
 
@@ -221,7 +221,7 @@ Now type ``` ping google.com -I <<ip-address-UE-x-interface>> ```, in this case 
 
 The presented results demonstrate that the _UE_ establish an internet connection. This connection is provided by combining functionality from all Docker containers.
 
-## 5 - Customize the deployment process
+## 5 - Configuration parameters
 If you want to deploy only the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
 ```
 ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>> deploy_free5gc='false'"
