@@ -226,9 +226,9 @@ the result should be equivalent to that shown in the next figure:
 
 the green mark in the figure, represents the _SMF Connection_ container reaction when PCRF is initialized.
 
-So far all the elements of the _free5gC_ have been initialized, the next will be elements of the _OpenAirSIM_.
 
 ### 3.2 - Running OpenAirSIM components
+So far all the elements of the _free5gC_ have been initialized, the next will be elements of the _OpenAirSIM_.
 
 ### Running enB
 Access the _sixth terminal_ and and run the following commands:
