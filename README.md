@@ -219,6 +219,8 @@ Now we can test the UE internet connection. For this, access the deployment mach
 Now type ``` ping google.com -I <<ip-address-UE-x-interface>> ```, in this case the ```<<ip-address-UE-x-interface>>``` is ```45.45.0.2```, so the test is: ``` ping google.com -I 45.45.0.2 ```. The result should be equivalent to that shown in the next figure:
 ![](images/ping_result.png) 
 
+The presented results demonstrate that the _UE_ establish an internet connection. This connection is provided by combining functionality from all Docker containers.
+
 ## 5 - Customize the deployment process
 If you want to deploy only the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
 ```
