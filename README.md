@@ -161,6 +161,8 @@ Now, we will __run__ all the elements, for this, access the deployment machine w
 
 ### 3.1 - Running Free5GC components
 
+The first elements that will be started is Free5GC components. This step can be automated through the parameter ```init_free5gc_elements_simulation```, if you want run the deployment process and at the same time, start all free5gc simulation process elements, you could use the parameter ```init_free5gc_elements_simulation='true'```.  For more details, check the [check the parameters installation description section.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#num_ues_init_database)
+
 ### Running AMF
 Access the _first terminal_ and and run the following commands:
 ```
