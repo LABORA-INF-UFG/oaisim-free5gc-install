@@ -62,7 +62,9 @@ This key will be used by <i>Ansible</i> when running the deployment playbooks, s
 ssh-copy-id -i ~/.ssh/id_ecdsa.pub <user>@<deployment-environment-host>
 ```
 the result should be equivalent to that shown in the image below:
-![](images/ssh_copy_keys.PNG)
+<p align="center">
+    <img src="images/ssh_copy_keys.PNG"/> 
+</p>
 
 after copy ssh key, access the deployment machine ``` ssh <user>@<deployment-environment-host> ``` and run the following commands:
 ```
@@ -71,7 +73,9 @@ after copy ssh key, access the deployment machine ``` ssh <user>@<deployment-env
 the last command install **python minimal**. This package contains the interpreter and some essential modules. It is used by Ansible for same basic tasks.
 
 After install <i>python minimal</i>, we need get some information about **physical network interface** of the machine. To do this, run ```ifconfig``` and take note the **_physical network interface name_** display in the next figure.
-![](images/if_config.PNG)
+<p align="center">
+    <img src="images/if_config.PNG"/> 
+</p>
 this information will be necessary when executing the deployment playbook.
 
 #### Test Ansible Connection (Operator Machine / Deployment Environment Machine)
