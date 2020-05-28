@@ -41,7 +41,7 @@ ansible --version
 ```
 the expected result should be equivalent to that shown in the image below:
 <p align="center">
-    <img src="images/ansible_result_installation.png"/> 
+    <img src="images/ansible_result_installation.PNG"/> 
 </p>
 
 
