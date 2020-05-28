@@ -48,7 +48,7 @@ ssh-keygen -t ecdsa -b 521
 I recommend that you use  <i>empty passphrase</i>, the result should be equivalent to that shown in the image below:
 ![](images/ssh_keys_gen.PNG)
 
-This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where OAISim+free5gc will be deployed, use the following command:
+This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where OpenAirSIM+free5gc will be deployed, use the following command:
 ```
 ssh-copy-id -i ~/.ssh/id_ecdsa.pub <user>@<deployment-environment-host>
 ```
@@ -103,7 +103,7 @@ this means that everything is fine and that <i>Ansible</i> has full access to th
 ```
 ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
 ```
-It will be start the process of deployment the elements of **OAISim + free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level** of log. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). 
+It will be start the process of deployment the elements of **OpenAirSIM + free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level** of log. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). 
 
 One of the objectives of this project is to automate steps for setting up the _test environment_ involving OAISIm + free5GC. The configuration steps can be difficult and can lead to several problems, for this reason, we automate the construction of the following configuration files: 
 1. ```rcc.band7.tm1.nfapi.conf``` - contains information about connection parameters between eNB and AMF, in addition to information about the network environment (_physical network interface_, IP container address).
@@ -225,7 +225,7 @@ The presented results demonstrate that the _UE_ establish an internet connection
 Below we will present a list containing the available configuration parameters, their importance and the default values.
 
 #### qtd_ues_init_database
-This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of devices that will be added into MONGODB and append into ```ue_eurecom_test_sfr.conf``` configuration file.
+This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of devices that will be added into MONGODB and append into ```ue_eurecom_test_sfr.conf``` configuration file. If you not inform anything the default value used is **100**, the maximum value accepted is **200**, however, the latest version of OpenAirSIM support a limited number of device per simulation process. For this tutorial we limited this number in 10 devices.
 
 If you want to deploy only the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
 ```
