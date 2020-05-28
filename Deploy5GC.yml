@@ -481,7 +481,7 @@
         - name: Install Docker-CE and other requirements
           pip:
               name: 
-                - docker==19.03.9
+                - docker==4.2.0
               executable: pip3
         
 #        - name  : Install Docker-CE and other requirements
