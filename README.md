@@ -275,8 +275,5 @@ This parameter represents the access port of Web Application. The default value 
 This is control parameter of deployment OpenAirInterface System Emulation. If you want to deploy only [Free5GC](https://www.free5gc.org/) components, you can cheange the parameter value to ```deploy_oaisim='false'```. The default value used is **true**. 
 
 #### deploy_free5gc
-This is control parameter of deployment Free5GC. If you want to deploy only [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) components, you can cheange the parameter value to ```deploy_free5gc='false'```. The default value used is **true**. 
+This is control parameter of deployment Free5GC. If you want to deploy only [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) components, you can cheange the parameter value to ```deploy_free5gc='false'```. The default value used is **true**.  It's important you know that if you install only OAISIM elements the presented test in before sections do not works, in other words, the UEs can not access the internet.
 
-```
-ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>> deploy_free5gc='false'"
-```
