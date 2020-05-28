@@ -494,7 +494,7 @@
 
         - name: Install Docker CE
           apt:
-            name: docker-ce
+            name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
             update_cache: yes
 
 #        - name: Install Docker-CE and other requirements
