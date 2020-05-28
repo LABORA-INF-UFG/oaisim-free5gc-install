@@ -65,6 +65,7 @@ the result should be equivalent to that shown in the image below:
 <p align="center">
     <img src="images/ssh_copy_keys.PNG"/> 
 </p>
+
 if the ```ssh-copy``` command is run by one **_non root user_**, it will be necessary access the deployment machine and move the ssh-key for the root directory. It can be executed by the following command ```sudo cp -r .ssh/authorized_keys /root/.ssh/```.
 
 After copy ssh key, access the deployment machine ``` ssh <user>@<deployment-environment-host> ``` and run the following commands:
