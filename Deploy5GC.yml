@@ -272,10 +272,10 @@
 
         - name  : Remove old instalation
           shell :  |
-                rm -rf {{ BASE_DIR_INSTALL }}
+                sudo rm -rf {{ BASE_DIR_INSTALL }}
                 sudo apt-get purge -y docker-engine docker docker.io docker-ce  
                 sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce 
-                apt-get update
+                sudo apt-get update
         
         - name  : Create dir instalation
           shell :  |
