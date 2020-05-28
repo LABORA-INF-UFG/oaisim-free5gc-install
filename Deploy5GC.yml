@@ -487,7 +487,11 @@
           apt_repository:
             repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} edge
 
-        - name: Install list of packages
+        - name  : Remove old instalation
+          shell :  |
+                sudo apt update
+
+        - name: Install Docker - CE
           apt:
             name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
             state: present
