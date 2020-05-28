@@ -1177,7 +1177,7 @@
           when  : init_free5gc_elements_simulation == 'true'
 
         - pause :
-            minutes: 0.5
+            seconds: 5
           when  : init_free5gc_elements_simulation == 'true'
 
         - name  : Run UPF simulation process 
@@ -1186,7 +1186,7 @@
           when  : init_free5gc_elements_simulation == 'true'
 
         - pause :
-            minutes: 0.5
+            seconds: 5
           when  : init_free5gc_elements_simulation == 'true'
 
         - name  : Run SMF simulation process 
@@ -1195,7 +1195,7 @@
           when  : init_free5gc_elements_simulation == 'true'
 
         - pause :
-            minutes: 0.5
+            seconds: 5
           when  : init_free5gc_elements_simulation == 'true'
 
         - name  : Run HSS simulation process 
@@ -1204,17 +1204,12 @@
           when  : init_free5gc_elements_simulation == 'true'
 
         - pause :
-            minutes: 0.5
+            seconds: 5
           when  : init_free5gc_elements_simulation == 'true'
 
         - name  : Run PCRF simulation process 
           shell : |
               docker exec -it -d {{ PCRF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-pcrfd"
           when  : init_free5gc_elements_simulation == 'true'
-
-        - pause :
-            minutes: 0.5
-          when  : init_free5gc_elements_simulation == 'true'
-
 
 
