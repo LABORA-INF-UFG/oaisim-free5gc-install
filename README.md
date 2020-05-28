@@ -272,9 +272,11 @@ This parameter represents the number of UEs that will be pre-configured during t
 This parameter represents the access port of Web Application. The default value used is **3000**. 
 
 #### deploy_oaisim
-This is control parameter of installation OpenAirInterface System Emulation. If you want to deploy only [Free5GC](https://www.free5gc.org/) components, you can cheange the parameter value to ```deploy_oaisim='false'```. The default value used is **true**. 
+This is control parameter of deployment OpenAirInterface System Emulation. If you want to deploy only [Free5GC](https://www.free5gc.org/) components, you can cheange the parameter value to ```deploy_oaisim='false'```. The default value used is **true**. 
 
-the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
+#### deploy_free5gc
+This is control parameter of deployment Free5GC. If you want to deploy only [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) components, you can cheange the parameter value to ```deploy_free5gc='false'```. The default value used is **true**. 
+
 ```
 ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>> deploy_free5gc='false'"
 ```
