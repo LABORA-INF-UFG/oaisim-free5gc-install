@@ -109,6 +109,7 @@ One of the objectives of this project is to automate steps for setting up the _t
 1. ```rcc.band7.tm1.nfapi.conf``` - contains information about connection parameters between eNB and AMF, in addition to information about the network environment (_physical network interface_, IP container address).
 2. ```ue.nfapi.conf``` - contains connection parameters between eNB and UE.
 3. ```ue_eurecom_test_sfr.conf``` - contains all the information about UE's that will be used in the simulation process. This information is the same information that will be inserted in MONGODB and displayed in [Web User Interface.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/raw/master/images/web_ui_dashboard.png)
+4. ```free5gc.conf``` - contains connection parameters information between each free5GC container and _MONGODB_ container, information about log level produced by each free5GC containers and _ip address_ of each containers.
 
 You have the option to customize the deployment process, all customization parameters are presented in [section 5.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#5---customize-the-deployment-process)  
 
