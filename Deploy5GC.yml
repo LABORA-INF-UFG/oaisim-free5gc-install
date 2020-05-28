@@ -475,13 +475,12 @@
 
         - name: Install Basic requirements
           apt:
-              name: ['python3-pip', 'curl','software-properties-common']
+              name: ['setuptools', 'python3-pip', 'curl','software-properties-common']
               update_cache: yes
 
         - name: Install Docker-CE and other requirements
           pip:
               name:
-                - setuptools 
                 - docker==4.2.0
               executable: pip3
         
