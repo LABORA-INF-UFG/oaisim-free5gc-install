@@ -33,6 +33,7 @@
         UPF_container_name: 'upf'
         MONGO_DB_container_name: 'mongodb-svc'
         WEB_UI_container_name: 'webui'
+        run_amf_simulation: 'false'
         start_webapp: 'true'
         deploy_oaisim: 'true'
         deploy_free5gc: 'true'
@@ -474,13 +475,13 @@
                 ConnectPeer = "smf.localdomain" { ConnectTo = "{{ ip_address_SMF }}"; No_TLS; };
           when  : deploy_free5gc == 'true'
 
-        - name: Install Basic requirements
+        - name  : Install Basic requirements
           apt:
               name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common', 'python-setuptools', 'python3-pip']
               state: present
               update_cache: yes
 
-        - name: Add Docker GPG key into apt
+        - name  : Add Docker GPG key into apt
           apt_key: url=https://download.docker.com/linux/ubuntu/gpg
 
         - name  : Add Docker APT repository
@@ -1170,6 +1171,55 @@
           shell : rm -rf {{ BASE_DIR_INSTALL }}
           when  : clear_file_instalation == 'true'
 
+        - name  : Run AMF simulation process 
+          ignore_errors: true
+          shell : |
+              docker exec -it -d {{ AMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-amfd"
+          when  : run_amf_simulation == 'true'
+
+        - pause :
+            minutes: 0.5
+          when  : run_amf_simulation == 'true'
+
+        - name  : Run UPF simulation process 
+          ignore_errors: true
+          shell : |
+              docker exec -it -d {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-upfd"
+          when  : run_amf_simulation == 'true'
+
+        - pause :
+            minutes: 0.5
+          when  : run_amf_simulation == 'true'
+
+        - name  : Run SMF simulation process 
+          ignore_errors: true
+          shell : |
+              docker exec -it -d {{ SMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-smfd"
+          when  : run_amf_simulation == 'true'
+
+        - pause :
+            minutes: 0.5
+          when  : run_amf_simulation == 'true'
+
+        - name  : Run HSS simulation process 
+          ignore_errors: true
+          shell : |
+              docker exec -it -d {{ HSS_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-hssd"
+          when  : run_amf_simulation == 'true'
+
+        - pause :
+            minutes: 0.5
+          when  : run_amf_simulation == 'true'
+
+        - name  : Run PCRF simulation process 
+          ignore_errors: true
+          shell : |
+              docker exec -it -d {{ PCRF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-pcrfd"
+          when  : run_amf_simulation == 'true'
+
+        - pause :
+            minutes: 0.5
+          when  : run_amf_simulation == 'true'
 
 
 
