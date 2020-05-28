@@ -222,6 +222,11 @@ Now type ``` ping google.com -I <<ip-address-UE-x-interface>> ```, in this case 
 The presented results demonstrate that the _UE_ establish an internet connection. This connection is provided by combining functionality from all Docker containers.
 
 ## 5 - Configuration parameters
+Below we will present a list containing the available configuration parameters, their importance and the default values.
+
+#### qtd_ues_init_database
+This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of devices that will be added into MONGODB and append into ```ue_eurecom_test_sfr.conf``` configuration file.
+
 If you want to deploy only the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
 ```
 ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>> deploy_free5gc='false'"
