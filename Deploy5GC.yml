@@ -480,7 +480,8 @@
 
         - name: Install Docker-CE and other requirements
           pip:
-              name: 
+              name:
+                - setuptools 
                 - docker==4.2.0
               executable: pip3
         
