@@ -123,14 +123,14 @@ All this configuration files is built dynamically by _Ansible_ and all of parame
 After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser with the address ```http://<deployment-environment-IP-address>:3000```, a login page will appear like as the next image. 
 ![](images/web_ui_login.png) 
 
-The default access credentials are:
+The Web Application access port can be changed through the parameter ```web_application_access_port```, the default value is _3000_. The default access credentials of the Web Application are:
 * User: **admin**
 * Pass: **1423**
 
 After accessing WebUI, check in main page the existence of UEs registered,  the result should be equivalent to that shown in the next figure:
 ![](images/web_ui_dashboard.png)
 
-One of the steps that this project automates is the registration of UEs on Web User Interface. By default, _ansible playbook_ adds 10 Ue's, however, this number can be expanded up to a maximum of 200 Ue's. To do this, just use the parameter ``` num_ues_init_database='N' ``` before or after the parameter ``` physical_network_interface=<< physical network interface name>> ```, replacing ```N``` by the number of UEs to be registered as described in [section 2.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#2---run-ansible-playbook-free5g--openairsim-install) In parallel to this, _ansible playbook_ also registers all UE's added in Web User Interface in the respective configuration file ```ue.nfapi.conf``` inside in UE element.
+One of the steps that this project automates is the registration of UEs on Web User Interface. By default, _ansible playbook_ adds 10 Ue's, however, this number can be expanded up to a maximum of 200 Ue's. To do this, just use the parameter ``` num_ues_init_database='N' ``` before or after the parameter ``` physical_network_interface=<< physical network interface name>> ```, replacing ```N``` by the number of UEs to be registered as described in [section 2.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#2---run-ansible-playbook-free5g--openairsim-install) In parallel to this, _ansible playbook_ also registers all UE's added in Web User Interface in the respective configuration file ```ue.nfapi.conf``` inside in UE element. For more details, check the [check the parameters installation description section.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#num_ues_init_database)
 
 If you access the deployment machine and type ```docker ps```, you can see that all the elements ar running, the result should be equivalent to that shown in the next figure:
 ![](images/docker_ps.png) 
@@ -226,6 +226,9 @@ Below we will present a list containing the available configuration parameters, 
 
 #### num_ues_init_database
 This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of _User Equipments_ that will be added into MONGODB container and append into ```ue_eurecom_test_sfr.conf``` configuration file, located into ```UE_folder_name/openair3/NAS/TOOLS/``` into UE container. If you not inform anything the default value used is **100**, the maximum value accepted is **200**. For this tutorial we limited this number in 10 devices.
+
+#### web_application_access_port
+This parameter represents the access port of Web Application. The default value used is **3000**. 
 
 If you want to deploy only the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
 ```
