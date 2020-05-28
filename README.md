@@ -120,7 +120,8 @@ All this configuration files is built dynamically by _Ansible_ and all of parame
 
 
 ## 3 - Running and testing
-After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser with the address ```http://<deployment-environment-IP-address>:3000```, a login page will appear like as the next image. 
+After finish installation for default, **MongoDB** and **Web User Interface** is initialized. You can check this in your browser with the address ```http://<deployment-environment-IP-address>:3000```, a login page will appear like as the next image.
+
 ![](images/web_ui_login.png) 
 
 The Web Application access port can be changed through the parameter ```web_application_access_port```, the default value is _3000_. The default access credentials of the Web Application are:
