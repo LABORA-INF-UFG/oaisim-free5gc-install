@@ -13,7 +13,9 @@ To use the playbook you need the following elements:
 2. Deployment environment machine (it's can be _VM's_ or _PC Bare Metal_) for installing the Free5G and OpenAirSIM elements.
 
 The minimum hardware requirements are described in the figure below:
-![](images/environment_description.png)
+<p align="center">
+    <img src="images/environment_description.png"/> 
+</p>
 
 We assume that the <b>all machines are connected to the internet</b> and <i>see each other</i>.
 # Installation Guide
@@ -38,7 +40,10 @@ After installation check if the installed version is 2.7 or higher using the fol
 ansible --version
 ```
 the expected result should be equivalent to that shown in the image below:
-![](images/ansible_result_installation.PNG)
+<p align="center">
+    <img src="images/ansible_result_installation.png"/> 
+</p>
+
 
 ### Access Settings (Operator Machine / Deployment Environment Machine)
 After installing ansible on the operator's machine, the next step is to configure the connection between the operator's machine and the other machines involved in the OpenAir deployment process. For the correct operation, Ansible needs to have full access to the other machines involved, this is done through the exchange of <i>SSHKeys</i> process:
