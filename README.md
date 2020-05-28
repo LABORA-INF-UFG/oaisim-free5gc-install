@@ -225,7 +225,7 @@ The presented results demonstrate that the _UE_ establish an internet connection
 Below we will present a list containing the available configuration parameters, their importance and the default values.
 
 #### qtd_ues_init_database
-This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of devices that will be added into MONGODB and append into ```ue_eurecom_test_sfr.conf``` configuration file. If you not inform anything the default value used is **100**, the maximum value accepted is **200**, however, the latest version of OpenAirSIM support a limited number of device per simulation process. For this tutorial we limited this number in 10 devices.
+This parameter represents the number of UEs that will be pre-configured during the deployment process. The numeric value set in this parameter, represents the number of _User Equipments_ that will be added into MONGODB container and append into ```ue_eurecom_test_sfr.conf``` configuration file, located into ```UE_folder_name/openair3/NAS/TOOLS/``` into UE container. If you not inform anything the default value used is **100**, the maximum value accepted is **200**, however, the latest version of OpenAirSIM support a limited number of device per simulation process. For this tutorial we limited this number in 10 devices.
 
 If you want to deploy only the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements and do not deploy [Free5GC](https://www.free5gc.org/) components, you can set the parameter ```deploy_free5gc``` with ``` 'false' ```. The deployment command would be in the following format:
 ```
