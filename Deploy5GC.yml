@@ -473,17 +473,28 @@
                 ConnectPeer = "smf.localdomain" { ConnectTo = "{{ ip_address_SMF }}"; No_TLS; };
           when  : deploy_free5gc == 'true'
 
-        - name  : Install Docker-CE and other requirements
-          shell:  |
-                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        - name: Install Basic requirements
+          apt:
+              name: ['python3-pip', 'curl','software-properties-common']
+              update_cache: yes
 
-                add-apt-repository \
-                "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-                $(lsb_release -cs) \
-                stable"
-                
-                apt-get update
-                apt-get install docker-ce -y
+        - name: Install Docker-CE and other requirements
+          pip:
+              name: 
+                - docker==19.03.9
+              executable: pip3
+        
+#        - name  : Install Docker-CE and other requirements
+#          shell:  |
+#                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#
+#                add-apt-repository \
+#                "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+#                $(lsb_release -cs) \
+#                stable"
+#                
+#                apt-get update
+#                apt-get install docker-ce -y
 
         - name  : Remove docker old docker containers
           ignore_errors: true
