@@ -175,7 +175,9 @@ docker exec -ti upf bash
 /root/free5gc-stage-1/install/bin/free5gc-upfd
 ```
 the result should be equivalent to that shown in the next figure:
-![](images/upf_start.png) 
+<p align="center">
+    <img src="images/upf_start.png"/> 
+</p>
 
 ### Running SMF
 Access the _third terminal_ and and run the following commands:
@@ -184,7 +186,9 @@ docker exec -ti smf bash
 /root/free5gc-stage-1/install/bin/free5gc-smfd
 ```
 the result should be equivalent to that shown in the next figure:
-![](images/smf_start.png) 
+<p align="center">
+    <img src="images/smf_start.png"/> 
+</p>
 
 the green mark in the figure, represents the _UPF Association Response_ container reaction when SMF is initialized.
 
@@ -195,7 +199,10 @@ docker exec -ti hss bash
 /root/free5gc-stage-1/install/bin/nextepc-hssd 
 ```
 the result should be equivalent to that shown in the next figure:
-![](images/hss_start.png) 
+<p align="center">
+    <img src="images/hss_start.png"/> 
+</p>
+
 
 the green mark in the figure, represents the _AMF Connection_ container reaction when HSS is initialized.
 
@@ -206,7 +213,10 @@ docker exec -ti pcrf bash
 /root/free5gc-stage-1/install/bin/nextepc-pcrfd 
 ```
 the result should be equivalent to that shown in the next figure:
-![](images/pcrf_start.png) 
+<p align="center">
+    <img src="images/pcrf_start.png"/> 
+</p>
+
 
 the green mark in the figure, represents the _SMF Connection_ container reaction when PCRF is initialized.
 
@@ -220,7 +230,10 @@ cd /root/enb/cmake_targets/ran_build/build
 sudo -E ./lte-softmodem -O /root/enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf 
 ```
 the result should be equivalent to that shown in the next figure:
-![](images/enb_start.png) 
+<p align="center">
+    <img src="images/enb_start.png"/> 
+</p>
+
 The _enB_ terminal will be in constant loop displaying the next message ``` Waiting fo PHY_config_req```. The green mark in the figure, represents the _AMF enB Registration_ container reaction when enB is initialized.
 
 ### Running UE
@@ -231,15 +244,21 @@ cd /root/ue/cmake_targets/ran_build/build
 ./lte-uesoftmodem -O /root/ue/ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 1 --nums_ue_thread 1 --nokrnmod 1
 ```
 the result should be equivalent to that shown in the next figure:
-![](images/ue_start.png) 
+<p align="center">
+    <img src="images/ue_start.png"/> 
+</p>
 The alert messages are not relevant.
 
 ## 4 - Testing User Equipments (UE) Internet Connection
 Now we can test the UE internet connection. For this, access the deployment machine and type ``` docker exec -ti ue bash ``` to access de UE Container. Inside the container type ```ifconfig``` to check network interface. The result should be equivalent to that shown in the next figure:
-![](images/ue_network_interfce.png) 
+<p align="center">
+    <img src="images/ue_network_interfce.png"/> 
+</p>
 
 Now type ``` ping google.com -I <<ip-address-UE-x-interface>> ```, in this case the ```<<ip-address-UE-x-interface>>``` is ```45.45.0.2```, so the test is: ``` ping google.com -I 45.45.0.2 ```. The result should be equivalent to that shown in the next figure:
-![](images/ping_result.png) 
+<p align="center">
+    <img src="images/ping_result.png"/> 
+</p>
 
 The presented results demonstrate that the _UE_ establish an internet connection. This connection is provided by combining functionality from all Docker containers.
 
