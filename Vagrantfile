@@ -2,7 +2,7 @@ $deployment_init_INSTALL = <<-SCRIPT
     sudo apt update
 SCRIPT
 
-Ansible.configure("2") do |vm_conf|
+Vagrant.configure("2") do |vm_conf|
     
     #free5g
     vm_conf.vm.define "free5g" do |config|
