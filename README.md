@@ -1,16 +1,16 @@
 # oaisim-free5gc-install
 
-This project aims to provide a set of tools through which it is possible to deploy the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) with the elements of [Free5GC](https://www.free5gc.org/) in a simple and automated way. For this, we break [OpenAirInterface](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) and [Free5GC](https://www.free5gc.org/) into smaller elements, and place each of these elements in a [_Docker Conteiners_.](https://hub.docker.com/u/laboraufg)  , like as illustrated by the following image.
+This project aims to provide a set of tools through which it is possible to deploy the elements that make up the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) with the elements of [Free5GC](https://www.free5gc.org/) in a simple and automated way. For this, we break [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) and [Free5GC](https://www.free5gc.org/) into smaller elements, and place each of these elements in a [_Docker Conteiners_.](https://hub.docker.com/u/laboraufg)  , like as illustrated by the following image.
 <p align="center">
     <img src="images/docker_containers_ilustration.png"/> 
 </p>
 
-Elements of OpenAirInterface (UE and enB) can be executed without Free5GC, but the internet connection test presented in [this project](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#4---testing-user-equipments-ue-internet-connection) will only be executed correctly with all elements instaled.
+Elements of [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) (UE and enB) can be executed without Free5GC, but the internet connection test presented in [this project](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#4---testing-user-equipments-ue-internet-connection) will only be executed correctly with all elements instaled.
 
 To use the playbook you need the following elements:
 
 1. A machine called _operator's machine_, running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#1---ansible-installation--configuration-operator-machine) we will present the steps for installing Ansible.
-2. Deployment environment machine (it's can be _VM's_ or _PC Bare Metal_) for installing the Free5G and OpenAirSIM elements.
+2. Deployment environment machine (it's can be _VM's_ or _PC Bare Metal_) for installing the Free5G and [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements.
 
 The minimum hardware requirements are described in the figure below:
 <p align="center">
@@ -46,7 +46,7 @@ The expected result should be equivalent to that shown in the image below:
 
 
 ### Access Settings (Operator Machine / Deployment Environment Machine)
-After installing ansible on the operator's machine, the next step is to configure the connection between the operator's machine and the other machines involved in the OpenAir deployment process. For the correct operation, Ansible needs to have full access to the other machines involved, this is done through the exchange of <i>SSHKeys</i> process:
+After installing ansible on the operator's machine, the next step is to configure the connection between the operator's machine and the other machines involved in the [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) deployment process. For the correct operation, Ansible needs to have full access to the other machines involved, this is done through the exchange of <i>SSHKeys</i> process:
 
 Generate an ssh key from the operator's machine using the following command:
 ```
@@ -57,7 +57,7 @@ I recommend that you use  <i>empty passphrase</i>, the result should be equivale
     <img src="images/ssh_keys_gen.PNG"/> 
 </p>
 
-This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where OpenAirSIM+free5gc will be deployed, use the following command:
+This key will be used by <i>Ansible</i> when running the deployment playbooks, so we must copy that key to the other machines involved in the process and ensure that it stays in the **root directory of the respective machines**. To copy the operator's machine key to the machine where _OpenAirInterface+Free5gc_ will be deployed, use the following command:
 ```
 ssh-copy-id -i ~/.ssh/id_ecdsa.pub <user>@<deployment-environment-host>
 ```
@@ -115,12 +115,12 @@ the expected result should be equivalent to that shown in the image below:
 
 this means that everything is fine and that <i>Ansible</i> has full access to the <i>deployment machine</i>.
  
-## 2 - Run Ansible Playbook (Free5G + OpenAirSIM Install)
+## 2 - Run Ansible Playbook (Free5G + OpenAirInterface Install)
  After configuration steps, just run the next command.
 ```
 ansible-playbook    Deploy5GC.yml  -i  hosts -e "physical_network_interface=<< physical network interface name>>"
 ```
-It will be start the process of deployment the elements of **OpenAirSIM + free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level** of log. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). 
+It will be start the process of deployment the elements of **OpenAirInterface + Free5GC**. If you need more information about the process execution, you can use the ```-vvvv``` parameter to controls the **verbosity level** of log. This parameter can be adjusted in five diferent levels (```-v```, ```-vv```, ```-vvv``` or ```-vvvv```). 
 
 One of the objectives of this project is to automate steps for setting up the _test environment_ involving OAISIm + free5GC. The configuration steps can be difficult and can lead to several problems, for this reason, we automate the construction of the following configuration files: 
 1. ```rcc.band7.tm1.nfapi.conf``` - contains information about connection parameters between eNB and AMF, in addition to information about the network environment (_physical network interface_, IP container address).
@@ -161,7 +161,7 @@ Now, we will __run__ all the elements, for this, access the deployment machine w
 
 ### 3.1 - Running Free5GC components
 
-The first elements that will be started is Free5GC components. This step can be automated through the parameter ```init_free5gc_elements_simulation```, if you want run the deployment process and at the same time, start all free5gc simulation process elements, you could use the parameter ```init_free5gc_elements_simulation='true'```. If you decide use this strategy, you cannot see the log information about of each free5gc element. For more details, check the [check the parameters installation description section.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#num_ues_init_database)
+The first elements that will be started is [Free5GC](https://www.free5gc.org/) components. This step can be automated through the parameter ```init_free5gc_elements_simulation```, if you want run the deployment process and at the same time, start all [Free5GC](https://www.free5gc.org/) simulation process elements, you could use the parameter ```init_free5gc_elements_simulation='true'```. If you decide use this strategy, you cannot see the log information about of each [Free5GC](https://www.free5gc.org/) element. For more details, check the [check the parameters installation description section.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#num_ues_init_database)
 
 ### Running AMF
 Access the _first terminal_ and and run the following commands:
@@ -227,8 +227,8 @@ the result should be equivalent to that shown in the next figure:
 the green mark in the figure, represents the _SMF Connection_ container reaction when PCRF is initialized.
 
 
-### 3.2 - Running OpenAirSIM components
-So far all the elements of the _free5gC_ have been initialized, the next will be elements of the _OpenAirSIM_.
+### 3.2 - Running OpenAirInterface components
+So far all the elements of the _free5gC_ have been initialized, the next will be elements of the _OpenAirInterface_.
 
 ### Running enB
 Access the _sixth terminal_ and and run the following commands:
@@ -268,7 +268,7 @@ Now type ``` ping google.com -I <<ip-address-UE-x-interface>> ```, in this case 
     <img src="images/ping_result.png"/> 
 </p>
 
-The presented results demonstrate that the _UE_ establish an internet connection. This connection is provided by combining functionality from all Docker containers.
+The presented results demonstrate that the _UE_ establish an internet connection. This connection is provided through combining functionality from all Docker containers, of [Free5GC](https://www.free5gc.org/) components and [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) components.
 
 ## 5 - Configuration parameters
 Below we will present a list containing the available configuration parameters, their importance and the default values.
@@ -280,10 +280,10 @@ This parameter represents the number of UEs that will be pre-configured during t
 This parameter represents the access port of Web Application. The default value used is **3000**. 
 
 #### deploy_oaisim
-This is control parameter of deployment OpenAirInterface System Emulation. If you want to deploy only [Free5GC](https://www.free5gc.org/) components, you can cheange the parameter value to ```deploy_oaisim='false'```. The default value used is **true**. 
+This is control parameter of deployment [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation). If you want to deploy only [Free5GC](https://www.free5gc.org/) components, you can cheange the parameter value to ```deploy_oaisim='false'```. The default value used is **true**. 
 
 #### deploy_free5gc
 This is control parameter of deployment Free5GC. If you want to deploy only [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) components, you can cheange the parameter value to ```deploy_free5gc='false'```. The default value used is **true**.  It's important you know that if you install only _OpenAirInterface System Emulation_ components and do not install _Free5GC_, the presented test in [before sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#4---testing-user-equipments-ue-internet-connection) do not works, in other words, the UEs can not access the internet.
 
 #### init_free5gc_elements_simulation
-This is a control parameter of free5gc process simulation start. The default value is **false**, if you decide set this parameter with **true** in deployment process, the steps described into [section 3.1](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#31---running-free5gc-components) not be necessary.
+This is a control parameter of [Free5GC](https://www.free5gc.org/) process simulation start. The default value is **false**, if you decide set this parameter with **true** in deployment process, the steps described into [section 3.1](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#31---running-free5gc-components) not be necessary.
