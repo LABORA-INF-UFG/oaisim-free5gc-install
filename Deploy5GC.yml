@@ -1171,37 +1171,37 @@
           shell : rm -rf {{ BASE_DIR_INSTALL }}
           when  : clear_file_instalation == 'true'
 
-        - name  : Run AMF simulation process 
-          shell : |
-              docker exec -it -d {{ AMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-amfd"
-          when  : init_free5gc_elements_simulation == 'true'
+#        - name  : Run AMF simulation process 
+#          shell : |
+#              docker exec -it -d {{ AMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-amfd"
+#          when  : init_free5gc_elements_simulation == 'true'
 
-        - pause :
-            seconds: 5
-          when  : init_free5gc_elements_simulation == 'true'
+#        - pause :
+#            seconds: 5
+#          when  : init_free5gc_elements_simulation == 'true'
 
-        - name  : Run UPF simulation process 
-          shell : |
-              docker exec -it -d {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-upfd"
-          when  : init_free5gc_elements_simulation == 'true'
+#        - name  : Run UPF simulation process 
+#          shell : |
+#              docker exec -it -d {{ UPF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-upfd"
+#          when  : init_free5gc_elements_simulation == 'true'
 
-        - pause :
-            seconds: 5
-          when  : init_free5gc_elements_simulation == 'true'
+#       - pause :
+#           seconds: 5
+#         when  : init_free5gc_elements_simulation == 'true'
 
-        - name  : Run SMF simulation process 
-          shell : |
-              docker exec -it -d {{ SMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-smfd"
-          when  : init_free5gc_elements_simulation == 'true'
+#        - name  : Run SMF simulation process 
+#          shell : |
+#              docker exec -it -d {{ SMF_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-smfd"
+#          when  : init_free5gc_elements_simulation == 'true'
 
-        - pause :
-            seconds: 5
-          when  : init_free5gc_elements_simulation == 'true'
+#        - pause :
+#            seconds: 5
+#          when  : init_free5gc_elements_simulation == 'true'
 
-        - name  : Run HSS simulation process 
-          shell : |
-              docker exec -it -d {{ HSS_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-hssd"
-          when  : init_free5gc_elements_simulation == 'true'
+#        - name  : Run HSS simulation process 
+#          shell : |
+#              docker exec -it -d {{ HSS_container_name }} /bin/sh -c "/root/free5gc-stage-1/free5gc-hssd"
+#          when  : init_free5gc_elements_simulation == 'true'
 
 #        - pause :
 #            seconds: 5
