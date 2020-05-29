@@ -279,6 +279,13 @@
                 sudo apt autoremove -y --purge docker-engine docker docker.io docker-ce 
                 sudo apt update
         
+        - name  : Install Basic requirements
+          apt   :
+                name: ['openssh-client', 'net-tools', 'apt-transport-https', 'ca-certificates', 'curl', 'gnupg2', 'software-properties-common', 'python-setuptools', 'python3-pip']
+                state: present
+                update_cache: yes
+
+                
         - name  : Create dir instalation
           shell :  |
                 mkdir {{ BASE_DIR_INSTALL }}
@@ -475,12 +482,6 @@
                 LoadExtension = "dict_dcca_3gpp.so";
                 ConnectPeer = "smf.localdomain" { ConnectTo = "{{ ip_address_SMF }}"; No_TLS; };
           when  : deploy_free5gc == 'true'
-
-        - name  : Install Basic requirements
-          apt:
-              name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common', 'python-setuptools', 'python3-pip']
-              state: present
-              update_cache: yes
 
         - name  : Add Docker GPG key into apt
           apt_key: url=https://download.docker.com/linux/ubuntu/gpg
