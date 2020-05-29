@@ -167,7 +167,7 @@ The first elements that will be started is Free5GC components. This step can be 
 Access the _first terminal_ and and run the following commands:
 ```
 docker exec -ti amf bash
-/root/free5gc-stage-1/free5gc-amfd 
+/root/free5gc-stage-1/install/bin/free5gc-amfd
 ```
 the result should be equivalent to that shown in the next figure:
 <p align="center">
@@ -178,7 +178,7 @@ the result should be equivalent to that shown in the next figure:
 Access the _secound terminal_ and and run the following commands:
 ```
 docker exec -ti upf bash
-/root/free5gc-stage-1/free5gc-upfd
+/root/free5gc-stage-1/install/bin/free5gc-upfd
 ```
 the result should be equivalent to that shown in the next figure:
 <p align="center">
@@ -189,7 +189,7 @@ the result should be equivalent to that shown in the next figure:
 Access the _third terminal_ and and run the following commands:
 ```
 docker exec -ti smf bash
-/root/free5gc-stage-1/free5gc-smfd
+/root/free5gc-stage-1/install/bin/free5gc-smfd
 ```
 the result should be equivalent to that shown in the next figure:
 <p align="center">
@@ -202,7 +202,7 @@ the green mark in the figure, represents the _UPF Association Response_ containe
 Access the _fourth terminal_ and and run the following commands:
 ```
 docker exec -ti hss bash
-/root/free5gc-stage-1/nextepc-hssd 
+/root/free5gc-stage-1/install/bin/nextepc-hssd 
 ```
 the result should be equivalent to that shown in the next figure:
 <p align="center">
@@ -216,7 +216,7 @@ the green mark in the figure, represents the _AMF Connection_ container reaction
 Access the _fifth terminal_ and and run the following commands:
 ```
 docker exec -ti pcrf bash
-/root/free5gc-stage-1/nextepc-pcrfd 
+/root/free5gc-stage-1/install/bin/nextepc-pcrfd 
 ```
 the result should be equivalent to that shown in the next figure:
 <p align="center">
