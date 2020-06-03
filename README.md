@@ -74,7 +74,7 @@ After copy ssh key, access the deployment machine ``` ssh <user>@<deployment-env
 ```
 the last command install **python minimal**. This package contains the interpreter and some essential modules. It is used by Ansible for same basic tasks.
 
-After install <i>python minimal</i>, we need get some information about **physical network interface** of the machine. To do this, run ```ifconfig``` and take note the **_physical network interface name_** display in the next figure.
+After install <i>python minimal</i> into _deployment environment machine_, we need get the name of **physical network interface** of the deployment machine. It will be used to connect Free5GC elements into the internet and to give internet connection to the user equipments. To do this, run ```ifconfig``` into deployment machine and take note the **_physical network interface name_** display in the next figure.
 <p align="center">
     <img src="images/if_config.PNG"/> 
 </p>

@@ -256,7 +256,7 @@
               - ansible_memtotal_mb >= 1024
             msg: "Minimum memory requirements in the deployment environment is 4GB! Operation failed!"
 
-        - name : Git clone free5GCore 
-          shell: git clone git clone https://gitlab.eurecom.fr/oai/openair-cn.git
+        - name : Git clone openair-cn 
+          shell: git clone https://gitlab.eurecom.fr/oai/openair-cn.git
           args:
               chdir: "{{ BASE_DIR_INSTALL }}"
