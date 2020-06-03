@@ -161,7 +161,7 @@ Now, we will __run__ all the elements, for this, access the deployment machine w
 
 ### 3.1 - Running Free5GC components
 
-The first elements that will be started is [Free5GC](https://www.free5gc.org/) components. This step can be automated through the parameter ```init_free5gc_elements_simulation```, if you want run the deployment process and at the same time, start all [Free5GC](https://www.free5gc.org/) simulation process elements, you could use the parameter ```init_free5gc_elements_simulation='true'```. If you decide use this strategy, you cannot see the log information about of each [Free5GC](https://www.free5gc.org/) element. For more details, check the [check the parameters installation description section.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#num_ues_init_database)
+The first elements that will be started is [Free5GC](https://www.free5gc.org/) components. This step can be automated through the parameter ```init_free5gc_elements_simulation```, if you want run the deployment process and at the same time, start all [Free5GC](https://www.free5gc.org/) simulation process elements, you could use the parameter ```init_free5gc_elements_simulation='true'```. If you decide use this strategy, the log information about of each [Free5GC](https://www.free5gc.org/) element will no be displayed on terminal. The log information are recorded in the file ```/root/free5gc-stage-1/install/var/log/free5gc/free5gc.log``` inside each Free5GC container. For more details, check the [check the parameters installation description section.](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/README.md#num_ues_init_database)
 
 ### Running AMF
 Access the _first terminal_ and and run the following commands:
