@@ -33,10 +33,10 @@
         ENB_folder_name_container_name: '/root/enb/'
         ENB_container_name: 'enb'
         AMF_container_name: 'amf'
+        UPF_container_name: 'upf'
         SMF_container_name: 'smf'
         HSS_container_name: 'hss'
         PCRF_container_name: 'pcrf'
-        UPF_container_name: 'upf'
         MONGO_DB_container_name: 'mongodb-svc'
         WEB_UI_container_name: 'webui'
         clear_file_instalation: 'true'
@@ -288,7 +288,6 @@
                 name: ['openssh-client', 'net-tools', 'apt-transport-https', 'ca-certificates', 'curl', 'gnupg2', 'software-properties-common', 'python-setuptools', 'python3-pip']
                 state: present
                 update_cache: yes
-
                 
         - name  : Create dir instalation
           shell :  |
@@ -504,11 +503,55 @@
             state: present
             update_cache: yes
 
+        - name  : Stop UE container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ UE_container_name }}
+
+        - name  : Stop ENB container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ ENB_container_name }}
+
+        - name  : Stop PCRF container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ PCRF_container_name }}
+
+        - name  : Stop HSS container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ HSS_container_name }}
+
+        - name  : Stop SMF container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ SMF_container_name }}
+
+        - name  : Stop UPF container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ UPF_container_name }}
+
+        - name  : Stop AMF container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ AMF_container_name }}
+
+        - name  : Stop WEBUE container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ WEB_UI_container_name }}
+
+        - name  : Stop MONGODB container - If exists
+          ignore_errors: true
+          shell:  |
+                docker stop {{ MONGO_DB_container_name }}
+
         - name  : Remove docker old docker containers
           ignore_errors: true
           shell:  |
                 docker container prune -f
-          when: force_docker_reinstall == 'true'
 
         - name  : Remove free5gc-st1 image
           ignore_errors: true
