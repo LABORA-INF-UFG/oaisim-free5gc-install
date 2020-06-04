@@ -108,7 +108,7 @@ after clone, access the project folder and open the **hosts** file with a text e
 [OAISim-with-free5gc]
 <deployment-environment-IP-address>
 ```
-replace the ```<deployment-environment-IP-address>``` for the IP address of the <i>deployment environment machine</i>. Save and close the file, and inside the project base directory run the next command:
+replace the ```<deployment-environment-IP-address>``` for the IP address of the <i>deployment environment machine</i> (if you using the second scenario, as described in [figure 2](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install/blob/master/images/environment_description_2.png), the ```<IP address of the deployment environment>```` will be that of your local machine). Save and close the file, and inside the project base directory run the next command:
 ```
 ansible -i ./hosts -m ping all -u root
 ```
