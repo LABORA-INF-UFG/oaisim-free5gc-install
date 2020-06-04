@@ -12,12 +12,16 @@ To use the playbook we consider two possible scenarios: in the first you will ne
 1. A machine called _operator's machine_, running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#1---ansible-installation--configuration-operator-machine) we will present the steps for installing Ansible.
 2. Deployment environment machine (it's can be _VM's_ or _PC Bare Metal_) for installing the Free5G and [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements.
 
-The minimum hardware requirements are described in the figure below:
+The minimum hardware requirements are described in the figure below, we assume that the <b>all machines are connected to the internet</b> and <i>see each other</i>.
 <p align="center">
     <img src="images/environment_description.png"/> 
 </p>
 
-We assume that the <b>all machines are connected to the internet</b> and <i>see each other</i>.
+In the second scenario, the playbook will be executed on the deployment environment, in other words, only one machine will be necessary, and the minimum hardware requirements are described in the figure below.
+<p align="center">
+    <img src="images/environment_description_2.png"/> 
+</p>
+
 # Installation Guide
 The first thing to do, is configure the <i>operator machine</i>.
 
