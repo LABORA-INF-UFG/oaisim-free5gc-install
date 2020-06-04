@@ -7,7 +7,7 @@ This project aims to provide a set of tools through which it is possible to depl
 
 Elements of [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) (UE and enB) can be executed without Free5GC, but the internet connection test presented in [this project](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#4---testing-user-equipments-ue-internet-connection) will only be executed correctly with all elements instaled.
 
-To use the playbook you need the following elements:
+To use the playbook we consider two possible scenarios: in the first you will need the following elements.
 
 1. A machine called _operator's machine_, running Linux and with a properly installed version of [Ansible](https://docs.ansible.com/). In the [following sections](https://github.com/LABORA-INF-UFG/oaisim-free5gc-install#1---ansible-installation--configuration-operator-machine) we will present the steps for installing Ansible.
 2. Deployment environment machine (it's can be _VM's_ or _PC Bare Metal_) for installing the Free5G and [OpenAirInterface System Emulation](https://gitlab.eurecom.fr/oai/openairinterface5g/wikis/OpenAirLTEEmulation) elements.
