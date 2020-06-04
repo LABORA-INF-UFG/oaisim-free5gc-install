@@ -9,8 +9,11 @@
         start_webapp: 'true'
         deploy_oaisim: 'true'
         deploy_free5gc: 'true'
-        
         force_docker_reinstall: 'false'
+        init_enb: 'false'
+        init_ue: 'false'
+        num_ues_init_simulation: '3'
+        
         docker_custom_subnet_network: '192.188.2.0/24'
         docker_custom_network_name: 'free5gc'
         BASE_DIR_INSTALL: 'OAISim-free5gc-conf'
@@ -1266,5 +1269,15 @@
           shell : |
               docker exec -it -d {{ PCRF_container_name }} /bin/sh -c "/root/free5gc-stage-1/install/bin/nextepc-pcrfd"
           when  : init_free5gc_elements_simulation == 'true'
+
+        - name  : Run ENB Simulation process 
+          shell : |
+              docker exec -it -d {{ ENB_container_name }} /bin/sh -c "cd /root/enb/cmake_targets/ran_build/build && sudo -E ./lte-softmodem -O /root/enb/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf > enb.log 2>&1"
+          when  : init_enb == 'true'
+
+        - name  : Run UE Simulation process 
+          shell : |
+              docker exec -it -d {{ UE_container_name }} /bin/sh -c "cd /root/ue/cmake_targets/ran_build/build && ./lte-uesoftmodem -O /root/ue/ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues {{ num_ues_init_simulation }} --nums_ue_thread 1 --nokrnmod 1 > ue.log 2>&1"
+          when  : init_ue == 'true'
 
 
