@@ -12,7 +12,7 @@
         force_docker_reinstall: 'false'
         init_enb: 'false'
         init_ue: 'false'
-        num_ues_init_simulation: '3'
+        num_ues_init_simulation: '1'
         
         docker_custom_subnet_network: '192.188.2.0/24'
         docker_custom_network_name: 'free5gc'
