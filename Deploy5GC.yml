@@ -555,12 +555,11 @@
           shell:  |
                 docker stop {{ MONGO_DB_container_name }}
 
-        - name  : Remove docker old docker containers
+        - name  : Run doker prune in stoped containers
           ignore_errors: true
           shell:  |
                 docker container prune -f
-          when: force_docker_reinstall == 'true'
-          
+
         - name  : Remove free5gc-st1 image
           ignore_errors: true
           shell:  |
