@@ -559,7 +559,8 @@
           ignore_errors: true
           shell:  |
                 docker container prune -f
-
+          when: force_docker_reinstall == 'true'
+          
         - name  : Remove free5gc-st1 image
           ignore_errors: true
           shell:  |
@@ -1284,7 +1285,7 @@
           when  : init_enb == 'true'
 
         - pause :
-            seconds: 5
+            seconds: 15
           when  : init_enb == 'true'
 
         - name  : Run UE Simulation process 
